@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Menu implements Serializable {
-    public static List<Menu> extent = new ArrayList<>();
+    private static final List<Menu> extent = new ArrayList<>();
 
     public static List<Menu> getActiveMenus(){
         List<Menu> returnList = new ArrayList<>();
@@ -24,8 +24,8 @@ public class Menu implements Serializable {
 
     // The Menu is VALID from [releaseDate, endDate] - bounds included:
     // When the date is equal releaseDate or endDate, the menu is VALID.
-    public LocalDate releaseDate;
-    public LocalDate endDate;
+    private final LocalDate releaseDate;
+    private final LocalDate endDate;
 
     public Menu(LocalDate releaseDate, LocalDate endDate) throws IllegalArgumentException {
         LocalDate today = LocalDate.now();
@@ -47,13 +47,13 @@ public class Menu implements Serializable {
 
     //}
 
-    public void createMenuItem(MenuItem newMenuItem){
+    //public void createMenuItem(MenuItem newMenuItem){
 
-    }
+    //}
 
     public void delete() throws Exception {
         if(this.getMenuStatus() == MenuStatus.CREATED){
-
+            Menu.extent.remove(this);
         }else{
             throw new Exception("This Menu is not in status CREATED and cannot be deleted.");
         }

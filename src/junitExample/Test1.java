@@ -1,4 +1,4 @@
 package junitExample;
 
-public class test {
+public class Test1 {
 }

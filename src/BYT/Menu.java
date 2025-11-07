@@ -1,15 +1,33 @@
 package BYT;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Menu {
+public class Menu implements Serializable {
+    public static List<Menu> extent = new ArrayList<>();
+
+    public static List<Menu> getActiveMenus(){
+        List<Menu> returnList = new ArrayList<>();
+        for(Menu menu : extent){
+            if(menu.getMenuStatus() == MenuStatus.CURRENTLYVALID){
+                returnList.add(menu);
+            }
+        }
+        return returnList;
+    }
+
+    public static void createNewMenu(Menu newMenu){
+        extent.add(newMenu);
+    }
+
     // The Menu is VALID from [releaseDate, endDate] - bounds included:
     // When the date is equal releaseDate or endDate, the menu is VALID.
     public LocalDate releaseDate;
     public LocalDate endDate;
 
-    public Menu(LocalDate releaseDate, LocalDate endDate){
+    public Menu(LocalDate releaseDate, LocalDate endDate) throws IllegalArgumentException {
         LocalDate today = LocalDate.now();
 
         if(today.isAfter(releaseDate))
@@ -25,14 +43,6 @@ public class Menu {
         this.endDate = endDate;
     }
 
-    //public static List<Menu> getActiveMenus(){
-
-    //}
-
-    public static void createNewMenu(Menu newMenu){
-
-    }
-
     //public List<MenuItem> getMenuItemList(){
 
     //}
@@ -41,8 +51,12 @@ public class Menu {
 
     }
 
-    public void delete(){
+    public void delete() throws Exception {
+        if(this.getMenuStatus() == MenuStatus.CREATED){
 
+        }else{
+            throw new Exception("This Menu is not in status CREATED and cannot be deleted.");
+        }
     }
 
     // /Status derived attribute (converted to method)

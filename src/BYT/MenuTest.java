@@ -74,7 +74,25 @@ public class MenuTest {
     }
 
     @Test
-    void getActiveMenus_returnsOnlyCurrentlyValid() {
+    void releaseDateInTheFuture_returnsCreated(){
+        LocalDate today = LocalDate.now();
+        Menu m = new Menu(today.plusDays(1), today.plusDays(1));
+
+        assertEquals(MenuStatus.CREATED, m.getMenuStatus(), "Menu with release date in the future should return state CREATED");
+    }
+
+    /*@Test
+    void releaseDateInThePast_returnsEnded(){
+        LocalDate today = LocalDate.now();
+        Menu m = new Menu(today, today);
+
+        // requires manipulation using reflection
+
+        assertEquals(MenuStatus.ENDED, m.getMenuStatus(), "Menu with release date in the future should return state CREATED");
+    }*/
+
+    @Test
+    void getActiveMenus_returnsOnlyCurrentlyValidMenus() {
         LocalDate today = LocalDate.now();
 
         Menu valid = new Menu(today, today.plusDays(1));     // CURRENTLYVALID
@@ -121,12 +139,12 @@ public class MenuTest {
     }
 
     @Test
-    void delete_whenNotCreated_throws() {
+    void delete_whenCurrentlyValid_throws() {
         LocalDate today = LocalDate.now();
         Menu m = new Menu(today, today.plusDays(1)); // CURRENTLYVALID
 
         Exception ex = assertThrows(Exception.class, m::delete,
-                "Deleting non-CREATED menu should throw");
+                "Deleting CURRENTLYVALID menu should throw");
         assertTrue(ex.getMessage().contains("not in status CREATED"),
                 "Message should mention CREATED status");
         assertEquals(1, extent().size(), "Extent should remain unchanged on failed delete");

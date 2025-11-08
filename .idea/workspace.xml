@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="356c2d57-5707-4324-9817-25aebcba48f7" name="Changes" comment="Add extents.bin (persistence file) to .gitignore">
+    <list default="true" id="356c2d57-5707-4324-9817-25aebcba48f7" name="Changes" comment="Add MenuTest (AI)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BYT/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BYT/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BYT/MenuTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BYT/MenuTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +54,7 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.MenuTest.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -73,7 +75,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.MenuTest">
+  <component name="RunManager" selected="JUnit.MenuTest.testMenuPersistence_SavingAndLoading">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="BYT.Main" />
       <module name="BYT" />
@@ -117,8 +119,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MenuTest.testMenuPersistence_SavingAndLoading" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BYT" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="BYT.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="BYT" />
+      <option name="MAIN_CLASS_NAME" value="BYT.MenuTest" />
+      <option name="METHOD_NAME" value="testMenuPersistence_SavingAndLoading" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MenuTest.testMenuPersistence_SavingAndLoading" />
         <item itemvalue="JUnit.MenuTest" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.CalculatorTest" />
@@ -200,7 +219,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762606863870</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Add MenuTest (AI)">
+      <option name="closed" value="true" />
+      <created>1762618877432</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1762618877432</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,6 +249,7 @@
     <MESSAGE value="Add Extents" />
     <MESSAGE value="test Main" />
     <MESSAGE value="Add extents.bin (persistence file) to .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add extents.bin (persistence file) to .gitignore" />
+    <MESSAGE value="Add MenuTest (AI)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add MenuTest (AI)" />
   </component>
 </project>

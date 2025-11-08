@@ -74,4 +74,12 @@ public class Menu implements Serializable {
             return MenuStatus.CREATED;
         }
     }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
 }

@@ -2,6 +2,7 @@ package BYT;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
@@ -29,11 +30,41 @@ public class MenuTest {
 
     @BeforeEach
     void setUp() {
+        // Before each test, we assume a clear extent
         clearExtent();
     }
 
     @Test
-    void constructor_addsToExtent_andSetsCurrentlyValid() {
+    void testMenuPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        // extent cleared at setup
+        LocalDate today = LocalDate.now();
+        {
+            Menu m = new Menu(today, today.plusDays(3));
+            assertEquals(1, extent().size(), "Menu extent should contain 1 item after creating Menu object");
+
+            // Save extents to file
+            Extents.saveAll();
+
+            // Clear extent from Menu class
+            clearExtent();
+        }
+
+        assertEquals(0, extent().size(), "Menu extent should be empty after clearing");
+
+        // Load extents from the file
+        Extents.loadAll();
+
+        List<Menu> activeMenus = Menu.getActiveMenus();
+        assertEquals(1, activeMenus.size(), "Menu extent should contain 1 item after loading from file");
+
+        Menu ml = activeMenus.getFirst();
+
+        assertEquals(today, ml.getReleaseDate(), "Loaded Menu releaseDate should match");
+        assertEquals(today.plusDays(3), ml.getEndDate(), "Loaded Menu endDate should match");
+    }
+
+    @Test
+    void constructor_addsToExtent_andSetsCurrentlyValid_WhenReleaseDateIsToday() {
         LocalDate today = LocalDate.now();
         Menu m = new Menu(today, today); // 1-day menu
 

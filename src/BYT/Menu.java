@@ -18,9 +18,10 @@ public class Menu implements Serializable {
         return returnList;
     }
 
-    public static void createNewMenu(Menu newMenu){
-        extent.add(newMenu);
-    }
+    // should this be a separate method or just use the constructor?
+    //public static void createNewMenu(Menu newMenu){
+        //extent.add(newMenu);
+    //}
 
     // The Menu is VALID from [releaseDate, endDate] - bounds included:
     // When the date is equal releaseDate or endDate, the menu is VALID.
@@ -41,6 +42,8 @@ public class Menu implements Serializable {
 
         this.releaseDate = releaseDate;
         this.endDate = endDate;
+
+        extent.add(this);
     }
 
     //public List<MenuItem> getMenuItemList(){

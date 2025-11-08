@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="356c2d57-5707-4324-9817-25aebcba48f7" name="Changes" comment="Add extents.bin (persistence file) to .gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BYT/ExtentIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BYT/ExtentIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BYT/Extents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BYT/Extents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BYT/MenuTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BYT/MenuTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +59,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "s30496-menu-impl",
+    "git-widget-placeholder": "s30496-menutest-impl",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -74,7 +73,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.MenuTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="BYT.Main" />
       <module name="BYT" />
@@ -103,8 +102,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MenuTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BYT" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="BYT.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="BYT" />
+      <option name="MAIN_CLASS_NAME" value="BYT.MenuTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MenuTest" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.CalculatorTest" />
       </list>

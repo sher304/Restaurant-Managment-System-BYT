@@ -10,6 +10,7 @@ public final class Extents {
     private static final Path FILE = Path.of("extents.bin");
 
     public static final Class<?>[] OWNERS = {
+            Person.class,
             Menu.class
     };
 

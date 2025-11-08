@@ -57,7 +57,7 @@ public class Person implements Serializable {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = validateAttributes(firstName);
     }
 
     public String getLastName() {
@@ -65,7 +65,7 @@ public class Person implements Serializable {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = validateAttributes(lastName);
     }
 
     public String getPhoneNumber() {
@@ -73,7 +73,7 @@ public class Person implements Serializable {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = validateAttributes(phoneNumber);
     }
 
     public String getEmail() {

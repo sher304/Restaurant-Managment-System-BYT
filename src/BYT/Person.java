@@ -4,30 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static BYT.Validator.validateAttributes;
+import static BYT.Validator.validateOptionalEmail;
+
 public class Person implements Serializable {
     public String firstName;
     public String lastName;
     public String phoneNumber;
     public String email;
     private static final List<Person> extent = new ArrayList<>();
-
-    public static String validateAttributes(String value) {
-        if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException("A value, should not be empty!");
-        }
-        return value.trim();
-    }
-
-    public static String validateOptionalEmail(String email) {
-        if (email == null) return null;
-
-        String trimmedEmail = email.trim();
-        if (trimmedEmail.isEmpty()) return null;
-        if (!trimmedEmail.contains("@")) {
-            throw new IllegalArgumentException("Email address is invalid, include'@ symbol.");
-        }
-        return trimmedEmail;
-    }
 
     public Person(String firstName, String lastName, String phoneNumber, String email) {
         this.email = validateOptionalEmail(email);

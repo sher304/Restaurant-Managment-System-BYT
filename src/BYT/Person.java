@@ -11,17 +11,35 @@ public class Person implements Serializable {
     public String email;
     private static final List<Person> extent = new ArrayList<>();
 
+    public static String validateAttributes(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException("A value, should not be empty!");
+        }
+        return value.trim();
+    }
+
+    public static String validateOptionalEmail(String email) {
+        if (email == null) return null;
+
+        String trimmedEmail = email.trim();
+        if (trimmedEmail.isEmpty()) return null;
+        if (!trimmedEmail.contains("@")) {
+            throw new IllegalArgumentException("Email address is invalid, include'@ symbol.");
+        }
+        return trimmedEmail;
+    }
+
     public Person(String firstName, String lastName, String phoneNumber, String email) {
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.lastName = lastName;
-        this.firstName = firstName;
+        this.email = validateOptionalEmail(email);
+        this.phoneNumber = validateAttributes(phoneNumber);
+        this.lastName = validateAttributes(lastName);
+        this.firstName = validateAttributes(firstName);
         extent.add(this);
     }
 
     public static Person findOrCreate(String firstName, String lastName, String phoneNumber, String email) {
         for (Person person : extent) {
-            if (person.email.equals(email) && person.phoneNumber.equals(phoneNumber)) {
+            if (person.phoneNumber.equals(phoneNumber)) {
                 System.out.println("Person has been found!");
                 return person;
             }

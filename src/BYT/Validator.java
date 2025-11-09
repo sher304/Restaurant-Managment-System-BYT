@@ -1,7 +1,23 @@
 package BYT;
 
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+
 public class Validator {
-    
+
+    public static LocalDateTime validateDate(LocalDateTime startDate, LocalDateTime endDate) throws DateTimeException {
+        if (startDate == null || endDate == null) {
+            throw new DateTimeException("Dates must not be null");
+        }
+        if (startDate.isAfter(endDate)) {
+            throw new DateTimeException("Start Date should be before the end date!");
+        }
+        if (startDate.isEqual(endDate)) {
+            throw new DateTimeException("End date has to be later than start date!");
+        }
+        return startDate;
+    }
+
     public static String validateOptionalEmail(String email) {
         if (email == null) return null;
 

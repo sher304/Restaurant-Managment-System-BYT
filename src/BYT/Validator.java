@@ -51,10 +51,16 @@ public class Validator {
 
         String trimmedEmail = email.trim();
         if (trimmedEmail.isEmpty()) return null;
-        if (!trimmedEmail.contains("@")) {
-            throw new IllegalArgumentException("Email address is invalid, include'@ symbol.");
+
+        // Email validation regex from RFC5322
+        // (https://www.rfc-editor.org/rfc/pdfrfc/rfc5322.txt.pdf)
+        String emailRegexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?``{|}~^.-]+@[a-zA-Z0-9.-]+$";
+
+        if (email.matches(emailRegexPattern)) {
+            return trimmedEmail;
+        }else{
+            throw new IllegalArgumentException("Invalid email format");
         }
-        return trimmedEmail;
     }
 
 

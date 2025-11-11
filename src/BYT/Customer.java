@@ -2,11 +2,11 @@ package BYT;
 
 // this inheritance is {Dynamic, Overlapping} so I think we need to use a different method
 // we can't do extends, we have to "emulate" it somehow - not for this assignment
-public class Customer /*extends Person*/ {
+public class Customer extends Person {
     private long loyaltyPoints;
 
     public Customer(String firstName, String lastName, String phoneNumber, String email, long loyaltyPoints) {
-        //super(firstName, lastName, phoneNumber, email);
+        super(firstName, lastName, phoneNumber, email);
         this.loyaltyPoints = Validator.negativeNumberEntered(loyaltyPoints);
     }
 

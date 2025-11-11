@@ -5,6 +5,7 @@ public class MenuItem {
     private String description;
     private long price;
 
+    // private NormalOrVegan normalOrVegan; (abstract class?)
     private Normal normal;
     private Vegan vegan;
 

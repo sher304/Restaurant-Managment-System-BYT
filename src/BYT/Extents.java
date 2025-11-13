@@ -23,6 +23,7 @@ public final class Extents {
             ExtentIO.loadAll(FILE.toString());
         } catch (NoSuchFileException e) {
             // first run: nothing to load
+            System.out.println("WARNING: extent file not found. Extents will be empty.");
         } catch (ClassNotFoundException e) {
             // Unknown class in the file
             throw e;

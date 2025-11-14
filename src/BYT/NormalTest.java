@@ -12,7 +12,7 @@ public class NormalTest {
 
     @Test
     void testAttributes() {
-        Normal normal = new Normal();
+        Normal normal = new Normal("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7);
         normal.addMeatType("Beef");
         normal.addMeatType("Chicken");
 

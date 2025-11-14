@@ -1,19 +1,39 @@
 package BYT;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Table {
     private static List<Table> extent = new ArrayList<>();
     private String tableNumber; // tableNumber could be "A123" etc.
     private int maxNumberOfPeople;
-    
-    public static ArrayList<Table> tables = new ArrayList<Table>();
-    
-    public Table(String tableNumber,int maxNumberOfPeople) {
+
+    public Table(String tableNumber, int maxNumberOfPeople) {
         this.tableNumber = tableNumber;
-        this.maxNumberOfPeople = maxNumberOfPeople;
+        this.maxNumberOfPeople = Validator.negativeNumberEntered(maxNumberOfPeople);
         extent.add(this);
+    }
+
+    public static List<Table> getExtent() {
+        return Collections.unmodifiableList(extent);
+    }
+
+    public String getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(String tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
+    public int getMaxNumberOfPeople() {
+        return maxNumberOfPeople;
+    }
+
+    public void setMaxNumberOfPeople(int maxNumberOfPeople) {
+        this.maxNumberOfPeople = maxNumberOfPeople;
     }
 
     @Override

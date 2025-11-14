@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Order implements Serializable {
     private static List<Order> extent = new ArrayList<>();
+    //private long totalPrice; // derived
     private LocalDateTime date;
     private OrderStatus status;
 

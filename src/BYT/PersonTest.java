@@ -29,7 +29,6 @@ public class PersonTest {
         clearExtent();
     }
 
-
     @Test
     void findOrCreateCreatesNewPersonWhenNotFound() {
         int initialSize = extent().size();

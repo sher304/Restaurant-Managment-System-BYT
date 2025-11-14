@@ -25,20 +25,11 @@ public class Menu implements Serializable {
 
     // The Menu is VALID from [releaseDate, endDate] - bounds included:
     // When the date is equal releaseDate or endDate, the menu is VALID.
-    private final LocalDate releaseDate;
-    private final LocalDate endDate;
+    private LocalDate releaseDate;
+    private LocalDate endDate;
 
     public Menu(LocalDate releaseDate, LocalDate endDate) throws IllegalArgumentException {
-        LocalDate today = LocalDate.now();
-
-        if(today.isAfter(releaseDate))
-            throw new IllegalArgumentException("The releaseDate cannot be *before* today. It must be at the earliest equal to today.");
-
-        if (today.isAfter(endDate))
-            throw new IllegalArgumentException("The endDate cannot be *before* today. It must be at the earliest equal to today.");
-
-        if(endDate.isBefore(releaseDate))
-            throw new IllegalArgumentException("The endDate cannot be before the releaseDate. The endDate must be equal (1-day menu) or after the releaseDate.");
+        Validator.validateDate(releaseDate, endDate);
 
         this.releaseDate = releaseDate;
         this.endDate = endDate;
@@ -79,7 +70,19 @@ public class Menu implements Serializable {
         return releaseDate;
     }
 
+    public void setReleaseDate(LocalDate releaseDate) {
+        Validator.validateDate(releaseDate, this.endDate);
+
+        this.releaseDate = releaseDate;
+    }
+
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        Validator.validateDate(this.releaseDate, endDate);
+
+        this.endDate = endDate;
     }
 }

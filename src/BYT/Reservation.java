@@ -1,19 +1,21 @@
 package BYT;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+// !
 public class Reservation {
     private static List<Reservation> extent = new ArrayList<>();
-    private Date startAt;
-    private Date endsAt;
+    private LocalDate startAt;
+    private LocalDate endsAt;
     private int numberOfPeople;
     private Customer customer;
     private String tableNumber;
 
-    public Reservation(Date startAt, Date endsAt,Customer customer,String tableNumber,int numberOfPeople) {
+    public Reservation(LocalDate startAt, LocalDate endsAt, Customer customer, String tableNumber, int numberOfPeople) {
         this.startAt = startAt;
         this.endsAt = endsAt;
         this.tableNumber = tableNumber;
@@ -22,18 +24,17 @@ public class Reservation {
         extent.add(this);
     }
 
-    public static ArrayList<Reservation> reservation=new ArrayList<Reservation>();
-    public static ArrayList<Table> getFreeTables(int maxNumberOfPeople, Date startAt, Date endsAt) {
+    public static ArrayList<Table> getFreeTables(int maxNumberOfPeople, LocalDate startAt, LocalDate endsAt) {
         ArrayList<Table> freeTables = new ArrayList<>();
 
-        for (Table t : Table.tables) {
-            if (maxNumberOfPeople > t.maxNumberOfPeople) continue;
+        for (Table t : Table.getExtent()) {
+            if (maxNumberOfPeople > t.getMaxNumberOfPeople()) continue;
 
             boolean exactConflict = false;
 
 
-            for (Reservation r : reservation) {
-                if (t.tableNumber.equals(r.tableNumber)
+            for (Reservation r : extent) {
+                if (t.getTableNumber().equals(r.tableNumber)
                         && startAt.equals(r.startAt)
                         && endsAt.equals(r.endsAt)) {
                     exactConflict = true;
@@ -42,65 +43,114 @@ public class Reservation {
             }
 
             if (!exactConflict) {
-                freeTables.add(t); 
+                freeTables.add(t);
             }
         }
         return freeTables;
     }
 
-    public static void createReservation(Date startAt,Date endsAt,Customer customer,int numberOfPeople) {
-        ArrayList<Table> freeTables=getFreeTables(numberOfPeople,startAt,endsAt);
-        int i=0;
+    public static void createReservation(LocalDate startAt, LocalDate endsAt, Customer customer, int numberOfPeople) {
+        ArrayList<Table> freeTables = getFreeTables(numberOfPeople, startAt, endsAt);
+        int i = 0;
 
-        for(Table t:freeTables){
-            System.out.println(i+"_" +t);
+        for (Table t : freeTables) {
+            System.out.println(i + "_" + t);
             i++;
         }
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         System.out.println("Enter a free table : ");
-        int index=sc.nextInt();
-        reservation.add(new Reservation(startAt,endsAt,customer,freeTables.get(index).tableNumber,numberOfPeople));
+        int index = sc.nextInt();
+        extent.add(new Reservation(startAt, endsAt, customer, freeTables.get(index).getTableNumber(), numberOfPeople));
     }
-    public static void cancelReservation(Date startAt,Date endsAt,String tableNumber){
 
-        for(int i=0;i<reservation.size();i++){
-            Reservation current=reservation.get(i);
-            if(current.tableNumber.equals(tableNumber)&&current.startAt.equals(startAt)&&current.endsAt.equals(endsAt)){
-                reservation.remove(i);
+    public static void cancelReservation(Date startAt, Date endsAt, String tableNumber) {
+
+        for (int i = 0; i < extent.size(); i++) {
+            Reservation current = extent.get(i);
+            if (current.tableNumber.equals(tableNumber) && current.startAt.equals(startAt) && current.endsAt.equals(endsAt)) {
+                extent.remove(i);
             }
 
         }
     }
-    public static void modifNumberOfPeople(int numberOfPeople,String tableNumber,Date startAt,Date endsAt) {
-        boolean tableHasCapacity=false;
-        for(Table t:Table.tables){
-            if(t.tableNumber.equals(tableNumber)&&t.maxNumberOfPeople==numberOfPeople){
-                tableHasCapacity=true;
+
+    public static void modifyNumberOfPeople(int numberOfPeople, String tableNumber, LocalDate startAt, LocalDate endsAt) {
+        boolean tableHasCapacity = false;
+        for (Table t : Table.getExtent()) {
+            if (t.getTableNumber().equals(tableNumber) && t.getMaxNumberOfPeople() == numberOfPeople) {
+                tableHasCapacity = true;
             }
         }
-        if(tableHasCapacity){
-            for(int i=0;i<reservation.size();i++){
-                Reservation current=reservation.get(i);
-                if(current.tableNumber.equals(tableNumber)&&current.endsAt.equals(endsAt)){
-                    reservation.get(i).numberOfPeople=numberOfPeople;
+        if (tableHasCapacity) {
+            for (int i = 0; i < extent.size(); i++) {
+                Reservation current = extent.get(i);
+                if (current.tableNumber.equals(tableNumber) && current.endsAt.equals(endsAt)) {
+                    extent.get(i).numberOfPeople = numberOfPeople;
                 }
             }
-        }
-        else{
-            Scanner scan=new Scanner(System.in);
+        } else {
+            Scanner scan = new Scanner(System.in);
             System.out.println("Enter a free table number : ");
 
-            ArrayList<Table> freeTables=getFreeTables(numberOfPeople,startAt,endsAt);
-            for(int i=0;i<freeTables.size();i++){
+            ArrayList<Table> freeTables = getFreeTables(numberOfPeople, startAt, endsAt);
+            for (int i = 0; i < freeTables.size(); i++) {
                 System.out.println(freeTables.get(i));
             }
-            String tableN=scan.nextLine();
-            for(Reservation r:reservation){
-                if(r.tableNumber.equals(tableNumber)&&r.endsAt.equals(endsAt)&&r.startAt.equals(startAt)){
-                    r.tableNumber= tableN;
+            String tableN = scan.nextLine();
+            for (Reservation r : extent) {
+                if (r.tableNumber.equals(tableNumber) && r.endsAt.equals(endsAt) && r.startAt.equals(startAt)) {
+                    r.tableNumber = tableN;
                 }
             }
         }
+    }
+
+    public static List<Reservation> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<Reservation> extent) {
+        Reservation.extent = extent;
+    }
+
+    public LocalDate getStartAt() {
+        return startAt;
+    }
+
+    public void setStartAt(LocalDate startAt) {
+        this.startAt = startAt;
+    }
+
+    public LocalDate getEndsAt() {
+        return endsAt;
+    }
+
+    public void setEndsAt(LocalDate endsAt) {
+        this.endsAt = endsAt;
+    }
+
+    public int getNumberOfPeople() {
+        return numberOfPeople;
+    }
+
+    public void setNumberOfPeople(int numberOfPeople) {
+        this.numberOfPeople = numberOfPeople;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public String getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(String tableNumber) {
+        this.tableNumber = tableNumber;
     }
 
     @Override

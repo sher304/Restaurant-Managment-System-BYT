@@ -6,12 +6,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Normal {
+    private static final List<Normal> extent = new ArrayList<>();
     private final List<String> meatTypes; // [0..*]
-
-    // should this have its own extent or should it rely on MenuItem's extent?
 
     public Normal() {
         this.meatTypes = new ArrayList<>();
+        extent.add(this);
     }
 
     public Collection<String> getMeatTypes() {

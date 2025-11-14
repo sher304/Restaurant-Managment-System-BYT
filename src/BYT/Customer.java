@@ -1,12 +1,16 @@
 package BYT;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class Customer extends Person {
+    private static final List<Customer> extent = new ArrayList<>();
     private long loyaltyPoints;
 
     public Customer(String firstName, String lastName, String phoneNumber, String email, long loyaltyPoints) {
         super(firstName, lastName, phoneNumber, email);
         this.loyaltyPoints = Validator.negativeNumberEntered(loyaltyPoints);
+        extent.add(this);
     }
 
     public long getLoyaltyPoints() {

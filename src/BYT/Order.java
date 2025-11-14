@@ -6,10 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order implements Serializable {
-    // TotalPrice - get method that calculates or an attribute that's calculated during creation?
+    private static List<Order> extent = new ArrayList<>();
     private LocalDateTime date;
     private OrderStatus status;
-    private static List<Order> extent = new ArrayList<>();
 
     public Order(){
         this.date = LocalDateTime.now();
@@ -41,7 +40,7 @@ public class Order implements Serializable {
         this.status = OrderStatus.SERVED;
     }
 
-
+    // TotalPrice - get method that calculates or an attribute that's calculated during creation?
     // TODO: Will be implemented when Menu and MenuItem are done
     public double getFinalPrice() {
         double totalPrice = 0.0;

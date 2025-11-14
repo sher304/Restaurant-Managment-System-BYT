@@ -2,9 +2,11 @@ package BYT;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Reservation {
+    private static List<Reservation> extent = new ArrayList<>();
     private Date startAt;
     private Date endsAt;
     private int numberOfPeople;
@@ -17,7 +19,7 @@ public class Reservation {
         this.tableNumber = tableNumber;
         this.customer = customer;
         this.numberOfPeople = numberOfPeople;
-
+        extent.add(this);
     }
 
     public static ArrayList<Reservation> reservation=new ArrayList<Reservation>();

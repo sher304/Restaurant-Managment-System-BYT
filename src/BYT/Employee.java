@@ -1,8 +1,7 @@
 package BYT;
 
-// this inheritance is {Dynamic, Overlapping} so I think we need to use a different method
-// we can't do extends, we have to "emulate" it somehow - not for this assignment
 public abstract class Employee extends Person {
+    // no extent - abstract class
     private long salary;
     private static long baseSalary = 6000;
 

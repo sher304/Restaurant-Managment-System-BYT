@@ -1,5 +1,7 @@
 package BYT;
 
+import BYT.Helpers.Validator;
+
 public abstract class Employee extends Person {
     // no extent - abstract class
     private long salary;

@@ -1,6 +1,8 @@
-package BYT;
+package BYT.Helpers;
 
 // contains AI-generated elements
+import BYT.*;
+
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;

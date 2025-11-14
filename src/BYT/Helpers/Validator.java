@@ -1,8 +1,7 @@
-package BYT;
+package BYT.Helpers;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Validator {
 

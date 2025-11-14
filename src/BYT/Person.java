@@ -10,10 +10,10 @@ import static BYT.Validator.validateAttributes;
 import static BYT.Validator.validateOptionalEmail;
 
 public class Person implements Serializable {
-    public String firstName;
-    public String lastName;
-    public String phoneNumber;
-    public String email;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String email;
     private static final List<Person> extent = new ArrayList<>();
 
     public Person(String firstName, String lastName, String phoneNumber, String email) {

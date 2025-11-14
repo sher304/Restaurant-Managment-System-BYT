@@ -32,11 +32,18 @@ public class Validator {
         return value;
     }
 
-    public static long validateSalary(long salary) throws IllegalArgumentException {
-        if(salary <= 0) {
-            throw new IllegalArgumentException("Salary must be positive");
+    public static long validateSalary(long salary, long baseSalary) throws IllegalArgumentException {
+        if(salary < baseSalary) {
+            throw new IllegalArgumentException("Salary must be greater or equal to base salary");
         }
         return salary;
+    }
+
+    public static long validateBaseSalary(long baseSalary) throws IllegalArgumentException {
+        if(baseSalary <= 0) {
+            throw new IllegalArgumentException("Salary must be positive");
+        }
+        return baseSalary;
     }
 
     public static long validateNonZeroPhysicalAttribute(long amount) throws IllegalArgumentException {

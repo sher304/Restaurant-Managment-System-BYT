@@ -25,4 +25,11 @@ public abstract class Employee extends Person {
     public static void setBaseSalary(long baseSalary) {
         Employee.baseSalary = Validator.validateBaseSalary(baseSalary);
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "salary=" + salary +
+                '}';
+    }
 }

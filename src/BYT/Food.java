@@ -20,4 +20,11 @@ public class Food extends MenuItem {
     public void setFoodWeight(long foodWeight) {
         this.foodWeight = Validator.validateNonZeroPhysicalAttribute(foodWeight);
     }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "foodWeight=" + foodWeight +
+                '}';
+    }
 }

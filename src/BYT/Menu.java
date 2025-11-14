@@ -85,4 +85,12 @@ public class Menu implements Serializable {
 
         this.endDate = endDate;
     }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "releaseDate=" + releaseDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }

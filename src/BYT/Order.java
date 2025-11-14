@@ -49,5 +49,11 @@ public class Order implements Serializable {
         return totalPrice;
     }
 
-
+    @Override
+    public String toString() {
+        return "Order{" +
+                "date=" + date +
+                ", status=" + status +
+                '}';
+    }
 }

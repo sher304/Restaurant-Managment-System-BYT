@@ -27,4 +27,11 @@ public class Customer extends Person {
         }
         this.loyaltyPoints += add;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "loyaltyPoints=" + loyaltyPoints +
+                '}';
+    }
 }

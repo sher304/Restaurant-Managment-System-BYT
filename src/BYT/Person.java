@@ -68,4 +68,14 @@ public class Person implements Serializable {
     }
 
     public void setEmail(String email) { this.email = validateOptionalEmail(email); }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

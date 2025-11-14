@@ -19,4 +19,11 @@ public class Ingredient {
     public void setName(String name) {
         this.name = Validator.validateAttributes(name);
     }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

@@ -20,4 +20,11 @@ public class Drink extends MenuItem {
     public void setDrinkVolume(long drinkVolume) {
         this.drinkVolume = Validator.validateNonZeroPhysicalAttribute(drinkVolume);
     }
+
+    @Override
+    public String toString() {
+        return "Drink{" +
+                "drinkVolume=" + drinkVolume +
+                '}';
+    }
 }

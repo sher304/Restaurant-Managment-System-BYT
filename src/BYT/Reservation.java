@@ -5,11 +5,12 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Reservation {
-    public Date startAt;
-    public Date endsAt;
-    public int numberOfPeople;
-    public Customer customer;
-    public String tableNumber;
+    private Date startAt;
+    private Date endsAt;
+    private int numberOfPeople;
+    private Customer customer;
+    private String tableNumber;
+
     public Reservation(Date startAt, Date endsAt,Customer customer,String tableNumber,int numberOfPeople) {
         this.startAt = startAt;
         this.endsAt = endsAt;

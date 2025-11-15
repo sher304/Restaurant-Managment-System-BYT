@@ -2,6 +2,8 @@ package BYT.Helpers;
 
 // contains AI-generated elements
 import BYT.Classes.*;
+import BYT.Classes.Person.Employee;
+import BYT.Classes.Person.Person;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;

@@ -1,4 +1,4 @@
-package BYT.Classes;
+package BYT.Classes.Person;
 
 import java.io.Serializable;
 import java.util.ArrayList;

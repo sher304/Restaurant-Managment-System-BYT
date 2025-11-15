@@ -2,7 +2,9 @@ package BYT.Classes;
 
 import BYT.Helpers.Validator;
 
-public abstract class Employee extends Person {
+import java.io.Serializable;
+
+public abstract class Employee extends Person implements Serializable {
     // no extent - abstract class
     private long salary;
     private static long baseSalary = 6000;

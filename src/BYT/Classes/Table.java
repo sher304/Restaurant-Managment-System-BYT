@@ -2,11 +2,12 @@ package BYT.Classes;
 
 import BYT.Helpers.Validator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Table {
+public class Table implements Serializable {
     private static List<Table> extent = new ArrayList<>();
     private String tableNumber; // tableNumber could be "A123" etc.
     private int maxNumberOfPeople;

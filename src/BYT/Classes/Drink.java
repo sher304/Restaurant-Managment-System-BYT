@@ -2,10 +2,11 @@ package BYT.Classes;
 
 import BYT.Helpers.Validator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Drink extends MenuItem {
+public class Drink extends MenuItem implements Serializable {
     private static final List<Drink> extent = new ArrayList<>();
     private long drinkVolume;
 

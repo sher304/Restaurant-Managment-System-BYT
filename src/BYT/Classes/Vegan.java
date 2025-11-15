@@ -2,10 +2,11 @@ package BYT.Classes;
 
 import BYT.Helpers.Validator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vegan extends MenuItem {
+public class Vegan extends MenuItem implements Serializable {
     private static List<Vegan> extent = new ArrayList<>();
     private String certificationID;
     // "ABPL2814394243"

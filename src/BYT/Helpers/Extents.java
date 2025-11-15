@@ -15,7 +15,7 @@ public final class Extents {
             Chef.class,
             Customer.class,
             Drink.class,
-            Employee.class,
+            //Employee.class, // abstract class, no extent
             Food.class,
             Ingredient.class,
             Menu.class,
@@ -26,7 +26,7 @@ public final class Extents {
             Reservation.class,
             Table.class,
             Vegan.class,
-            Waiter.class,
+            Waiter.class
     };
 
     public static void saveAll() throws IOException {
@@ -37,17 +37,11 @@ public final class Extents {
         try {
             ExtentIO.loadAll(FILE.toString());
         } catch (NoSuchFileException e) {
-            // first run: nothing to load
-            System.out.println("WARNING: extent file not found. Extents will be empty.");
+            System.err.println("WARNING: extent file not found. Extents will be empty.");
         } catch (ClassNotFoundException e) {
-            // Unknown class in the file
+            System.err.println("WARNING: unknown class in extent file!");
             throw e;
-        } catch (IOException e) {
-            // I/O problem—rethrow after optional logging
-            throw e;
-        } catch (RuntimeException e) {
-            // If ExtentIO validates and throws IllegalArgumentException, etc.
-            // Decide: either rethrow or clear. Safer to rethrow in dev.
+        } catch (IOException | RuntimeException e) {
             throw e;
         }
     }

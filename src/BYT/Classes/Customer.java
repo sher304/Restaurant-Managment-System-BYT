@@ -2,10 +2,11 @@ package BYT.Classes;
 
 import BYT.Helpers.Validator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer extends Person {
+public class Customer extends Person implements Serializable {
     private static final List<Customer> extent = new ArrayList<>();
     private long loyaltyPoints;
 

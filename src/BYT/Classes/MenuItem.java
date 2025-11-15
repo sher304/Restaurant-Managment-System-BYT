@@ -2,10 +2,11 @@ package BYT.Classes;
 
 import BYT.Helpers.Validator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuItem {
+public class MenuItem implements Serializable {
     private static final List<MenuItem> extent = new ArrayList<>();
 
     private String name;
@@ -15,7 +16,7 @@ public class MenuItem {
     // Normal, Vegan; Food, Drink = multi-aspect inheritance
 
     public MenuItem(String name, String description, long price) {
-        this.name = name;
+        this.name = Validator.validateAttributes(name);
         this.description = Validator.validateAttributes(description);
         this.price = price;
         extent.add(this);

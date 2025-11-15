@@ -1,4 +1,4 @@
-package BYT.Classes;
+package BYT.Classes.Order;
 
 public enum OrderStatus {
     CREATED,

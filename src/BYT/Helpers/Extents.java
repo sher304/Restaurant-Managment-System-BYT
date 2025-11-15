@@ -1,9 +1,13 @@
 package BYT.Helpers;
 
 // contains AI-generated elements
-import BYT.Classes.*;
+import BYT.Classes.Menu.Menu;
+import BYT.Classes.MenuItem.*;
+import BYT.Classes.Order.Order;
 import BYT.Classes.Person.Employee;
 import BYT.Classes.Person.Person;
+import BYT.Classes.Table.Reservation;
+import BYT.Classes.Table.Table;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;

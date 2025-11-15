@@ -1,4 +1,4 @@
-package BYT.Classes;
+package BYT.Classes.Menu;
 
 import BYT.Helpers.Validator;
 

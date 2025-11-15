@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import BYT.Helpers.Extents;
-import BYT.Classes.Menu;
-import BYT.Classes.MenuStatus;
+import BYT.Classes.Menu.Menu;
+import BYT.Classes.Menu.MenuStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

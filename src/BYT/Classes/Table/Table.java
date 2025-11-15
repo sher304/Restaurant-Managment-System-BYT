@@ -1,4 +1,4 @@
-package BYT.Classes;
+package BYT.Classes.Table;
 
 import BYT.Helpers.Validator;
 

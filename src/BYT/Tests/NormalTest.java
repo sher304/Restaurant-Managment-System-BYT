@@ -1,6 +1,6 @@
 package BYT.Tests;
 
-import BYT.Classes.Normal;
+import BYT.Classes.MenuItem.Normal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

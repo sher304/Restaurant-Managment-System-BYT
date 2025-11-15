@@ -1,4 +1,4 @@
-package BYT.Classes;
+package BYT.Classes.MenuItem;
 
 import java.util.ArrayList;
 import java.util.Collection;

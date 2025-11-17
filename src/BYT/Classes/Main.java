@@ -80,5 +80,5 @@ public class Main {
         //test2();
     }
 
-    // TODO: Customer, Chef, Waiter, Order, Food, Drink, Reservation, Table, Normal, Ingredient
+    // TODO: Chef, Waiter, Order, Food, Drink, Reservation, Table, Normal, Ingredient
 }

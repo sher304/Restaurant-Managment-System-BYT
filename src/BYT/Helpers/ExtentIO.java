@@ -95,102 +95,196 @@ public final class ExtentIO {
 
     /**
      * Load extents from the given file and push them back into the static
-     * `extent` fields of the given owner classes.
+     * {@code extent} lists of the given owner classes.
      *
-     * @param file   path to file on disk (e.g. "extents.bin")
-     * @param owners classes whose extents should be restored
-     *
-     * @throws IOException            when there is a low-level I/O problem
-     * @throws ClassNotFoundException when the file refers to a class that
-     *                                is not available on the current classpath
+     * IMPORTANT:
+     *  - We do NOT replace the  lists themselves,
+     *    because we declared them as {@code public static final List<...>}.
+     *  - Instead we:
+     *        1. read the serialized list contents from the file
+     *        2. find each class's existing {@code extent} list via reflection
+     *        3. clear it
+     *        4. add all loaded elements into that list
      */
     public static void loadAll(String file, Class<?>... owners)
             throws IOException, ClassNotFoundException {
 
+        /*
+         * Build a Path object from the file name.
+         *
+         * Path represents a location in the filesystem in an
+         * OS-independent way (Windows, Linux, etc.).
+         */
         Path path = Path.of(file);
 
-        // Read the serialized object graph back from disk.
+        /*
+         * We'll read *one* serialized object from the file.
+         * According to saveAll(...), that object should be:
+         *
+         *     Map<String, List<?>>
+         *
+         * but at this point we only know it's "some Object",
+         * so we store it in a plain Object variable first.
+         */
         Object obj;
         try (InputStream in = Files.newInputStream(path);
              ObjectInputStream ois = new ObjectInputStream(in)) {
 
+            /*
+             * ObjectInputStream.readObject() reads back the next object
+             * from the stream. This is the reverse operation of
+             * ObjectOutputStream.writeObject(...) used in saveAll(...).
+             */
             obj = ois.readObject();
         }
 
         /*
-         * We *expect* the file to contain a Map<String, List<?>>,
-         * because that's exactly what saveAll wrote.
+         * Basic sanity check of the file contents.
          *
-         * We check the shape at runtime and fail fast if
-         * the format looks wrong.
+         * At runtime, generics are erased, so we can only check the
+         * "raw" type (Map) but not the generic parameters
+         * (String, List<?>).
          */
         if (!(obj instanceof Map)) {
             throw new IllegalArgumentException("Extent file has unexpected format: not a Map");
         }
 
         /*
-         * This cast is "unchecked" from the compiler's point of view because
-         * generics are erased at runtime – the JVM only sees a raw Map.
+         * We *know* (by design) that saveAll wrote a Map<String, List<?>>.
          *
-         * We know what we wrote, though, so this is safe *in this context*.
+         * The cast to Map<String, List<?>> is "unchecked" from the compiler's
+         * point of view (because of type erasure), but logically correct here.
+         *
          * The @SuppressWarnings annotation tells the compiler:
-         * "Yes, I know this is unchecked; I'm doing it deliberately."
+         * "Yes, this cast is unchecked. It's intentional and safe in this context."
          */
         @SuppressWarnings("unchecked")
         Map<String, List<?>> snapshot = (Map<String, List<?>>) obj;
 
-        // For each owner class, restore its static extent field.
+        /*
+         * Now we walk through all owner classes that should receive data.
+         *
+         * owners is a varargs parameter of type Class<?>...,
+         * so it's just an array of Class<?> at runtime.
+         */
         for (Class<?> owner : owners) {
-            // Find the list for this class (may be null if nothing was saved).
-            List<?> rawList = snapshot.get(owner.getName());
 
-            // If nothing was stored, use an empty list; otherwise, cast it to List<Object>.
-            List<Object> loadedList = (rawList == null)
-                    ? new ArrayList<>()
-                    : castToObjectList(rawList);
+            /*
+             * Look up the list that was stored for this particular class.
+             *
+             * Key:   fully-qualified class name, e.g. "BYT.Classes.Person.Chef"
+             * Value: List<?> containing previously saved instances of that class
+             *
+             * If there is no entry in the map (e.g. nothing was saved for this
+             * class), snapshot.get(...) will return null.
+             */
+            List<?> loadedList = snapshot.get(owner.getName());
 
             try {
                 /*
-                 * Locate the static field named "extent" on the class.
+                 * Reflection step 1: find the static field named "extent".
                  *
-                 * Reflection basics:
-                 *  - Class<?> represents a class at runtime.
-                 *  - getDeclaredField("extent") returns a Field object even if
-                 *    the field is private.
+                 * getDeclaredField(...) finds a field by name regardless of
+                 * its visibility (private/protected/package/public).
                  */
                 Field f = owner.getDeclaredField("extent");
 
-                // Allow access even if the field is private / package-private, etc.
+                /*
+                 * Allow reflective access even if the field is private.
+                 *
+                 * Without this, trying to read or write the field would cause
+                 * an IllegalAccessException if the field is not public.
+                 */
                 f.setAccessible(true);
 
                 /*
-                 * 1. Get the existing List instance from the field.
-                 * 2. Clear its contents.
-                 * 3. Add all elements from the loaded list.
+                 * Reflection step 2: read the *current* value of the field.
+                 *
+                 * Because 'extent' is a static field, we pass null as the
+                 * "target instance" to Field.get(...):
+                 *
+                 *   - instance field -> f.get(someObject)
+                 *   - static field   -> f.get(null)
+                 *
+                 * We expect the field to hold some List<...> object,
+                 * created at class initialization time.
                  */
                 Object currentValue = f.get(null);
 
+                /*
+                 * Check at runtime that the value we got really is a List.
+                 *
+                 * We don't know (or care) about the generic parameter here,
+                 * so we use List<?>:
+                 *
+                 *     "a List of *some* element type"
+                 */
                 if (!(currentValue instanceof List<?>)) {
                     throw new IllegalArgumentException(owner.getName() + ".extent must be a List");
                 }
 
+                /*
+                 * Now we want to *modify* that existing list in place.
+                 *
+                 * Why not just assign a new List to the field?
+                 *  - Because 'extent' is almost certainly declared as 'final':
+                 *
+                 *        public static final List<Chef> extent = new ArrayList<>();
+                 *
+                 *    Java does not allow changing the value of a final field
+                 *    via reflection (Field.set(...) would throw an exception).
+                 *
+                 * So instead we:
+                 *   - cast the current value to List<Object>
+                 *   - clear its contents
+                 *   - and add all loaded elements into it
+                 */
                 @SuppressWarnings("unchecked")
                 List<Object> currentList = (List<Object>) currentValue;
 
-                // Reset current contents
+                /*
+                 * Remove all current elements from the list so we start
+                 * with an "empty" extent before adding loaded ones.
+                 */
                 currentList.clear();
 
-                // If there was data saved for this class, add it
+                /*
+                 * If the snapshot contained data for this class, copy those
+                 * elements into the existing list.
+                 *
+                 * If loadedList is null, that means nothing was saved for
+                 * this class; we simply leave the list empty.
+                 */
                 if (loadedList != null) {
+                    /*
+                     * List.addAll(...) takes a Collection<? extends E>.
+                     *
+                     * Here:
+                     *  - currentList is a List<Object>
+                     *  - loadedList is a List<?>
+                     *
+                     * The wildcard means: the elements are of some type,
+                     * and since every reference type extends Object,
+                     * this is safe at runtime.
+                     */
                     currentList.addAll(loadedList);
                 }
+
             } catch (NoSuchFieldException | IllegalAccessException ex) {
-                // Wrap reflection errors into an unchecked exception with context.
+                /*
+                 * Convert any reflection problems into an IllegalArgumentException
+                 * with more context (which class failed).
+                 *
+                 * This usually indicates a programming/configuration error:
+                 *  - the class does not have an 'extent' field at all, or
+                 *  - it's not accessible in some unexpected way.
+                 */
                 throw new IllegalArgumentException(
                         "Cannot access 'extent' in " + owner.getName(), ex);
             }
         }
     }
+
 
     // -------------------------------------------------------------------------
     // Reflection helper: read the static `extent` field value from a class.

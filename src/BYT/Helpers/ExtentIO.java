@@ -332,27 +332,4 @@ public final class ExtentIO {
                     "Cannot access 'extent' in " + owner.getName(), ex);
         }
     }
-
-    /**
-     * Helper to "forget" the element type of a list and treat it as List&lt;Object&gt;.
-     *
-     * The compiler can't fully check this cast because of type erasure,
-     * so it produces an "unchecked" warning, which we explicitly suppress.
-     */
-    @SuppressWarnings("unchecked")
-    private static List<Object> castToObjectList(List<?> list) {
-        /*
-         * At runtime, List<Chef>, List<Customer> and List<Object> all look the same:
-         * just some List whose elements are references.
-         *
-         * Because of that, this cast would normally trigger an "unchecked cast"
-         * warning – the compiler can't *prove* that the elements are really
-         * instances of Object (even though they are).
-         *
-         * The @SuppressWarnings("unchecked") annotation above says:
-         *  "Dear compiler, I know this cast is technically unchecked,
-         *   but in this context it's safe. Please don't show a warning here."
-         */
-        return (List<Object>) list;
-    }
 }

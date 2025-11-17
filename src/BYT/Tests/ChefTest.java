@@ -3,6 +3,7 @@ package BYT.Tests;
 import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Person.Person;
+import BYT.Classes.Person.Waiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +21,13 @@ public class ChefTest extends TestBase<Chef> {
         clearExtentInMemoryList();
     }
 
+    @Test
+    void checkSalaryFields() {
+        Chef chef = Chef.findOrCreate("A", "B", "+48111222333", "a@gmail.com", 7000L);
+        assertEquals(chef.getSalary(), 7000L, "Salary is not same. Problem with Constructor");
+        assertEquals(chef.getFirstName(), "A", "Name is not same. Problem with Constructor");
+        assertEquals(chef.getLastName(), "B", "Last Name is not same. Problem with Constructor");
+    }
 
     @Test
     void baseSalaryValidatorThrowsExceptionWhenNewSalaryLower() {
@@ -35,6 +43,15 @@ public class ChefTest extends TestBase<Chef> {
         Chef chef = new Chef("A", "B", "+48111222333", "a@gmail.com", 7000L);
         assertEquals(initialSize + 1, extent().size(), "findOrCreate should add a new Person to extent");
         assertEquals("A", chef.getFirstName(), "New Customer object has correct name");
+    }
+
+    @Test
+    void constructor_throwsWhenMandatoryFieldIsInvalid() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Chef("A", " ", "+48111222333", null, 7000L),
+                "Constructor must enforce validation inherited from Person/Chef.");
+
+        assertEquals(0, extent().size(), "No object should be added to extent on validation failure.");
     }
 }
 

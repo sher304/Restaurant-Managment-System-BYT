@@ -43,7 +43,7 @@ public class Order implements Serializable {
 
     // TotalPrice - get method that calculates or an attribute that's calculated during creation?
     // TODO: Will be implemented when Menu and MenuItem are done
-    public double getFinalPrice() {
+    public double getTotalPrice() {
         double totalPrice = 0.0;
 
         return totalPrice;

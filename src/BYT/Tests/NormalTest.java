@@ -41,6 +41,33 @@ public class NormalTest extends TestBase<Normal> {
     }
 
     @Test
+    void nullNonOptionalAttributesThrow(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Normal normal = new Normal(null, "Marinated mixed olives with orange zest and herbs", 7);
+        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Normal normal = new Normal("Citrus-Brined Olives", null, 7);
+        });
+    }
+
+    @Test
+    void zeroPricesThrow() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Normal normal = new Normal("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 0);
+        });
+    }
+
+    @Test
+    void negativePricesThrow(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Normal normal = new Normal("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", -3);
+        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            Normal normal = new Normal("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", -6);
+        });
+    }
+
+    @Test
     void testMeatTypeList() {
         Normal normal = new Normal("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7);
         normal.addMeatType("Beef");

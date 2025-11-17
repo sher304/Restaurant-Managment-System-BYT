@@ -18,7 +18,7 @@ public class MenuItem implements Serializable {
     public MenuItem(String name, String description, long price) {
         this.name = Validator.validateAttributes(name);
         this.description = Validator.validateAttributes(description);
-        this.price = price;
+        this.price = Validator.validatePrice(price);
         extent.add(this);
     }
 

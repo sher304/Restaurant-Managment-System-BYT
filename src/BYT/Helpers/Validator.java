@@ -50,6 +50,16 @@ public class Validator {
         return salary;
     }
 
+    public static long validatePrice(long price) throws IllegalArgumentException {
+        if(price < 0) {
+            throw new IllegalArgumentException("Price can not be negative");
+        }
+        if(price == 0){
+            throw new IllegalArgumentException("Price can not be zero");
+        }
+        return price;
+    }
+
     public static long validateBaseSalary(long baseSalary) throws IllegalArgumentException {
         if (baseSalary <= 0) {
             throw new IllegalArgumentException("Salary must be positive");

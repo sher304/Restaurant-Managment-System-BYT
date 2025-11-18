@@ -1,9 +1,11 @@
 package BYT.Classes.Table;
 
 import BYT.Classes.Person.Customer;
+import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,22 +14,23 @@ import java.util.stream.Collectors;
 // !
 public class Reservation implements Serializable {
     private static List<Reservation> extent = new ArrayList<>();
-    private LocalDate startAt;
-    private LocalDate endsAt;
+    private LocalDateTime startAt;
+    private LocalDateTime endsAt;
     private int numberOfPeople;
     private Customer customer;
     private String tableNumber;
 
-    public Reservation(LocalDate startAt, LocalDate endsAt, Customer customer, String tableNumber, int numberOfPeople) {
+    public Reservation(LocalDateTime startAt, LocalDateTime endsAt, Customer customer, String tableNumber, int numberOfPeople) {
+        Validator.validateReservationDate(startAt, endsAt);
         this.startAt = startAt;
         this.endsAt = endsAt;
-        this.tableNumber = tableNumber;
+        this.tableNumber = Validator.validateAttributes(tableNumber);
+        this.numberOfPeople = Validator.validateNumberOfPeople(numberOfPeople);
         this.customer = customer;
-        this.numberOfPeople = numberOfPeople;
         extent.add(this);
     }
 
-    public static ArrayList<Table> getFreeTables(int maxNumberOfPeople, LocalDate startAt, LocalDate endsAt) {
+    public static ArrayList<Table> getFreeTables(int maxNumberOfPeople, LocalDateTime startAt, LocalDateTime endsAt) {
         ArrayList<Table> freeTables = new ArrayList<>();
 
         for (Table t : Table.getExtent()) {
@@ -66,7 +69,7 @@ public class Reservation implements Serializable {
 //        extent.add(new Reservation(startAt, endsAt, customer, freeTables.get(index).getTableNumber(), numberOfPeople));
 //    }
 
-    public static Reservation createReservation(LocalDate startAt, LocalDate endsAt, Customer customer,
+    public static Reservation createReservation(LocalDateTime startAt, LocalDateTime endsAt, Customer customer,
                                                 int numberOfPeople, String selectedTableNumber) {
         List<Table> freeTables = getFreeTables(numberOfPeople, startAt, endsAt);
         boolean isAvailable = freeTables.stream()
@@ -77,7 +80,7 @@ public class Reservation implements Serializable {
         return newReservation;
     }
 
-    public static void cancelReservation(LocalDate startAt, LocalDate endsAt, String tableNumber) {
+    public static void cancelReservation(LocalDateTime startAt, LocalDateTime endsAt, String tableNumber) {
 
         for (int i = 0; i < extent.size(); i++) {
             Reservation current = extent.get(i);
@@ -88,7 +91,7 @@ public class Reservation implements Serializable {
         }
     }
 
-    public static void modifyNumberOfPeople(int numberOfPeople, String tableNumber, LocalDate startAt, LocalDate endsAt) {
+    public static void modifyNumberOfPeople(int numberOfPeople, String tableNumber, LocalDateTime startAt, LocalDateTime endsAt) {
         boolean tableHasCapacity = false;
         for (Table t : Table.getExtent()) {
             if (t.getTableNumber().equals(tableNumber) && t.getMaxNumberOfPeople() == numberOfPeople) {
@@ -120,26 +123,24 @@ public class Reservation implements Serializable {
     }
 
     public static List<Reservation> getExtent() {
-        return extent;
+        return Collections.unmodifiableList(extent);
     }
 
-    public static void setExtent(List<Reservation> extent) {
-        Reservation.extent = extent;
-    }
-
-    public LocalDate getStartAt() {
+    public LocalDateTime getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(LocalDate startAt) {
+    public void setStartAt(LocalDateTime startAt) {
+        Validator.validateReservationDate(startAt, this.endsAt);
         this.startAt = startAt;
     }
 
-    public LocalDate getEndsAt() {
+    public LocalDateTime getEndsAt() {
         return endsAt;
     }
 
-    public void setEndsAt(LocalDate endsAt) {
+    public void setEndsAt(LocalDateTime endsAt) {
+        Validator.validateReservationDate(this.startAt, endsAt);
         this.endsAt = endsAt;
     }
 
@@ -148,15 +149,11 @@ public class Reservation implements Serializable {
     }
 
     public void setNumberOfPeople(int numberOfPeople) {
-        this.numberOfPeople = numberOfPeople;
+        this.numberOfPeople = Validator.validateNumberOfPeople(numberOfPeople);
     }
 
     public Customer getCustomer() {
         return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public String getTableNumber() {
@@ -164,7 +161,7 @@ public class Reservation implements Serializable {
     }
 
     public void setTableNumber(String tableNumber) {
-        this.tableNumber = tableNumber;
+        this.tableNumber = Validator.validateAttributes(tableNumber);
     }
 
     @Override

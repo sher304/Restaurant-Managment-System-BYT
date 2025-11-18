@@ -2,6 +2,7 @@ package BYT.Helpers;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Validator {
 
@@ -9,8 +10,8 @@ public class Validator {
         validateDate(releaseDate, endDate, "releaseDate", "endDate");
     }
 
-    public static void validateReservationDate(LocalDate startAt, LocalDate endAt) throws IllegalArgumentException {
-        validateDate(startAt, endAt, "startAt", "endAt");
+    public static void validateReservationDate(LocalDateTime startAt, LocalDateTime endAt) throws IllegalArgumentException {
+
     }
 
     private static void validateDate(LocalDate releaseDate, LocalDate endDate, String releaseDateName, String endDateName) throws IllegalArgumentException {

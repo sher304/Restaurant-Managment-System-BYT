@@ -1,14 +1,13 @@
 package BYT.Tests;
 
 import BYT.Classes.Person.Customer;
-import BYT.Classes.Person.Waiter;
 import BYT.Classes.Table.Reservation;
 import BYT.Classes.Table.Table;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ReservationTest extends TestBase<Reservation> {
 
-    private final LocalDate TODAY = LocalDate.now();
+    private final LocalDateTime NOW = LocalDateTime.now();
+    private final LocalDateTime LATER = NOW.plusHours(1);
     private Customer testCustomer;
     private Table table1;
     private Table table2;
@@ -39,32 +39,31 @@ public class ReservationTest extends TestBase<Reservation> {
     @Test
     void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
         List<Reservation> list = new ArrayList<>();
-        list.add(new Reservation(TODAY, TODAY, testCustomer, table1.getTableNumber(), 2));
+        list.add(new Reservation(NOW, NOW, testCustomer, table1.getTableNumber(), 2));
         testPersistence(list);
     }
 
     @Test
     void getFreeTables_returnsOnlyAvailableTables() {
-        new Reservation(TODAY, TODAY, testCustomer, table1.getTableNumber(), 2);
-        ArrayList<Table> smallGroup = Reservation.getFreeTables(3, TODAY, TODAY);
+        new Reservation(NOW, NOW, testCustomer, table1.getTableNumber(), 2);
+        ArrayList<Table> smallGroup = Reservation.getFreeTables(3, NOW, NOW);
         assertEquals(1, smallGroup.size(), "Should only return 1 free table (T2)");
         assertEquals(table2.getTableNumber(), smallGroup.get(0).getTableNumber());
-        ArrayList<Table> largeGroup = Reservation.getFreeTables(5, TODAY, TODAY);
+        ArrayList<Table> largeGroup = Reservation.getFreeTables(5, NOW, NOW);
         assertEquals(1, largeGroup.size(), "Should only return 1 free table (T2)");
     }
 
     @Test
     void getFreeTables_handlesTimeSlotConflicts() {
-        LocalDate TOMORROW = TODAY.plusDays(1);
-        new Reservation(TOMORROW, TOMORROW, testCustomer, table2.getTableNumber(), 4);
-        ArrayList<Table> todayTables = Reservation.getFreeTables(2, TODAY, TODAY);
+        new Reservation(LATER, LATER, testCustomer, table2.getTableNumber(), 4);
+        ArrayList<Table> todayTables = Reservation.getFreeTables(2, NOW, NOW);
         assertEquals(2, todayTables.size(), "Both tables should be free for a different day.");
     }
 
     @Test
     void cancelReservation_successfulCancellation() {
-        new Reservation(TODAY, TODAY, testCustomer, table1.getTableNumber(), 2);
-        Reservation r2 = new Reservation(TODAY.plusDays(1), TODAY.plusDays(1), testCustomer, table2.getTableNumber(), 4);
+        new Reservation(NOW, NOW, testCustomer, table1.getTableNumber(), 2);
+        Reservation r2 = new Reservation(NOW.plusDays(1), NOW.plusDays(1), testCustomer, table2.getTableNumber(), 4);
         assertEquals(2, extent().size(), "Precondition: 2 reservations exist.");
         Reservation.cancelReservation(r2.getStartAt(), r2.getEndsAt(), r2.getTableNumber());
         assertEquals(1, extent().size(), "Only 1 reservation should remain in extent.");
@@ -74,12 +73,12 @@ public class ReservationTest extends TestBase<Reservation> {
     @Test
     void createReservation_successfulCreation() {
         String selectedTable = table1.getTableNumber();
-        Reservation r = Reservation.createReservation(TODAY, TODAY, testCustomer, 4, selectedTable);
+        Reservation r = Reservation.createReservation(NOW, NOW, testCustomer, 4, selectedTable);
         assertEquals(1, extent().size(), "Reservation should be added to extent.");
         assertEquals(selectedTable, r.getTableNumber(), "Reservation should be linked to the correct table.");
         assertEquals(testCustomer, r.getCustomer(), "Reservation must be linked to the correct customer.");
         assertThrows(IllegalArgumentException.class,
-                () -> Reservation.createReservation(TODAY, TODAY, testCustomer, 4, selectedTable),
+                () -> Reservation.createReservation(NOW, NOW, testCustomer, 4, selectedTable),
                 "Attempting to double-book the same table/time must fail with an IllegalArgumentException.");
         assertEquals(1, extent().size(), "Extent size must remain 1 after a failed booking attempt.");
     }
@@ -88,7 +87,7 @@ public class ReservationTest extends TestBase<Reservation> {
     void createReservation_throwsWhenTableExceedsCapacity() {
         String selectedTable = table1.getTableNumber();
         assertThrows(IllegalArgumentException.class,
-                () -> Reservation.createReservation(TODAY, TODAY, testCustomer,
+                () -> Reservation.createReservation(NOW, NOW, testCustomer,
                         5,
                         selectedTable),
                 "Booking must fail if group size exceeds table capacity.");

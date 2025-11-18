@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Menu implements Serializable {
     private static final List<Menu> extent = new ArrayList<>();
@@ -94,5 +95,18 @@ public class Menu implements Serializable {
                 "releaseDate=" + releaseDate +
                 ", endDate=" + endDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return Objects.equals(releaseDate, menu.releaseDate) && Objects.equals(endDate, menu.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(releaseDate, endDate);
     }
 }

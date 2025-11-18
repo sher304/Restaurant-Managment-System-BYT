@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Table implements Serializable {
     private static List<Table> extent = new ArrayList<>();
@@ -44,5 +45,18 @@ public class Table implements Serializable {
                 "tableNumber='" + tableNumber + '\'' +
                 ", maxNumberOfPeople=" + maxNumberOfPeople +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Table table = (Table) o;
+        return maxNumberOfPeople == table.maxNumberOfPeople && Objects.equals(tableNumber, table.tableNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tableNumber, maxNumberOfPeople);
     }
 }

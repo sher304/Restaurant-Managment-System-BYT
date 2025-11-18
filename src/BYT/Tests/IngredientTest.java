@@ -1,9 +1,14 @@
 package BYT.Tests;
 
 import BYT.Classes.MenuItem.Ingredient;
+import BYT.Classes.Person.Waiter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +23,13 @@ public class IngredientTest extends TestBase<Ingredient> {
     @BeforeEach
     void setup() {
         clearExtentInMemoryList();
+    }
+
+    @Test
+    void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        List<Ingredient> list = new ArrayList<>();
+        list.add(new Ingredient("Egg"));
+        testPersistence(list);
     }
 
     @Test

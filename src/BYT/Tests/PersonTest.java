@@ -1,8 +1,13 @@
 package BYT.Tests;
 import static org.junit.jupiter.api.Assertions.*;
 import BYT.Classes.Person.Person;
+import BYT.Classes.Person.Waiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonTest extends TestBase<Person> {
 
@@ -13,6 +18,13 @@ public class PersonTest extends TestBase<Person> {
     @BeforeEach
     void setUp() {
         clearExtentInMemoryList();
+    }
+
+    @Test
+    void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        List<Person> list = new ArrayList<>();
+        list.add(new Person("John", "Doe", "+48123456789", "a@a.com"));
+        testPersistence(list);
     }
 
     @Test

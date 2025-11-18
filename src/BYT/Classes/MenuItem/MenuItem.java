@@ -63,4 +63,9 @@ public class MenuItem implements Serializable {
         MenuItem menuItem = (MenuItem) o;
         return price == menuItem.price && Objects.equals(name, menuItem.name) && Objects.equals(description, menuItem.description);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, price);
+    }
 }

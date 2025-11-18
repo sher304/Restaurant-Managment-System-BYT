@@ -3,6 +3,7 @@ package BYT.Classes.Person;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Waiter extends Employee implements Serializable {
     private static List<Waiter> extent = new ArrayList<>();
@@ -23,6 +24,20 @@ public class Waiter extends Employee implements Serializable {
         return new Waiter(firstName, lastName, phoneNumber, email, salary);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        // Cast after superclass check
+        Waiter chef = (Waiter) o;
+        // Compare Waiter-specific fields here if we add new ones
+        // Since Waiter currently has no new fields, they’re automatically equal
+        return true;
+    }
 
-    // empty for now
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode());
+    }
 }

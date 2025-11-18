@@ -2,8 +2,13 @@ package BYT.Tests;
 
 import BYT.Classes.Order.Order;
 import BYT.Classes.Order.OrderStatus;
+import BYT.Classes.Person.Waiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,6 +22,17 @@ public class OrderTest extends TestBase<Order> {
     @BeforeEach
     void setup(){
         clearExtentInMemoryList();
+    }
+
+    @Test
+    void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        List<Order> list = new ArrayList<>();
+        Order order = new Order();
+        list.add(order);
+        order.prepare();
+        order.serve();
+
+        testPersistence(list); // tests that the status is Served too
     }
 
     @Test

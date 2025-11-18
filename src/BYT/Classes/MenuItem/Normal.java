@@ -13,8 +13,8 @@ public class Normal extends MenuItem implements Serializable {
         extent.add(this);
     }
 
-    public Collection<String> getMeatTypes() {
-        return Collections.unmodifiableCollection(meatTypes);
+    public List<String> getMeatTypes() {
+        return Collections.unmodifiableList(meatTypes);
     }
 
     public void addMeatType(String meatType) {

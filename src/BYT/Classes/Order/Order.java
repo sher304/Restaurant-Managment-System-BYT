@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Order implements Serializable {
     private static List<Order> extent = new ArrayList<>();
@@ -70,5 +71,18 @@ public class Order implements Serializable {
                 "date=" + date +
                 ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(date, order.date) && status == order.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, status);
     }
 }

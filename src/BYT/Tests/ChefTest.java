@@ -1,11 +1,16 @@
 package BYT.Tests;
 
+import BYT.Classes.MenuItem.Food;
 import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Person.Person;
 import BYT.Classes.Person.Waiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,6 +24,13 @@ public class ChefTest extends TestBase<Chef> {
     @BeforeEach
     void setup() {
         clearExtentInMemoryList();
+    }
+
+    @Test
+    void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        List<Chef> list = new ArrayList<>();
+        list.add(new Chef("John", "Doe", "+48123456789", "a@a.com", 10000));
+        testPersistence(list);
     }
 
     @Test

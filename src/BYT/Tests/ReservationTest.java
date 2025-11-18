@@ -1,13 +1,16 @@
 package BYT.Tests;
 
 import BYT.Classes.Person.Customer;
+import BYT.Classes.Person.Waiter;
 import BYT.Classes.Table.Reservation;
 import BYT.Classes.Table.Table;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,7 +26,6 @@ public class ReservationTest extends TestBase<Reservation> {
         super(Reservation.class);
     }
 
-
     @BeforeEach
     void setUp() {
         clearExtentInMemoryList();
@@ -32,6 +34,13 @@ public class ReservationTest extends TestBase<Reservation> {
         this.testCustomer = new Customer("A", "B", "+48111222333", "t@u.com", 0);
         this.table1 = new Table("T1", 4);
         this.table2 = new Table("T2", 8);
+    }
+
+    @Test
+    void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        List<Reservation> list = new ArrayList<>();
+        list.add(new Reservation(TODAY, TODAY, testCustomer, table1.getTableNumber(), 2));
+        testPersistence(list);
     }
 
     @Test

@@ -5,6 +5,10 @@ import BYT.Classes.MenuItem.Food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -17,6 +21,13 @@ public class DrinkTest extends TestBase<Drink> {
     @BeforeEach
     void setUp() {
         clearExtentInMemoryList();
+    }
+
+    @Test
+    void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        List<Drink> list = new ArrayList<>();
+        list.add(new Drink("Small water", "Small water bottle", 7, 1000));
+        testPersistence(list);
     }
 
     @Test

@@ -4,10 +4,7 @@ import BYT.Classes.Person.Customer;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // !
@@ -179,5 +176,18 @@ public class Reservation implements Serializable {
                 ", customer=" + customer +
                 ", tableNumber='" + tableNumber + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return numberOfPeople == that.numberOfPeople && Objects.equals(startAt, that.startAt) && Objects.equals(endsAt, that.endsAt) && Objects.equals(customer, that.customer) && Objects.equals(tableNumber, that.tableNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startAt, endsAt, numberOfPeople, customer, tableNumber);
     }
 }

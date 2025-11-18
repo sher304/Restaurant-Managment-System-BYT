@@ -1,6 +1,7 @@
 package BYT.Tests;
 
 import BYT.Classes.Menu.Menu;
+import BYT.Classes.MenuItem.Vegan;
 import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Person.Waiter;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,6 +25,13 @@ public class WaiterTest extends TestBase<Waiter> {
     @BeforeEach
     void setup() {
         clearExtentInMemoryList();
+    }
+
+    @Test
+    void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        List<Waiter> list = new ArrayList<>();
+        list.add(new Waiter("John", "Doe", "+48123456789", "a@a.com", 10000));
+        testPersistence(list);
     }
 
     @Test

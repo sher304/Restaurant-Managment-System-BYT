@@ -5,6 +5,7 @@ import BYT.Helpers.Validator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Customer extends Person implements Serializable {
     private static final List<Customer> extent = new ArrayList<>();
@@ -48,5 +49,19 @@ public class Customer extends Person implements Serializable {
         return "Customer{" +
                 "loyaltyPoints=" + loyaltyPoints +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Customer customer = (Customer) o;
+        return loyaltyPoints == customer.loyaltyPoints;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), loyaltyPoints);
     }
 }

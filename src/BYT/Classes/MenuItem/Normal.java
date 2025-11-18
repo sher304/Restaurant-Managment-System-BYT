@@ -28,4 +28,9 @@ public class Normal extends MenuItem implements Serializable {
         Normal normal = (Normal) o;
         return Objects.equals(meatTypes, normal.meatTypes);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), meatTypes);
+    }
 }

@@ -1,8 +1,14 @@
 package BYT.Tests;
 
+import BYT.Classes.Person.Waiter;
 import BYT.Classes.Table.Table;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TableTest extends TestBase<Table> {
@@ -14,6 +20,13 @@ public class TableTest extends TestBase<Table> {
     @BeforeEach
     void setUp() {
         clearExtentInMemoryList();
+    }
+
+    @Test
+    void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
+        List<Table> list = new ArrayList<>();
+        list.add(new Table("A111", 8));
+        testPersistence(list);
     }
 
     @Test

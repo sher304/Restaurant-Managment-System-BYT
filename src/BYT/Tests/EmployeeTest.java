@@ -6,7 +6,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import BYT.Classes.Person.Employee;
 
-public class EmployeeTest {
+public class EmployeeTest extends TestBase<Employee> {
+
+    protected EmployeeTest() {
+        super(Employee.class);
+    }
+
+    // no persistence test - abstract class
 
     @Test
     void emailCannotBeEmptyTest() {

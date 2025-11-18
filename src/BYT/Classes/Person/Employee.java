@@ -3,6 +3,7 @@ package BYT.Classes.Person;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public abstract class Employee extends Person implements Serializable {
     // no extent - abstract class
@@ -26,7 +27,7 @@ public abstract class Employee extends Person implements Serializable {
         return baseSalary;
     }
 
-    public static void setBaseSalary(long baseSalary) {
+    public static void setBaseSalary(long baseSalary) throws IllegalArgumentException {
         Employee.baseSalary = Validator.validateBaseSalary(baseSalary);
     }
 
@@ -35,5 +36,14 @@ public abstract class Employee extends Person implements Serializable {
         return "Employee{" +
                 "salary=" + salary +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Employee employee = (Employee) o;
+        return salary == employee.salary;
     }
 }

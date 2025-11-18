@@ -5,6 +5,7 @@ import BYT.Helpers.Validator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Drink extends MenuItem implements Serializable {
     private static final List<Drink> extent = new ArrayList<>();
@@ -29,5 +30,19 @@ public class Drink extends MenuItem implements Serializable {
         return "Drink{" +
                 "drinkVolume=" + drinkVolume +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Drink drink = (Drink) o;
+        return drinkVolume == drink.drinkVolume;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(drinkVolume);
     }
 }

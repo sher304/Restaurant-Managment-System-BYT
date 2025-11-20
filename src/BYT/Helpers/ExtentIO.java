@@ -180,108 +180,37 @@ public final class ExtentIO {
              */
             List<?> loadedList = snapshot.get(owner.getName());
 
-            try {
-                /*
-                 * Reflection step 1: find the static field named "extent".
-                 *
-                 * getDeclaredField(...) finds a field by name regardless of
-                 * its visibility (private/protected/package/public).
-                 */
-                Field f = owner.getDeclaredField("extent");
+            @SuppressWarnings("unchecked")
+            List<Object> currentList = (List<Object>) getExtentList(owner);
 
-                /*
-                 * Allow reflective access even if the field is private.
-                 *
-                 * Without this, trying to read or write the field would cause
-                 * an IllegalAccessException if the field is not public.
-                 */
-                f.setAccessible(true);
+            /*
+             * Remove all current elements from the list so we start
+             * with an "empty" extent before adding loaded ones.
+             */
+            currentList.clear();
 
+            /*
+             * If the snapshot contained data for this class, copy those
+             * elements into the existing list.
+             *
+             * If loadedList is null, that means nothing was saved for
+             * this class; we simply leave the list empty.
+             */
+            if (loadedList != null) {
                 /*
-                 * Reflection step 2: read the *current* value of the field.
+                 * List.addAll(...) takes a Collection<? extends E>.
                  *
-                 * Because 'extent' is a static field, we pass null as the
-                 * "target instance" to Field.get(...):
+                 * Here:
+                 *  - currentList is a List<Object>
+                 *  - loadedList is a List<?>
                  *
-                 *   - instance field -> f.get(someObject)
-                 *   - static field   -> f.get(null)
-                 *
-                 * We expect the field to hold some List<...> object,
-                 * created at class initialization time.
+                 * The wildcard means: the elements are of some type,
+                 * and since every reference type extends Object,
+                 * this is safe at runtime.
                  */
-                Object currentValue = f.get(null);
-
-                /*
-                 * Check at runtime that the value we got really is a List.
-                 *
-                 * We don't know (or care) about the generic parameter here,
-                 * so we use List<?>:
-                 *
-                 *     "a List of *some* element type"
-                 */
-                if (!(currentValue instanceof List<?>)) {
-                    throw new IllegalArgumentException(owner.getName() + ".extent must be a List");
-                }
-
-                /*
-                 * Now we want to *modify* that existing list in place.
-                 *
-                 * Why not just assign a new List to the field?
-                 *  - Because 'extent' is almost certainly declared as 'final':
-                 *
-                 *        public static final List<Chef> extent = new ArrayList<>();
-                 *
-                 *    Java does not allow changing the value of a final field
-                 *    via reflection (Field.set(...) would throw an exception).
-                 *
-                 * So instead we:
-                 *   - cast the current value to List<Object>
-                 *   - clear its contents
-                 *   - and add all loaded elements into it
-                 */
-                @SuppressWarnings("unchecked")
-                List<Object> currentList = (List<Object>) currentValue;
-
-                /*
-                 * Remove all current elements from the list so we start
-                 * with an "empty" extent before adding loaded ones.
-                 */
-                currentList.clear();
-
-                /*
-                 * If the snapshot contained data for this class, copy those
-                 * elements into the existing list.
-                 *
-                 * If loadedList is null, that means nothing was saved for
-                 * this class; we simply leave the list empty.
-                 */
-                if (loadedList != null) {
-                    /*
-                     * List.addAll(...) takes a Collection<? extends E>.
-                     *
-                     * Here:
-                     *  - currentList is a List<Object>
-                     *  - loadedList is a List<?>
-                     *
-                     * The wildcard means: the elements are of some type,
-                     * and since every reference type extends Object,
-                     * this is safe at runtime.
-                     */
-                    currentList.addAll(loadedList);
-                }
-
-            } catch (NoSuchFieldException | IllegalAccessException ex) {
-                /*
-                 * Convert any reflection problems into an IllegalArgumentException
-                 * with more context (which class failed).
-                 *
-                 * This usually indicates a programming/configuration error:
-                 *  - the class does not have an 'extent' field at all, or
-                 *  - it's not accessible in some unexpected way.
-                 */
-                throw new IllegalArgumentException(
-                        "Cannot access 'extent' in " + owner.getName(), ex);
+                currentList.addAll(loadedList);
             }
+
         }
     }
 

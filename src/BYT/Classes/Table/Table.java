@@ -39,7 +39,7 @@ public class Table implements Serializable {
             reservations.remove(reservation);
 
             if (reservation.getTable() == this) {
-                reservation.cancel();
+                reservation.deleteTable();
             }
         }
     }

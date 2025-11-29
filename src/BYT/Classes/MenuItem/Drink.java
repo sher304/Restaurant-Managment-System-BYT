@@ -1,5 +1,6 @@
 package BYT.Classes.MenuItem;
 
+import BYT.Classes.Menu.Menu;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
@@ -11,8 +12,8 @@ public class Drink extends MenuItem implements Serializable {
     private static final List<Drink> extent = new ArrayList<>();
     private long drinkVolume;
 
-    public Drink(String name, String description, long price, long drinkVolume) {
-        super(name, description, price);
+    public Drink(String name, String description, long price, long drinkVolume, Menu menu) {
+        super(name, description, price, menu);
         this.drinkVolume = Validator.validateNonZeroPhysicalAttribute(drinkVolume);
         extent.add(this);
     }

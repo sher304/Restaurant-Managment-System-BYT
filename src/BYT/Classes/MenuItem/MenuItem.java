@@ -25,7 +25,24 @@ public class MenuItem implements Serializable {
         this.description = Validator.validateAttributes(description);
         this.price = Validator.validatePrice(price);
         this.menu = (Menu) Validator.validateNullObjects(menu);
+        this.menu.createMenuItem(this);
         extent.add(this);
+    }
+
+    public void delete() {
+        if (menu != null && menu.getItems().contains(this)) {
+            menu.removeMenuItem(this);
+        }
+        extent.remove(this);
+        this.menu = null;
+    }
+
+    public List<OrderMenuItem> getOrderMenuItems() {
+        return orderMenuItems;
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 
     public String getName() {

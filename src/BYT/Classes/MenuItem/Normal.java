@@ -1,5 +1,7 @@
 package BYT.Classes.MenuItem;
 
+import BYT.Classes.Menu.Menu;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -7,8 +9,8 @@ public class Normal extends MenuItem implements Serializable {
     private static final List<Normal> extent = new ArrayList<>();
     private final List<String> meatTypes; // [0..*]
 
-    public Normal(String name, String description, long price) {
-        super(name, description, price);
+    public Normal(String name, String description, long price, Menu menu) {
+        super(name, description, price, menu);
         meatTypes = new ArrayList<>();
         extent.add(this);
     }

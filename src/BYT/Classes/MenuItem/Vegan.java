@@ -1,5 +1,6 @@
 package BYT.Classes.MenuItem;
 
+import BYT.Classes.Menu.Menu;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
@@ -13,8 +14,8 @@ public class Vegan extends MenuItem implements Serializable {
     // "ABPL2814394243"
     // A certificationID can in theory be any combination arbitrary numbers and letters
 
-    public Vegan(String name, String description, long price, String certificationID) {
-        super(name, description, price);
+    public Vegan(String name, String description, long price, String certificationID, Menu menu) {
+        super(name, description, price, menu);
         this.certificationID = Validator.validateAttributes(certificationID);
         extent.add(this);
     }

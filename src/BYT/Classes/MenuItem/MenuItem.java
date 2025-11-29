@@ -1,5 +1,6 @@
 package BYT.Classes.MenuItem;
 
+import BYT.Classes.Order.OrderMenuItem;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class MenuItem implements Serializable {
     private String description;
     private long price;
 
+    private List<OrderMenuItem> orderMenuItems; // [0..*]
     // Normal, Vegan; Food, Drink = multi-aspect inheritance
 
     public MenuItem(String name, String description, long price) {

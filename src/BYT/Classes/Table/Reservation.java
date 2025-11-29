@@ -128,6 +128,15 @@ public class Reservation implements Serializable {
         this.table = table;
     }
 
+    public static List<Reservation> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<Reservation> extent) {
+        Reservation.extent = extent;
+    }
+
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -138,13 +147,12 @@ public class Reservation implements Serializable {
                 ", Table='" + table.toString() + '\'' +
                 '}';
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reservation that = (Reservation) o;
-        return numberOfPeople == that.numberOfPeople && Objects.equals(startAt, that.startAt) && Objects.equals(endsAt, that.endsAt) && Objects.equals(customer, that.customer) && Objects.equals(tableNumber, that.tableNumber);
+        return numberOfPeople == that.numberOfPeople && Objects.equals(startAt, that.startAt) && Objects.equals(endsAt, that.endsAt) && Objects.equals(customer, that.customer) && Objects.equals(table, that.table);
     }
 
     @Override

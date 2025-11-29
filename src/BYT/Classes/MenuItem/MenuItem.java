@@ -24,6 +24,7 @@ public class MenuItem implements Serializable {
         this.name = Validator.validateAttributes(name);
         this.description = Validator.validateAttributes(description);
         this.price = Validator.validatePrice(price);
+        this.menu = (Menu) Validator.validateNullObjects(menu);
         extent.add(this);
     }
 

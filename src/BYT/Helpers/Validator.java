@@ -6,6 +6,11 @@ import java.time.LocalDateTime;
 
 public class Validator {
 
+    public static Object validateNullObjects(Object object) throws IllegalArgumentException{
+        if (object == null) throw new IllegalArgumentException("Object can not be null!");
+        return object;
+    }
+
     public static void validateMenuDate(LocalDate releaseDate, LocalDate endDate) throws IllegalArgumentException {
         validateDate(releaseDate, endDate, "releaseDate", "endDate");
     }

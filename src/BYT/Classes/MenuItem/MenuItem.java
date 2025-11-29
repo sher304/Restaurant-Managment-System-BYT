@@ -1,11 +1,11 @@
 package BYT.Classes.MenuItem;
 
+import BYT.Classes.Menu.Menu;
+import BYT.Classes.Order.OrderMenuItem;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MenuItem implements Serializable {
     private static final List<MenuItem> extent = new ArrayList<>();
@@ -14,13 +14,57 @@ public class MenuItem implements Serializable {
     private String description;
     private long price;
 
+    private List<OrderMenuItem> orderMenuItems; // [0..*]
+    private Menu menu;
     // Normal, Vegan; Food, Drink = multi-aspect inheritance
+    private Set<Ingredient> ingredients = new HashSet<>();
 
-    public MenuItem(String name, String description, long price) {
+    public MenuItem(String name, String description, long price, Menu menu) {
         this.name = Validator.validateAttributes(name);
         this.description = Validator.validateAttributes(description);
         this.price = Validator.validatePrice(price);
+        this.menu = (Menu) Validator.validateNullObjects(menu);
+        this.menu.createMenuItem(this);
         extent.add(this);
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        Validator.validateNullObjects(ingredient);
+        if (!ingredients.contains(ingredient)) {
+            ingredients.add(ingredient);
+            ingredient.addMenuItem(this);
+        }
+    }
+    public void removeIngredient(Ingredient ingredient) {
+        if (ingredients.contains(ingredient)) {
+            ingredients.remove(ingredient);
+            ingredient.removeMenuItem(this);
+        }
+    }
+    public Set<Ingredient> getIngredients() {
+        return Collections.unmodifiableSet(ingredients);
+    }
+
+    public void deleteIngredients() {
+        for (Ingredient ingredient : new ArrayList<>(ingredients)) {
+            removeIngredient(ingredient);
+        }
+    }
+
+    public void delete() {
+        if (menu != null && menu.getItems().contains(this)) {
+            menu.removeMenuItem(this);
+        }
+        extent.remove(this);
+        this.menu = null;
+    }
+
+    public List<OrderMenuItem> getOrderMenuItems() {
+        return orderMenuItems;
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 
     public String getName() {

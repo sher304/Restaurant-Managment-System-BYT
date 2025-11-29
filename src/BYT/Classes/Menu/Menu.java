@@ -1,15 +1,16 @@
 package BYT.Classes.Menu;
 
+import BYT.Classes.MenuItem.MenuItem;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Menu implements Serializable {
     private static final List<Menu> extent = new ArrayList<>();
+
+    private Set<MenuItem> items = new HashSet<>();
 
     public static List<Menu> getActiveMenus(){
         List<Menu> returnList = new ArrayList<>();
@@ -20,11 +21,6 @@ public class Menu implements Serializable {
         }
         return returnList;
     }
-
-    // should this be a separate method or just use the constructor?
-    //public static void createNewMenu(Menu newMenu){
-        //extent.add(newMenu);
-    //}
 
     // The Menu is VALID from [releaseDate, endDate] - bounds included:
     // When the date is equal releaseDate or endDate, the menu is VALID.
@@ -40,16 +36,36 @@ public class Menu implements Serializable {
         extent.add(this);
     }
 
-    //public List<MenuItem> getMenuItemList(){
+    public void createMenuItem(MenuItem item){
+        if (item == null) throw new IllegalArgumentException("Cannot add null item.");
 
-    //}
+        if (!items.contains(item)) {
+            items.add(item);
 
-    //public void createMenuItem(MenuItem newMenuItem){
+            // Check Reverse Connection: The Item MUST point to this Menu
+            if (item.getMenu() != this) {
+                throw new IllegalStateException("Composition Violation: MenuItem belongs to a different Menu!");
+            }
+        }
+    }
 
-    //}
+    public void removeMenuItem(MenuItem menuItem) {
+        if (items.contains(menuItem)) {
+            items.remove(menuItem);
+        }
+    }
+
+    public Set<MenuItem> getItems() {
+        return Collections.unmodifiableSet(items);
+    }
 
     public void delete() throws Exception {
         if(this.getMenuStatus() == MenuStatus.CREATED){
+            List<MenuItem> itemsToDelete = new ArrayList<>(items);
+            for (MenuItem item : itemsToDelete) {
+                item.delete();
+            }
+            items.clear();
             Menu.extent.remove(this);
         }else{
             throw new Exception("This Menu is not in status CREATED and cannot be deleted.");

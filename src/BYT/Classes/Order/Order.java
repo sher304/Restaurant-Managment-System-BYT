@@ -12,6 +12,8 @@ public class Order implements Serializable {
     private LocalDateTime date;
     private OrderStatus status;
 
+    private List<OrderMenuItem> orderMenuItems; // [1..*]
+
     public Order(){
         this.date = LocalDateTime.now();
         this.status = OrderStatus.CREATED;

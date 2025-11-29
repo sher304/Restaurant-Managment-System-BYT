@@ -6,6 +6,11 @@ import java.time.LocalDateTime;
 
 public class Validator {
 
+    public static Object validateNullObjects(Object object) throws IllegalArgumentException{
+        if (object == null) throw new IllegalArgumentException("Object can not be null!");
+        return object;
+    }
+
     public static void validateMenuDate(LocalDate releaseDate, LocalDate endDate) throws IllegalArgumentException {
         validateDate(releaseDate, endDate, "releaseDate", "endDate");
     }
@@ -83,6 +88,13 @@ public class Validator {
         return baseSalary;
     }
 
+    public static int validateNonZeroPhysicalAttribute(int amount) throws IllegalArgumentException {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Physical attributes of items (volumes, weights) must be positive");
+        }
+        return amount;
+    }
+
     public static long validateNonZeroPhysicalAttribute(long amount) throws IllegalArgumentException {
         if (amount <= 0) {
             throw new IllegalArgumentException("Physical attributes of items (volumes, weights) must be positive");
@@ -135,6 +147,16 @@ public class Validator {
     public static String validateAttributes(String value) throws IllegalArgumentException {
         if (value == null || value.trim().isEmpty()) {
             throw new IllegalArgumentException("A value, should not be empty!");
+        }
+        return value.trim();
+    }
+
+    public static String validateOptionalAttributes(String value) throws IllegalArgumentException {
+        if(value == null){
+            return null;
+        }
+        if (value.trim().isEmpty()) {
+            throw new IllegalArgumentException("If present, a optional string attribute cannot be empty.");
         }
         return value.trim();
     }

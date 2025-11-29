@@ -39,13 +39,13 @@ public class ReservationTest extends TestBase<Reservation> {
     @Test
     void testPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
         List<Reservation> list = new ArrayList<>();
-        list.add(new Reservation(NOW, NOW, testCustomer, table1.getTableNumber(), 2));
+        list.add(new Reservation(NOW, NOW, testCustomer, 2, table1));
         testPersistence(list);
     }
 
     @Test
     void getFreeTables_returnsOnlyAvailableTables() {
-        new Reservation(NOW, NOW, testCustomer, table1.getTableNumber(), 2);
+        new Reservation(NOW, NOW, testCustomer, 2, table1);
         ArrayList<Table> smallGroup = Reservation.getFreeTables(3, NOW, NOW);
         assertEquals(1, smallGroup.size(), "Should only return 1 free table (T2)");
         assertEquals(table2.getTableNumber(), smallGroup.get(0).getTableNumber());
@@ -55,27 +55,26 @@ public class ReservationTest extends TestBase<Reservation> {
 
     @Test
     void getFreeTables_handlesTimeSlotConflicts() {
-        new Reservation(LATER, LATER, testCustomer, table2.getTableNumber(), 4);
+        new Reservation(LATER, LATER, testCustomer, 4, table2);
         ArrayList<Table> todayTables = Reservation.getFreeTables(2, NOW, NOW);
         assertEquals(2, todayTables.size(), "Both tables should be free for a different day.");
     }
 
     @Test
     void cancelReservation_successfulCancellation() {
-        new Reservation(NOW, NOW, testCustomer, table1.getTableNumber(), 2);
-        Reservation r2 = new Reservation(NOW.plusDays(1), NOW.plusDays(1), testCustomer, table2.getTableNumber(), 4);
+        new Reservation(NOW, NOW, testCustomer, 2, table1);
+        Reservation r2 = new Reservation(NOW.plusDays(1), NOW.plusDays(1), testCustomer, 4, table2);
         assertEquals(2, extent().size(), "Precondition: 2 reservations exist.");
-        Reservation.cancelReservation(r2.getStartAt(), r2.getEndsAt(), r2.getTableNumber());
+        r2.deleteTable();
         assertEquals(1, extent().size(), "Only 1 reservation should remain in extent.");
     }
-
 
     @Test
     void createReservation_successfulCreation() {
         String selectedTable = table1.getTableNumber();
         Reservation r = Reservation.createReservation(NOW, NOW, testCustomer, 4, selectedTable);
         assertEquals(1, extent().size(), "Reservation should be added to extent.");
-        assertEquals(selectedTable, r.getTableNumber(), "Reservation should be linked to the correct table.");
+        assertEquals(selectedTable, r.getTable().getTableNumber(), "Reservation should be linked to the correct table.");
         assertEquals(testCustomer, r.getCustomer(), "Reservation must be linked to the correct customer.");
         assertThrows(IllegalArgumentException.class,
                 () -> Reservation.createReservation(NOW, NOW, testCustomer, 4, selectedTable),

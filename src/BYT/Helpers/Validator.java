@@ -35,9 +35,13 @@ public class Validator {
             throw new IllegalArgumentException("The endDate cannot be before the releaseDate. The endDate must be equal (1-day menu) or after the releaseDate.");
     }
 
-    public static int validateNumberOfPeople(int people) throws IllegalArgumentException {
+    public static int validateNumberOfPeople(int people, int max) throws IllegalArgumentException {
         if(!(people > 0)){
             throw new IllegalArgumentException("Number of people must be greater than zero");
+        }
+
+        if(people > max){
+            throw new IllegalArgumentException("Number of people cannot be greater than the maximum number of people for a table");
         }
 
         return people;

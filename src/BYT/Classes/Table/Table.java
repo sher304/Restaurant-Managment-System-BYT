@@ -19,7 +19,7 @@ public class Table implements Serializable {
         extent.add(this);
     }
 
-    public void createReservation(Reservation reservation) {
+    void createReservation(Reservation reservation) {
         if (reservations == null) {
             throw new IllegalArgumentException("Reservation can not be null");
         }
@@ -30,7 +30,7 @@ public class Table implements Serializable {
         }
     }
 
-    public void cancelReservation(Reservation reservation) {
+    void cancelReservation(Reservation reservation) {
         if (reservation == null) {
             throw new IllegalArgumentException("Reservation can not be null!");
         }

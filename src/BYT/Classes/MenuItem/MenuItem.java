@@ -14,7 +14,7 @@ public class MenuItem implements Serializable {
     private String description;
     private long price;
 
-    private Set<OrderMenuItem> orderMenuItems; // [0..*]
+    private Set<OrderMenuItem> orderMenuItems = new HashSet<>(); // [0..*]
     private Menu menu;
     // Normal, Vegan; Food, Drink = multi-aspect inheritance
     private Set<Ingredient> ingredients = new HashSet<>();
@@ -67,11 +67,9 @@ public class MenuItem implements Serializable {
     public void addOrderMenuItem(OrderMenuItem orderMenuItem) {
         Validator.validateNullObjects(orderMenuItem);
         orderMenuItems.add(orderMenuItem);
-        // reverse?
     }
 
     public boolean deleteOrderMenuItem(OrderMenuItem orderMenuItem) {
-        // reverse?
         return orderMenuItems.remove(orderMenuItem);
     }
 

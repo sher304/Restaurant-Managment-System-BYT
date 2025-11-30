@@ -1,19 +1,22 @@
 package BYT.Classes.Person;
 
+import BYT.Classes.Table.Reservation;
+import BYT.Classes.Table.Table;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class Customer extends Person implements Serializable {
     private static final List<Customer> extent = new ArrayList<>();
     private long loyaltyPoints;
+    private final Map<String, Reservation> reservationMap = new HashMap<>();
 
     public Customer(String firstName, String lastName, String phoneNumber, String email, long loyaltyPoints) {
         super(firstName, lastName, phoneNumber, email);
         this.loyaltyPoints = Validator.negativeNumberEntered(loyaltyPoints);
+
         extent.add(this);
     }
 
@@ -42,6 +45,23 @@ public class Customer extends Person implements Serializable {
 
 //        System.out.println("Customer is not in the system!\nCreating a new Customer");
         return new Customer(firstName, lastName, phoneNumber, email, initialLoyaltyPoints);
+    }
+
+    // main class for controlling Customer-Reservation-Table
+    public Reservation findReservationByNumber(String reservationNumber) {
+        return reservationMap.get(reservationNumber);
+    }
+
+    public void createReservation(String reservationNumber, LocalDateTime startAt, LocalDateTime endsAt, int numberOfPeople, Table table) {
+        if(reservationMap.containsKey(reservationNumber)) throw new IllegalArgumentException("A reservation with this number already exists.");
+        Reservation reservation = new Reservation(startAt, endsAt, this, numberOfPeople, table); // takes care of Reservation extent + Table set
+        reservationMap.put(reservationNumber, reservation); // Customer map
+    }
+
+    public void deleteReservation(String reservationNumber) {
+        Reservation reservation = findReservationByNumber(reservationNumber);
+        reservation.deleteTable(); // takes care of Reservation extent + Table set
+        reservationMap.remove(reservationNumber); // Customer map
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.List;
 
 // association class converted to junction class
 public class OrderMenuItem implements Serializable {
-    //private static List<OrderMenuItem> extent = new ArrayList<>();
+    private static List<OrderMenuItem> extent = new ArrayList<>();
     private int quantity;
     private String orderNotes; // [0..1]
 
@@ -22,7 +22,14 @@ public class OrderMenuItem implements Serializable {
 
         this.setOrder(order);
         this.setMenuItem(menuItem);
+
         menuItem.addOrderMenuItem(this);
+        extent.add(this);
+    }
+
+    public void delete(){
+        menuItem.deleteOrderMenuItem(this);
+        extent.remove(this);
     }
 
     //public int getLineNumber() {

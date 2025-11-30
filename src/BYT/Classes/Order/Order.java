@@ -24,21 +24,21 @@ public class Order implements Serializable {
         extent.add(this);
     }
 
+    // main class for controlling Order-OrderMenuItem-MenuItem
     public Set<OrderMenuItem> getOrderMenuItems() {
         return Collections.unmodifiableSet(orderMenuItems);
     }
 
     public void createOrderMenuItem(int quantity, String orderNotes, MenuItem menuItem){
         if(status != OrderStatus.CREATED) throw new IllegalStateException("Items can be added to Order only when the Order is in status CREATED");
-
-        OrderMenuItem orderMenuItem = new OrderMenuItem(quantity, orderNotes, this, menuItem);
-        orderMenuItems.add(orderMenuItem);
+        OrderMenuItem orderMenuItem = new OrderMenuItem(quantity, orderNotes, this, menuItem); // takes care of OrderMenuItem extent + MenuItem set
+        orderMenuItems.add(orderMenuItem); // Order set
     }
 
     public void deleteOrderMenuItem(OrderMenuItem orderMenuItem) throws IllegalStateException{
         if(orderMenuItems.size() <= 1) throw new IllegalStateException("Order must have at least one MenuItem");
-        orderMenuItem.getMenuItem().deleteOrderMenuItem(orderMenuItem);
-        orderMenuItems.remove(orderMenuItem);
+        orderMenuItem.delete(); // takes care of OrderMenuItem extent + MenuItem set
+        orderMenuItems.remove(orderMenuItem); // Order set
     }
 
     public void prepare() throws IllegalStateException {

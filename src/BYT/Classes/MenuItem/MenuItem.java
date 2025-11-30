@@ -51,6 +51,7 @@ public class MenuItem implements Serializable {
         }
     }
 
+    // delete the MenuItem
     public void delete() {
         if (menu != null && menu.getItems().contains(this)) {
             menu.removeMenuItem(this);
@@ -66,8 +67,13 @@ public class MenuItem implements Serializable {
     public void addOrderMenuItem(OrderMenuItem orderMenuItem) {
         if(orderMenuItem == null) throw new IllegalArgumentException("OrderMenuItem cannot be null");
         orderMenuItems.add(orderMenuItem);
+        // ?
     }
 
+    public void deleteOrderMenuItem(OrderMenuItem orderMenuItem) {
+        if(orderMenuItem == null) throw new IllegalArgumentException("OrderMenuItem cannot be null");
+        orderMenuItems.remove(orderMenuItem);
+    }
 
     public Menu getMenu() {
         return menu;

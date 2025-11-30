@@ -19,7 +19,7 @@ public class Order implements Serializable {
         this.status = OrderStatus.CREATED;
 
         orderMenuItems = new HashSet<>();
-        addOrderMenuItem(quantity, orderNotes, menuItem);
+        createOrderMenuItem(quantity, orderNotes, menuItem);
 
         extent.add(this);
     }
@@ -28,11 +28,16 @@ public class Order implements Serializable {
         return Collections.unmodifiableSet(orderMenuItems);
     }
 
-    public void addOrderMenuItem(int quantity, String orderNotes, MenuItem menuItem){
+    public void createOrderMenuItem(int quantity, String orderNotes, MenuItem menuItem){
         if(status != OrderStatus.CREATED) throw new IllegalStateException("Items can be added to Orderse only when the Order is in status CREATED");
 
         OrderMenuItem orderMenuItem = new OrderMenuItem(quantity, orderNotes, this, menuItem);
         orderMenuItems.add(orderMenuItem);
+    }
+
+    public void deleteOrderMenuItem(OrderMenuItem orderMenuItem){
+        orderMenuItem.getMenuItem().deleteOrderMenuItem(orderMenuItem);
+        orderMenuItems.remove(orderMenuItem);
     }
 
     public void prepare() throws IllegalStateException {

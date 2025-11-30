@@ -1,5 +1,6 @@
 package BYT.Tests;
 
+import BYT.Classes.Menu.Menu;
 import BYT.Classes.MenuItem.MenuItem;
 import BYT.Classes.Order.Order;
 import BYT.Classes.Order.OrderStatus;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,18 +23,20 @@ public class OrderTest extends TestBase<Order> {
     }
 
     private Order order;
+    private Menu testMenu;
 
     @BeforeEach
     void setup(){
         clearExtentInMemoryList();
 
-        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7));
+        testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
+        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
     }
 
     @Test
     void checkOrderAddingItemsAndTotalPrice(){
-        order.addOrderMenuItem(3, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7));
-        order.addOrderMenuItem(5, "test2", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7));
+        order.createOrderMenuItem(3, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
+        order.createOrderMenuItem(5, "test2", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
         assertEquals(7 * (5+3+1), order.getTotalPrice());
     }
 
@@ -87,7 +91,7 @@ public class OrderTest extends TestBase<Order> {
     void addItemsToOrderAfterPrepareThrows(){
         order.prepare();
         assertThrows(IllegalStateException.class, () -> {
-            order.addOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7));
+            order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
         });
     }
 
@@ -96,7 +100,7 @@ public class OrderTest extends TestBase<Order> {
         order.prepare();
         order.serve();
         assertThrows(IllegalStateException.class, () -> {
-            order.addOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7));
+            order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
         });
     }
 
@@ -104,7 +108,7 @@ public class OrderTest extends TestBase<Order> {
     void addItemsToOrderAfterCancelledThrows(){
         order.cancelled();
         assertThrows(IllegalStateException.class, () -> {
-            order.addOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7));
+            order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
         });
     }
 

@@ -20,10 +20,8 @@ public class OrderMenuItem implements Serializable {
         this.quantity = Validator.validateNonZeroPhysicalAttribute(quantity);
         this.orderNotes = Validator.validateOptionalAttributes(orderNotes);
 
-        if(order == null) throw new IllegalArgumentException("Order cannot be null");
-        this.order = order;
-        if(menuItem == null) throw new IllegalArgumentException("MenuItem cannot be null");
-        this.menuItem = menuItem;
+        this.setOrder(order);
+        this.setMenuItem(menuItem);
         menuItem.addOrderMenuItem(this);
     }
 
@@ -51,7 +49,17 @@ public class OrderMenuItem implements Serializable {
         return order;
     }
 
+    private void setOrder(Order order) {
+        Validator.validateNullObjects(order);
+        this.order = order;
+    }
+
     public MenuItem getMenuItem() {
         return menuItem;
+    }
+
+    private void setMenuItem(MenuItem menuItem) {
+        Validator.validateNullObjects(menuItem);
+        this.menuItem = menuItem;
     }
 }

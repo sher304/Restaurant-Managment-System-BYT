@@ -4,5 +4,6 @@ public enum OrderStatus {
     CREATED,
     InPREPARATION,
     SERVED,
-    CANCELLED
+    CANCELLED,
+    PREPARED
 }

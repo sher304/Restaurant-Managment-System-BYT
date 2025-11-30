@@ -12,18 +12,20 @@ public class Reservation implements Serializable {
     private LocalDateTime startAt;
     private LocalDateTime endsAt;
     private int numberOfPeople;
-    private Customer customer;
-    private Table table;
+    private Customer customer; // 1 (mandatory), no deletion from this side
+    private Table table; // 1 (mandatory), no deletion from this side
 
     public Reservation(LocalDateTime startAt, LocalDateTime endsAt, Customer customer, int numberOfPeople, Table table) {
         Validator.validateReservationDate(startAt, endsAt);
         this.startAt = startAt;
         this.endsAt = endsAt;
-        this.numberOfPeople = Validator.validateNumberOfPeople(numberOfPeople);
-        this.customer = customer;
-        extent.add(this);
 
+        setCustomer(customer);
         createReservation(table);
+
+        this.numberOfPeople = Validator.validateNumberOfPeople(numberOfPeople, table.getMaxNumberOfPeople());
+
+        extent.add(this);
     }
 
     public void createReservation(Table newTable) {
@@ -121,10 +123,12 @@ public class Reservation implements Serializable {
     }
 
     public void setCustomer(Customer customer) {
+        Validator.validateNullObjects(customer);
         this.customer = customer;
     }
 
     public void setTable(Table table) {
+        Validator.validateNullObjects(table);
         this.table = table;
     }
 
@@ -135,7 +139,6 @@ public class Reservation implements Serializable {
     public static void setExtent(List<Reservation> extent) {
         Reservation.extent = extent;
     }
-
 
     @Override
     public String toString() {

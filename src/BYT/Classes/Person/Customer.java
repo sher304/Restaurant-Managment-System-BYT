@@ -1,19 +1,20 @@
 package BYT.Classes.Person;
 
+import BYT.Classes.Table.Reservation;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Customer extends Person implements Serializable {
     private static final List<Customer> extent = new ArrayList<>();
     private long loyaltyPoints;
+    private final Map<String, Reservation> reservationMap = new HashMap<>();
 
     public Customer(String firstName, String lastName, String phoneNumber, String email, long loyaltyPoints) {
         super(firstName, lastName, phoneNumber, email);
         this.loyaltyPoints = Validator.negativeNumberEntered(loyaltyPoints);
+
         extent.add(this);
     }
 
@@ -42,6 +43,21 @@ public class Customer extends Person implements Serializable {
 
 //        System.out.println("Customer is not in the system!\nCreating a new Customer");
         return new Customer(firstName, lastName, phoneNumber, email, initialLoyaltyPoints);
+    }
+
+    public Reservation findReservationByNumber(String reservationNumber) {
+        return reservationMap.get(reservationNumber);
+    }
+
+    public void addReservation(String reservationNumber, Reservation reservation) {
+        if(reservationMap.containsKey(reservationNumber)) throw new IllegalArgumentException("A reservation with this number already exists.");
+        Validator.validateNullObjects(reservation);
+        reservationMap.put(reservationNumber, reservation);
+    }
+
+    public void deleteReservation(String reservationNumber) {
+        Reservation reservation = reservationMap.get(reservationNumber);
+        reservation.getTable().cancelReservation(reservation);
     }
 
     @Override

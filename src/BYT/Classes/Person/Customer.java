@@ -58,8 +58,9 @@ public class Customer extends Person implements Serializable {
         reservationMap.put(reservationNumber, reservation); // Customer map
     }
 
-    public void deleteReservation(String reservationNumber) {
+    public void deleteReservation(String reservationNumber) throws Exception {
         Reservation reservation = findReservationByNumber(reservationNumber);
+        if(reservation == null) throw new Exception("A reservation with this number does not exist");
         reservation.deleteTable(); // takes care of Reservation extent + Table set
         reservationMap.remove(reservationNumber); // Customer map
     }

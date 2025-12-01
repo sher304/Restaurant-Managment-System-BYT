@@ -158,7 +158,7 @@ public class OrderTest extends TestBase<Order> {
         order.createOrderMenuItem(12, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
         order.createOrderMenuItem(31, "test2", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
         assertEquals(3, order.getOrderMenuItems().size());
-        assertEquals(7 * (31+12+1), order.getTotalPrice()); 
+        assertEquals(7 * (31+12+1), order.getTotalPrice());
 
         // reverse connection test
         for(OrderMenuItem orderMenuItem : order.getOrderMenuItems()){
@@ -170,6 +170,13 @@ public class OrderTest extends TestBase<Order> {
     void addNullMenuItemThrows(){
         assertThrows(IllegalArgumentException.class, () -> {
             order.createOrderMenuItem(3, "test1", null);
+        });
+    }
+
+    @Test
+    void addEmptyStringOrderNotesThrows(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            order.createOrderMenuItem(3, "", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
         });
     }
 

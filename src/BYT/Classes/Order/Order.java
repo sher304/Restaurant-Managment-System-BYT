@@ -36,6 +36,7 @@ public class Order implements Serializable {
     }
 
     public void deleteOrderMenuItem(OrderMenuItem orderMenuItem) throws IllegalStateException{
+        if(status != OrderStatus.CREATED) throw new IllegalStateException("Items can be removed from Order only when the Order is in status CREATED");
         if(orderMenuItems.size() <= 1) throw new IllegalStateException("Order must have at least one MenuItem");
         orderMenuItem.delete(); // takes care of OrderMenuItem extent + MenuItem set
         orderMenuItems.remove(orderMenuItem); // Order set

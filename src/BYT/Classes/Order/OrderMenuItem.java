@@ -16,7 +16,7 @@ public class OrderMenuItem implements Serializable {
     private Order order; // 1
     private MenuItem menuItem; // 1
 
-    public OrderMenuItem(int quantity, String orderNotes, Order order, MenuItem menuItem) {
+    OrderMenuItem(int quantity, String orderNotes, Order order, MenuItem menuItem) {
         this.quantity = Validator.validateNonZeroPhysicalAttribute(quantity);
         this.orderNotes = Validator.validateOptionalAttributes(orderNotes);
 
@@ -27,7 +27,7 @@ public class OrderMenuItem implements Serializable {
         extent.add(this);
     }
 
-    public void delete(){
+    void delete(){
         menuItem.deleteOrderMenuItem(this);
         extent.remove(this);
     }

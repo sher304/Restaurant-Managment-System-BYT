@@ -87,14 +87,16 @@ public class Customer extends Person implements Serializable {
     }
 
     public boolean deleteReservation(Reservation reservation) {
-        if(reservationMap.containsValue(reservation)) return false;
+        if(!reservationMap.containsValue(reservation)) throw new IllegalArgumentException("This reservation is not associated");
         boolean found = false;
-        for(Map.Entry<String, Reservation> r : reservationMap.entrySet()){
-            if(r.getValue().equals(reservation)){
-                found = true;
-                reservation.deleteTable();
-                reservationMap.remove(r.getKey());
-            }
+        List<String> keysToRemove = new ArrayList<>();
+        // collect keys first to avoid ConcurrentModificationException
+        for(Map.Entry<String, Reservation> r : reservationMap.entrySet())
+            if(r.getValue().equals(reservation)) keysToRemove.add(r.getKey());
+        for(String key : keysToRemove){
+            reservationMap.remove(key);
+            reservation.deleteTable();
+            found = true;
         }
         return found;
     }

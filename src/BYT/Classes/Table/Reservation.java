@@ -16,14 +16,16 @@ public class Reservation implements Serializable {
     private Table table; // 1 (mandatory)
 
     public Reservation(LocalDateTime startAt, LocalDateTime endsAt, Customer customer, int numberOfPeople, Table table) {
+        this.numberOfPeople = Validator.validateNumberOfPeople(numberOfPeople, table.getMaxNumberOfPeople());
+
         Validator.validateReservationDate(startAt, endsAt);
         this.startAt = startAt;
         this.endsAt = endsAt;
 
+        // ^ attribute assignments MUST be before the associations! hashCode()-HashSet-equals bug with tests
+
         setCustomer(customer);
         createReservation(table);
-
-        this.numberOfPeople = Validator.validateNumberOfPeople(numberOfPeople, table.getMaxNumberOfPeople());
 
         extent.add(this);
     }
@@ -42,8 +44,6 @@ public class Reservation implements Serializable {
         if (!newTable.getReservations().contains(this)) {
             newTable.createReservation(this);
         }
-
-        customer.addReservation(customer.generateRandomReservationNumber(), this);
     }
 
     public void deleteTable() {
@@ -52,7 +52,7 @@ public class Reservation implements Serializable {
             this.table = null;
             t.cancelReservation(this);
         }
-        customer.deleteReservation(this);
+        if(customer.containsReservation(this)) customer.deleteReservation(this);
         extent.remove(this);
     }
 
@@ -128,6 +128,7 @@ public class Reservation implements Serializable {
     public void setCustomer(Customer customer) {
         Validator.validateNullObjects(customer);
         this.customer = customer;
+        customer.addReservation(customer.generateRandomReservationNumber(), this);
     }
 
     public void setTable(Table table) {

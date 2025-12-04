@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Chef extends Employee implements Serializable {
     private static final List<Chef> extent = new ArrayList<>();
+    /*
     private ArrayList<Chef> supervisedChefs=new ArrayList<Chef>();
     private Chef supervisiorCheff;
 
@@ -76,7 +77,7 @@ public class Chef extends Employee implements Serializable {
             chef.setSupervisiorCheff(this);
         }
     }
-
+    */
     private Chef supervisor;
     private final List<Chef> supervisedChefs = new ArrayList<>();
 

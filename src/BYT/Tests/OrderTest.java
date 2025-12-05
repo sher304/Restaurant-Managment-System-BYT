@@ -14,8 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderTest extends TestBase<Order> {
 
@@ -24,13 +23,12 @@ public class OrderTest extends TestBase<Order> {
     }
 
     private Order order;
-    private Menu testMenu;
 
     @BeforeEach
     void setup(){
         clearExtentInMemoryList();
 
-        testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
+        Menu testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
         order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
     }
 
@@ -85,105 +83,5 @@ public class OrderTest extends TestBase<Order> {
                 () -> order.serve(), "Order can not be served, if it is not prepared!");
     }
 
-    // associations
-
-    @Test
-    void addItemsToOrderAfterPrepareThrows(){
-        order.prepare();
-        assertThrows(IllegalStateException.class, () -> {
-            order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        });
-    }
-
-    @Test
-    void addItemsToOrderAfterServedThrows(){
-        order.prepare();
-        order.serve();
-        assertThrows(IllegalStateException.class, () -> {
-            order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        });
-    }
-
-    @Test
-    void addItemsToOrderAfterCancelledThrows(){
-        order.cancelled();
-        assertThrows(IllegalStateException.class, () -> {
-            order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        });
-    }
-
-    @Test
-    void removeItemsFromOrderAfterPrepareThrows(){
-        order.createOrderMenuItem(3, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        order.prepare();
-        assertThrows(IllegalStateException.class, () -> {
-           order.deleteOrderMenuItem(order.getOrderMenuItems().iterator().next());
-        });
-    }
-
-    @Test
-    void removeItemsFromOrderAfterServedThrows(){
-        order.createOrderMenuItem(3, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        order.prepare();
-        order.serve();
-        assertThrows(IllegalStateException.class, () -> {
-            order.deleteOrderMenuItem(order.getOrderMenuItems().iterator().next());
-        });
-    }
-
-    @Test
-    void removeItemsFromOrderAfterCancelledThrows(){
-        order.createOrderMenuItem(3, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        order.cancelled();
-        assertThrows(IllegalStateException.class, () -> {
-            order.deleteOrderMenuItem(order.getOrderMenuItems().iterator().next());
-        });
-    }
-
-    @Test
-    void removeOnlyItemFromOrderThrows(){
-        assertEquals(1, order.getOrderMenuItems().size());
-
-        OrderMenuItem orderMenuItem = order.getOrderMenuItems().iterator().next();
-
-        assertThrows(IllegalStateException.class, () -> {
-            order.deleteOrderMenuItem(orderMenuItem);
-        });
-    }
-
-    @Test
-    void checkOrderAddingItemsReverseConnectionAndTotalPrice(){
-        assertEquals(1, order.getOrderMenuItems().size());
-
-        order.createOrderMenuItem(12, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        order.createOrderMenuItem(31, "test2", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        assertEquals(3, order.getOrderMenuItems().size());
-        assertEquals(7 * (31+12+1), order.getTotalPrice());
-
-        // reverse connection test
-        for(OrderMenuItem orderMenuItem : order.getOrderMenuItems()){
-            assertEquals(orderMenuItem.getOrder(), order);
-        }
-    }
-
-    @Test
-    void addNullMenuItemThrows(){
-        assertThrows(IllegalArgumentException.class, () -> {
-            order.createOrderMenuItem(3, "test1", null);
-        });
-    }
-
-    @Test
-    void addEmptyStringOrderNotesThrows(){
-        assertThrows(IllegalArgumentException.class, () -> {
-            order.createOrderMenuItem(3, "", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
-        });
-    }
-
-    @Test
-    void removeNullMenuItemThrows(){
-        assertThrows(Exception.class, () -> {
-            order.deleteOrderMenuItem(null);
-        });
-    }
+    // associations moved to OrderMenuItemTest
 }

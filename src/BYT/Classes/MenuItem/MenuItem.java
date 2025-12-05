@@ -66,11 +66,17 @@ public class MenuItem implements Serializable {
 
     public void addOrderMenuItem(OrderMenuItem orderMenuItem) {
         Validator.validateNullObjects(orderMenuItem);
+        if(orderMenuItem.getMenuItem() != this) throw new IllegalStateException("This OrderMenuItem is already assigned to a different MenuItem. OrderMenuItem junction classes cannot be moved");
+        if(orderMenuItems.contains(orderMenuItem)) throw new IllegalArgumentException("This OrderMenuItem already exists");
         orderMenuItems.add(orderMenuItem);
     }
 
-    public boolean deleteOrderMenuItem(OrderMenuItem orderMenuItem) {
-        return orderMenuItems.remove(orderMenuItem);
+    // no change/move method for OrderMenuItem
+
+    public void deleteOrderMenuItem(OrderMenuItem orderMenuItem) {
+        orderMenuItems.remove(orderMenuItem);
+        if(orderMenuItem.getOrder().getOrderMenuItems().contains(orderMenuItem))
+            orderMenuItem.getOrder().deleteOrderMenuItem(orderMenuItem);
     }
 
     public Menu getMenu() {

@@ -1,6 +1,5 @@
-package BYT.Classes.MenuItem;
+package BYT.Classes.Restaurant;
 
-import BYT.Classes.Menu.Menu;
 import BYT.Classes.Order.OrderMenuItem;
 import BYT.Helpers.Validator;
 
@@ -29,7 +28,7 @@ public class MenuItem implements Serializable {
         extent.add(this);
     }
 
-    public void delete() {
+    void delete() {
         if (menu != null && menu.getItems().contains(this)) {
             menu.removeMenuItem(this);
         }

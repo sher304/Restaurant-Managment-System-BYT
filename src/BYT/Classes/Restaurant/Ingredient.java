@@ -1,4 +1,4 @@
-package BYT.Classes.MenuItem;
+package BYT.Classes.Restaurant;
 
 import BYT.Helpers.Validator;
 
@@ -14,8 +14,7 @@ public class Ingredient implements Serializable {
         this.name = Validator.validateAttributes(name);
         extent.add(this);
     }
-
-    public void addMenuItem(MenuItem item) {
+    void addMenuItem(MenuItem item) {
         Validator.validateNullObjects(item);
         if (!menuItems.contains(item)) {
             menuItems.add(item);
@@ -23,17 +22,19 @@ public class Ingredient implements Serializable {
         }
     }
 
-    public void removeMenuItem(MenuItem item) {
+    void removeMenuItem(MenuItem item) {
         if (menuItems.contains(item)) {
             menuItems.remove(item);
             item.removeIngredient(this);
         }
     }
+
     public Set<MenuItem> getMenuItems() {
         return Collections.unmodifiableSet(menuItems);
     }
+
     public void delete() {
-        for (MenuItem item : new ArrayList<>(menuItems)) {
+        for (MenuItem item : menuItems) {
             item.removeIngredient(this);
         }
         extent.remove(this);

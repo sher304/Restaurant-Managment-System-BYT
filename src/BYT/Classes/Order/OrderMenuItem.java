@@ -1,6 +1,6 @@
 package BYT.Classes.Order;
 
-import BYT.Classes.MenuItem.MenuItem;
+import BYT.Classes.Restaurant.MenuItem;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;

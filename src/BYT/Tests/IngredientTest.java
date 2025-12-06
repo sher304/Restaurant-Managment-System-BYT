@@ -1,8 +1,6 @@
 package BYT.Tests;
 
-import BYT.Classes.MenuItem.Ingredient;
-import BYT.Classes.Person.Waiter;
-import org.junit.jupiter.api.Assertions;
+import BYT.Classes.Restaurant.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

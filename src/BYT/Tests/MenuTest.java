@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-import BYT.Helpers.Extents;
-import BYT.Classes.Menu.Menu;
+import BYT.Classes.Restaurant.Menu;
 import BYT.Classes.Menu.MenuStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

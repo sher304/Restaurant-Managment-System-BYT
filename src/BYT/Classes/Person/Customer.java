@@ -97,9 +97,14 @@ public class Customer extends Person implements Serializable {
         return Collections.unmodifiableMap(reservationMap);
     }
 
-    public void addReservation(String reservationNumber, Reservation newReservation) {
+    public void addOrMoveReservation(String reservationNumber, Reservation newReservation) {
         if(reservationMap.containsKey(reservationNumber)) throw new IllegalArgumentException("A reservation with this number already exists.");
+        if(reservationMap.containsValue(newReservation)) throw new IllegalArgumentException("A reservation with this value already exists.");
         reservationMap.put(reservationNumber, newReservation);
+        if(newReservation.getCustomer() != this) {
+            newReservation.getCustomer().deassociateReservation(newReservation, false);
+            newReservation.setCustomer(this);
+        }
     }
 
     public void deleteReservation(String reservationNumber) throws Exception {
@@ -110,6 +115,10 @@ public class Customer extends Person implements Serializable {
     }
 
     public boolean deleteReservation(Reservation reservation) {
+        return deassociateReservation(reservation, true);
+    }
+
+    private boolean deassociateReservation(Reservation reservation, boolean alsoDelete) {
         if(!reservationMap.containsValue(reservation)) throw new IllegalArgumentException("This reservation is not associated");
         boolean found = false;
         List<String> keysToRemove = new ArrayList<>();
@@ -118,7 +127,7 @@ public class Customer extends Person implements Serializable {
             if(r.getValue().equals(reservation)) keysToRemove.add(r.getKey());
         for(String key : keysToRemove){
             reservationMap.remove(key);
-            reservation.deleteTable();
+            if(alsoDelete) reservation.deleteTable();
             found = true;
         }
         return found;

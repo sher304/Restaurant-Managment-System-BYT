@@ -28,8 +28,11 @@ public class OrderMenuItem implements Serializable {
     }
 
     void delete(){
-        menuItem.deleteOrderMenuItem(this);
         extent.remove(this);
+        if(menuItem.getOrderMenuItems().contains(this))
+            menuItem.deleteOrderMenuItem(this);
+        if(order.getOrderMenuItems().contains(this))
+            order.deleteOrderMenuItem(this);
     }
 
     //public int getLineNumber() {

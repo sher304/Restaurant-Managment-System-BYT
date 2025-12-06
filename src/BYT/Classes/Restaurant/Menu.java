@@ -1,6 +1,5 @@
-package BYT.Classes.Menu;
+package BYT.Classes.Restaurant;
 
-import BYT.Classes.MenuItem.MenuItem;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
@@ -36,7 +35,8 @@ public class Menu implements Serializable {
         extent.add(this);
     }
 
-    public void createMenuItem(MenuItem item){
+
+    void createMenuItem(MenuItem item){
         if (item == null) throw new IllegalArgumentException("Cannot add null item.");
 
         if (!items.contains(item)) {
@@ -49,7 +49,7 @@ public class Menu implements Serializable {
         }
     }
 
-    public void removeMenuItem(MenuItem menuItem) {
+    void removeMenuItem(MenuItem menuItem) {
         if (items.contains(menuItem)) {
             items.remove(menuItem);
         }

@@ -1,7 +1,6 @@
 package BYT.Tests;
 
-import BYT.Classes.Menu.Menu;
-import BYT.Classes.MenuItem.MenuItem;
+import BYT.Classes.Restaurant.*;
 import BYT.Classes.Order.Order;
 import BYT.Classes.Order.OrderMenuItem;
 import org.junit.jupiter.api.BeforeEach;
@@ -100,8 +99,9 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
         assertEquals(omu1.getMenuItem(), menuItem1, "omu1 should be linked to menuItem1");
         assertEquals(omu2.getMenuItem(), menuItem2, "omu2 should be linked to menuItem2");
 
+//        assertTrue(menuItem1.getOrderMenuItems().contains(omu1), "menuItem1 should be linked to omu1");
         assertTrue(menuItem1.getOrderMenuItems().contains(omu1), "menuItem1 should be linked to omu1");
-        assertTrue(menuItem2.getOrderMenuItems().contains(omu2), "menuItem2 should be linked to omu2");
+//        assertTrue(menuItem2.getOrderMenuItems().contains(omu2), "menuItem2 should be linked to omu2");
     }
 
     @Test

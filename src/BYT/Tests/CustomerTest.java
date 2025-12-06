@@ -1,8 +1,7 @@
 package BYT.Tests;
 
 import BYT.Classes.Order.Order;
-import BYT.Classes.MenuItem.MenuItem;
-import BYT.Classes.Menu.Menu;
+import BYT.Classes.Restaurant.*;
 import BYT.Classes.MenuItem.Food;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Person.Person;

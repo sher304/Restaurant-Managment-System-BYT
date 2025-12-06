@@ -1,7 +1,7 @@
 package BYT.Classes.Order;
 import BYT.Classes.Person.Waiter;
 import BYT.Classes.Person.Customer;
-import BYT.Classes.MenuItem.MenuItem;
+import BYT.Classes.Restaurant.MenuItem;
 import BYT.Classes.Person.Chef;
 
 import java.io.Serializable;

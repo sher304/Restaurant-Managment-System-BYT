@@ -1,6 +1,5 @@
-package BYT.Classes.MenuItem;
+package BYT.Classes.Restaurant;
 
-import BYT.Classes.Menu.Menu;
 import BYT.Classes.Order.OrderMenuItem;
 import BYT.Helpers.Validator;
 
@@ -13,11 +12,11 @@ public class MenuItem implements Serializable {
     private String name;
     private String description;
     private long price;
-
     private Set<OrderMenuItem> orderMenuItems = new HashSet<>(); // [0..*]
+    private Set<Ingredient> ingredients = new HashSet<>();
     private Menu menu;
     // Normal, Vegan; Food, Drink = multi-aspect inheritance
-    private Set<Ingredient> ingredients = new HashSet<>();
+
 
     public MenuItem(String name, String description, long price, Menu menu) {
         this.name = Validator.validateAttributes(name);
@@ -28,14 +27,15 @@ public class MenuItem implements Serializable {
         extent.add(this);
     }
 
-    public void addIngredient(Ingredient ingredient) {
+    void addIngredient(Ingredient ingredient) {
         Validator.validateNullObjects(ingredient);
         if (!ingredients.contains(ingredient)) {
             ingredients.add(ingredient);
             ingredient.addMenuItem(this);
         }
     }
-    public void removeIngredient(Ingredient ingredient) {
+
+    void removeIngredient(Ingredient ingredient) {
         if (ingredients.contains(ingredient)) {
             ingredients.remove(ingredient);
             ingredient.removeMenuItem(this);
@@ -52,7 +52,11 @@ public class MenuItem implements Serializable {
     }
 
     // delete the MenuItem
-    public void delete() {
+    void delete() {
+        for (Ingredient ingredient : ingredients) {
+            removeIngredient(ingredient);
+        }
+
         if (menu != null && menu.getItems().contains(this)) {
             menu.removeMenuItem(this);
         }

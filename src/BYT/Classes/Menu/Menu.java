@@ -52,6 +52,7 @@ public class Menu implements Serializable {
     public void removeMenuItem(MenuItem menuItem) {
         if (items.contains(menuItem)) {
             items.remove(menuItem);
+            menuItem.delete();
         }
     }
 

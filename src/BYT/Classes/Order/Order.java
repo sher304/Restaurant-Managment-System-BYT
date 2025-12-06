@@ -14,6 +14,15 @@ public class Order implements Serializable {
     private LocalDateTime date;
     private OrderStatus status;
     private Chef chef;
+    private ArrayList<Chef> involves=new ArrayList<Chef>();
+
+    public ArrayList<Chef> getInvolves() {
+        return involves;
+    }
+
+    public void addChefInvolves(Chef chef){
+        involves.add(chef);
+    }
 
     public Chef getChef() {
         return chef;

@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Chef extends Employee implements Serializable {
     private static final List<Chef> extent = new ArrayList<>();
-    /*
+
     private ArrayList<Chef> supervisedChefs=new ArrayList<Chef>();
     private Chef supervisiorCheff;
 
@@ -25,19 +25,30 @@ public class Chef extends Employee implements Serializable {
         }
 
     }
-
+    /*
     public ArrayList<Chef> getSupervisedChefs() {
         return supervisedChefs;
-    }
+    }*/
     public ArrayList<Order> responsibleFor=new ArrayList<Order>();
     public void addOrderToChef(Order order)throws Exception{
-        if(order.getStatus()==OrderStatus.CREATED){
-            order.setChef(this);
-            order.setStatus(OrderStatus.InPREPARATION);
-            this.responsibleFor.add(order);
-        }else{
-            throw new IllegalArgumentException("Order status must be created : ");
+        boolean found=false;
+        for(Chef chef:order.getInvolves()){
+            if(chef==this){
+                found=true;
+            }
         }
+        if(found){
+            if(order.getStatus()==OrderStatus.CREATED){
+                order.setChef(this);
+                order.setStatus(OrderStatus.InPREPARATION);
+                this.responsibleFor.add(order);
+            }else{
+                throw new IllegalArgumentException("Order status must be created : ");
+            }
+        }else{
+            throw new IllegalArgumentException("Chef does not involve in this order . ");
+        }
+
 
     }
     public void markOrderAsPrepared(){
@@ -77,9 +88,15 @@ public class Chef extends Employee implements Serializable {
             chef.setSupervisiorCheff(this);
         }
     }
-    */
+
+    private ArrayList<Order> involvesIn=new ArrayList<Order>();
+    public void addInvolvesInOrder(Order order){
+        order.addChefInvolves(this);
+        involvesIn.add(order);
+    }
+
     private Chef supervisor;
-    private final List<Chef> supervisedChefs = new ArrayList<>();
+   // private final List<Chef> supervisedChefs = new ArrayList<>();
 
     public Chef(String firstName, String lastName, String phoneNumber, String email, long salary) {
         super(firstName, lastName, phoneNumber, email, salary);
@@ -124,11 +141,11 @@ public class Chef extends Employee implements Serializable {
             newSupervisor.supervisedChefs.add(this);
         }
     }
-
+   /*
     public void addSupervisedChef(Chef chef) {
         if(chef == null) return;
         chef.setSupervisor(this);
-    }
+    }*/
 
     public void removeSupervisedChef(Chef chef){
         if(chef == null) return;

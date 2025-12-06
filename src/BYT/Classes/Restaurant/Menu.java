@@ -1,6 +1,5 @@
 package BYT.Classes.Restaurant;
 
-import BYT.Classes.Menu.MenuStatus;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;

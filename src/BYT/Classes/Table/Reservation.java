@@ -128,7 +128,8 @@ public class Reservation implements Serializable {
     public void setCustomer(Customer customer) {
         Validator.validateNullObjects(customer);
         this.customer = customer;
-        customer.addReservation(customer.generateRandomReservationNumber(), this);
+        if(!customer.containsReservation(this))
+            customer.addOrMoveReservation(customer.generateRandomReservationNumber(), this);
     }
 
     public void setTable(Table table) {

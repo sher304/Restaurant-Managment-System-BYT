@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class WaiterTest extends TestBase<Waiter> {
 
+
     protected WaiterTest() {
         super(Waiter.class);
     }

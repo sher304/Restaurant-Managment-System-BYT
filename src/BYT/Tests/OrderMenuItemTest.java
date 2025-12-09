@@ -105,6 +105,25 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
     }
 
     @Test
+    void changingQuantity_changesTotalPrice(){
+        MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        MenuItem menuItem2 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+
+        OrderMenuItem omu1 = order.createOrderMenuItem(12, "test1", menuItem1);
+        OrderMenuItem omu2 = order.createOrderMenuItem(31, "test2", menuItem2);
+        assertEquals(3, order.getOrderMenuItems().size(), "Order should have 3 junction classes (OrderMenuItem)");
+        assertEquals(7 * (31 + 12 + 1), order.getTotalPrice(), "Total price should be correct");
+
+        omu1.setQuantity(1);
+        omu2.setQuantity(1);
+        omu1.setOrderNotes("hello");
+        omu2.setOrderNotes("world");
+
+        assertEquals(3, order.getOrderMenuItems().size(), "Order should have 3 junction classes (OrderMenuItem)");
+        assertEquals(7 * (1 + 1 + 1), order.getTotalPrice(), "Total price should be correct after changes");
+    }
+
+    @Test
     void addingOrderMenuItemToAnotherMenuItemThrows(){
         MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
         MenuItem menuItem2 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);

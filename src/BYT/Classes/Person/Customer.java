@@ -98,7 +98,7 @@ public class Customer extends Person implements Serializable {
     }
 
     public void addOrMoveReservation(String reservationNumber, Reservation newReservation) {
-        if(newReservation == null) throw new IllegalArgumentException("new Reservation cannot be null");
+        Validator.validateNullObjects(newReservation);
         if(reservationMap.containsKey(reservationNumber)) throw new IllegalArgumentException("A reservation with this number already exists.");
         if(reservationMap.containsValue(newReservation)) throw new IllegalArgumentException("A reservation with this value already exists.");
         reservationMap.put(reservationNumber, newReservation);

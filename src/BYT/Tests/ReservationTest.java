@@ -110,6 +110,11 @@ public class ReservationTest extends TestBase<Reservation> {
     }
 
     @Test
+    void createReservationWithNonExistentTableNumber_throws(){
+        assertThrows(IllegalArgumentException.class, () -> Reservation.createReservation(NOW, NOW, testCustomer, 4, "A343254324"));
+    }
+
+    @Test
     void createReservation_throwsWhenTableExceedsCapacity() {
         String selectedTable = table1.getTableNumber();
         assertThrows(IllegalArgumentException.class,

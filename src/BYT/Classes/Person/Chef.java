@@ -59,11 +59,11 @@ public class Chef extends Employee implements Serializable {
             newSupervisor.supervisedChefs.add(this);
         }
     }
-   /*
+
     public void addSupervisedChef(Chef chef) {
-        if(chef == null) return;
+        if (chef == null) return;
         chef.setSupervisor(this);
-    }*/
+    }
 
     public void removeSupervisedChef(Chef chef){
         if(chef == null) return;

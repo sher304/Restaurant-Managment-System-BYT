@@ -20,12 +20,14 @@ public class Order implements Serializable {
     }
 
     public void setChef(Chef chef) {
-        if(chef==null && status==OrderStatus.CREATED){
-            this.chef = chef;
-        }else{
-            throw new IllegalArgumentException("Order status must be CREATED");
-        }
+        if (chef == null)
+            throw new IllegalArgumentException("Chef cannot be null");
 
+        if (this.status != OrderStatus.CREATED)
+            throw new IllegalArgumentException("Chef can be assigned only when order in CREATED state");
+
+        this.chef = chef;
+        chef.addChefInvolvementFromOrder(this);
     }
 
     private Set<OrderMenuItem> orderMenuItems; // [1..*]

@@ -1,12 +1,9 @@
 package BYT.Tests;
 
-import BYT.Classes.Order.Order;
-import BYT.Classes.MenuItem.MenuItem;
-import BYT.Classes.Menu.Menu;
-import BYT.Classes.MenuItem.Vegan;
-import BYT.Classes.Person.Chef;
-import BYT.Classes.Person.Customer;
 import BYT.Classes.Person.Waiter;
+import BYT.Classes.Order.Order;
+import BYT.Classes.Restaurant.Menu;
+import BYT.Classes.Restaurant.MenuItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +11,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WaiterTest extends TestBase<Waiter> {
+
 
     protected WaiterTest() {
         super(Waiter.class);

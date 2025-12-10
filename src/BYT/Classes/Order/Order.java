@@ -1,7 +1,7 @@
 package BYT.Classes.Order;
 import BYT.Classes.Person.Waiter;
 import BYT.Classes.Person.Customer;
-import BYT.Classes.MenuItem.MenuItem;
+import BYT.Classes.Restaurant.MenuItem;
 import BYT.Classes.Person.Chef;
 
 import java.io.Serializable;
@@ -29,12 +29,14 @@ public class Order implements Serializable {
     }
 
     public void setChef(Chef chef) {
-        if(chef==null && status==OrderStatus.CREATED){
-            this.chef = chef;
-        }else{
-            throw new IllegalArgumentException("Order status must be CREATED");
-        }
+        if (chef == null)
+            throw new IllegalArgumentException("Chef cannot be null");
 
+        if (this.status != OrderStatus.CREATED)
+            throw new IllegalArgumentException("Chef can be assigned only when order in CREATED state");
+
+        this.chef = chef;
+        chef.addChefInvolvementFromOrder(this);
     }
 
     private Set<OrderMenuItem> orderMenuItems; // [1..*]
@@ -88,17 +90,18 @@ public class Order implements Serializable {
         return Collections.unmodifiableSet(orderMenuItems);
     }
 
-    public void createOrderMenuItem(int quantity, String orderNotes, MenuItem menuItem){
+    public OrderMenuItem createOrderMenuItem(int quantity, String orderNotes, MenuItem menuItem){
         if(status != OrderStatus.CREATED) throw new IllegalStateException("Items can be added to Order only when the Order is in status CREATED");
         OrderMenuItem orderMenuItem = new OrderMenuItem(quantity, orderNotes, this, menuItem); // takes care of OrderMenuItem extent + MenuItem set
         orderMenuItems.add(orderMenuItem); // Order set
+        return orderMenuItem;
     }
 
     public void deleteOrderMenuItem(OrderMenuItem orderMenuItem) throws IllegalStateException{
         if(status != OrderStatus.CREATED) throw new IllegalStateException("Items can be removed from Order only when the Order is in status CREATED");
         if(orderMenuItems.size() <= 1) throw new IllegalStateException("Order must have at least one MenuItem");
-        orderMenuItem.delete(); // takes care of OrderMenuItem extent + MenuItem set
         orderMenuItems.remove(orderMenuItem); // Order set
+        orderMenuItem.delete(); // takes care of OrderMenuItem extent + MenuItem set
     }
 
     public void prepare() throws IllegalStateException {

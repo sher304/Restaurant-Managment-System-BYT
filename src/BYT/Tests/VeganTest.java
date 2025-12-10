@@ -1,8 +1,6 @@
 package BYT.Tests;
 
-import BYT.Classes.Menu.Menu;
-import BYT.Classes.MenuItem.MenuItem;
-import BYT.Classes.MenuItem.Normal;
+import BYT.Classes.Restaurant.Menu;
 import BYT.Classes.MenuItem.Vegan;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

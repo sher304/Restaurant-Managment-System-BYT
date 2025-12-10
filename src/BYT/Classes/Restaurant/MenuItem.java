@@ -8,7 +8,6 @@ import java.util.*;
 
 public class MenuItem implements Serializable {
     private static final List<MenuItem> extent = new ArrayList<>();
-
     private String name;
     private String description;
     private long price;

@@ -2,6 +2,7 @@ package BYT.Classes.Person;
 
 import BYT.Classes.Order.Order;
 import BYT.Classes.Order.OrderStatus;
+import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.util.*;
@@ -10,7 +11,7 @@ public class Chef extends Employee implements Serializable {
     private static final List<Chef> extent = new ArrayList<>();
 
     private Chef supervisor;
-   // private final List<Chef> supervisedChefs = new ArrayList<>();
+    private final List<Chef> supervisedChefs = new ArrayList<>();
 
     private final List<Order> involvedIn = new ArrayList<>();
     private final List<Order> responsibleFor = new ArrayList<>();
@@ -42,8 +43,7 @@ public class Chef extends Employee implements Serializable {
     }
 
     public void setSupervisor(Chef newSupervisor) {
-        if (newSupervisor == this)
-            throw new IllegalArgumentException("A Chef cannot supervise themselves");
+        Validator.validateNullObjects(newSupervisor);
 
         //generated to Prevent supervision cycles: A -> B -> C -> A
         if (createsLoop(newSupervisor))

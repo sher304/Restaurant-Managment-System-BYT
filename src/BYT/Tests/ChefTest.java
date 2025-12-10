@@ -159,10 +159,12 @@ public class ChefTest extends TestBase<Chef> {
         sup.addSupervisedChef(w);
 
         List<Chef> list = sup.getSupervisedChefs();
-        list.clear(); // attempt external modification
 
-        assertEquals(1, sup.getSupervisedChefs().size(),
-                "Returned list should be a copy, not the internal reference");
+        assertThrows(UnsupportedOperationException.class,
+                () -> list.clear(),
+                "Returned list should be unmodifiable to preserve encapsulation");
+
+        assertEquals(1, sup.getSupervisedChefs().size());
     }
 
 }

@@ -36,7 +36,7 @@ public class Menu implements Serializable {
     }
 
 
-    void createMenuItem(MenuItem item){
+    public void createMenuItem(MenuItem item){
         if (item == null) throw new IllegalArgumentException("Cannot add null item.");
 
         if (!items.contains(item)) {

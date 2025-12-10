@@ -3,6 +3,7 @@ import BYT.Classes.Person.Waiter;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Restaurant.MenuItem;
 import BYT.Classes.Person.Chef;
+import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -28,9 +29,8 @@ public class Order implements Serializable {
         return chef;
     }
 
-    public void setChef(Chef chef) {
-        if (chef == null)
-            throw new IllegalArgumentException("Chef cannot be null");
+    public void setChef(Chef chef) throws IllegalArgumentException {
+        Validator.validateNullObjects(chef);
 
         if (this.status != OrderStatus.CREATED)
             throw new IllegalArgumentException("Chef can be assigned only when order in CREATED state");

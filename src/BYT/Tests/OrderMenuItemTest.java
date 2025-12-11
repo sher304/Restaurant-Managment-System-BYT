@@ -1,5 +1,6 @@
 package BYT.Tests;
 
+import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Person.Waiter;
 import BYT.Classes.Restaurant.*;
@@ -21,6 +22,7 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     private Order order;
     private Menu testMenu;
+    private Chef initial;
 
     @BeforeEach
     void setup(){
@@ -28,9 +30,9 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 9999L);
         Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
-
+        initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
         testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu),w,c);
+        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu),w,c,initial);
     }
 
     @Test

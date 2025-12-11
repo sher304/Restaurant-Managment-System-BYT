@@ -1,11 +1,9 @@
 package BYT.Tests;
 
-import BYT.Classes.MenuItem.Food;
 import BYT.Classes.Order.Order;
 import BYT.Classes.Order.OrderStatus;
 import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Customer;
-import BYT.Classes.Person.Person;
 import BYT.Classes.Person.Waiter;
 import BYT.Classes.Restaurant.Menu;
 import BYT.Classes.Restaurant.MenuItem;
@@ -174,34 +172,36 @@ public class ChefTest extends TestBase<Chef> {
     // CHEF - ORDER ASSOCIATION TESTS
     @Test
     void chefInvolvedInOrder() {
+        Chef initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
         Chef chef = new Chef("C", "Chef", "+48110001111", "chef@a.com", 9000);
         Waiter waiter = new Waiter("W", "Waiter", "+48112223333", "w@a.com", 7000);
         Customer customer = new Customer("Cust", "A", "+48113334444", "c@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
         MenuItem item = new MenuItem("Dish", "Tasty", 15, menu);
-        Order order = new Order(2, "note", item, waiter, customer);
+        Order order = new Order(2, "note", item, waiter, customer, initial);
 
         // Add chef involvement
         chef.addChefInvolvementFromOrder(order); // test validator
-        order.addChefInvolves(chef);
+        order.addInvolvedChef(chef);
         chef.addChefInvolvementFromOrder(order);
         chef.addChefInvolvementFromOrder(order);
         chef.makeChefResponsibleForOrder(order);
 
         assertTrue(chef.getResponsibleForOrders().contains(order), "Chef should be responsible for the order");
         assertTrue(chef.getInvolvedInOrders().contains(order), "Chef should be involved in the order");
-        assertEquals(chef, order.getChef(), "Order must reference the responsible chef");
+        assertEquals(chef, order.getResponsibleChef(), "Order must reference the responsible chef");
         assertEquals(OrderStatus.InPREPARATION, order.getStatus(), "Order status should be InPREPARATION");
     }
 
     @Test
     void cannotMakeChefResponsibleIfNotInvolved() {
+        Chef initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
         Chef chef = new Chef("C", "Chef", "+48110001111", "chef@a.com", 9000);
         Waiter waiter = new Waiter("W", "Waiter", "+48112223333", "w@a.com", 7000);
         Customer customer = new Customer("Cust", "A", "+48113334444", "c@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
         MenuItem item = new MenuItem("Dish", "Tasty", 15, menu);
-        Order order = new Order(2, "note", item, waiter, customer);
+        Order order = new Order(2, "note", item, waiter, customer, initial);
 
         assertThrows(IllegalArgumentException.class, () -> chef.makeChefResponsibleForOrder(order),
                 "Chef must be involved in the order before being responsible");

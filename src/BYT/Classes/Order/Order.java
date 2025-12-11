@@ -15,16 +15,22 @@ public class Order implements Serializable {
     private LocalDateTime date;
     private OrderStatus status;
     private Chef chef;
-    private ArrayList<Chef> involves=new ArrayList<Chef>();
+    private List<Chef> involves = new ArrayList<Chef>();
 
-    public ArrayList<Chef> getInvolves() {
-        return involves;
+    public List<Chef> getInvolvedChefs() {
+        return Collections.unmodifiableList(involves);
     }
 
-    public void addChefInvolves(Chef chef){involves.add(chef);
+    public void addInvolvedChef(Chef chef){
+        if(chef == null) throw new IllegalArgumentException("Chef cannot be null");
+        if(involves.contains(chef)) throw new IllegalArgumentException("Chef already exists (duplicate)");
+
+        involves.add(chef);
+        if(!chef.getInvolvedInOrders().contains(this))
+            chef.addChefInvolvementFromOrder(this);
     }
 
-    public Chef getChef() {
+    public Chef getResponsibleChef() {
         return chef;
     }
 
@@ -42,9 +48,10 @@ public class Order implements Serializable {
         chef.addChefInvolvementFromOrder(this);
     }
 
-    public Order(int quantity, String orderNotes, MenuItem menuItem, Waiter waiter, Customer customer) {
+    public Order(int quantity, String orderNotes, MenuItem menuItem, Waiter waiter, Customer customer, Chef initialPreparationChef) {
         Validator.validateNullObjects(waiter);
         Validator.validateNullObjects(customer);
+        Validator.validateNullObjects(initialPreparationChef);
 
         this.date = LocalDateTime.now();
         this.status = OrderStatus.CREATED;
@@ -53,6 +60,8 @@ public class Order implements Serializable {
         this.customer = customer;
         waiter.addOrder(this);
         customer.addOrder(this);
+
+        addInvolvedChef(initialPreparationChef);
 
         orderMenuItems = new HashSet<>();
         createOrderMenuItem(quantity, orderNotes, menuItem);

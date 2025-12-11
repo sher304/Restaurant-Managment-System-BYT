@@ -1,5 +1,6 @@
 package BYT.Tests;
 
+import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Waiter;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Order.Order;
@@ -21,9 +22,13 @@ public class WaiterTest extends TestBase<Waiter> {
         super(Waiter.class);
     }
 
+    private Chef initial;
+
     @BeforeEach
     void setup() {
         clearExtentInMemoryList();
+
+        initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
     }
 
     @Test
@@ -73,7 +78,7 @@ public class WaiterTest extends TestBase<Waiter> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 7000L);
         Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c);
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c, initial);
 
         assertTrue(w.getOrders().contains(order), "Waiter must contain the order");
         assertEquals(w, order.getWaiter(), "Order must reference the waiter");
@@ -84,7 +89,7 @@ public class WaiterTest extends TestBase<Waiter> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 6500L);
         Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c);
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c, initial);
 
         w.removeOrder(order);
 
@@ -97,7 +102,7 @@ public class WaiterTest extends TestBase<Waiter> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 9999L);
         Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c);
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c, initial);
 
         w.addOrder(order);
         w.addOrder(order);
@@ -122,7 +127,7 @@ public class WaiterTest extends TestBase<Waiter> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 8800L);
         Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c);
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c, initial);
 
         assertEquals(w, order.getWaiter(), "Order must reference waiter after creation");
         assertTrue(w.getOrders().contains(order), "Waiter must contain order after creation");
@@ -135,7 +140,7 @@ public class WaiterTest extends TestBase<Waiter> {
         Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
 
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w1, c);
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w1, c, initial);
 
         order.setWaiter(w2);
 

@@ -1,5 +1,6 @@
 package BYT.Tests;
 
+import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Restaurant.*;
 import BYT.Classes.Order.Order;
@@ -26,15 +27,16 @@ public class OrderTest extends TestBase<Order> {
     private Waiter waiter;
     private Customer customer;
     private Menu testMenu;
+    private Chef initial;
 
     @BeforeEach
     void setup(){
         clearExtentInMemoryList();
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 8989L);
         Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
-
+        initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
         Menu testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu),w,c);
+        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu),w,c,initial);
     }
 
     // extent
@@ -98,14 +100,14 @@ public class OrderTest extends TestBase<Order> {
     @Test
     void constructorThrowsWhenWaiterIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
-                        new Order(1, "Note", new MenuItem("Dish", "Desc", 5, testMenu), null, customer),
+                        new Order(1, "Note", new MenuItem("Dish", "Desc", 5, testMenu), null, customer, new Chef("A", "B", "+48119998324", "a@a.com", 10000L)),
                 "Order constructor should throw if Waiter is null");
     }
 
     @Test
     void constructorThrowsWhenCustomerIsNull() {
         assertThrows(IllegalArgumentException.class, () ->
-                        new Order(1, "Note", new MenuItem("Dish", "Desc", 5, testMenu), waiter, null),
+                        new Order(1, "Note", new MenuItem("Dish", "Desc", 5, testMenu), waiter, null, new Chef("A", "B", "+48119998324", "a@a.com", 10000L)),
                 "Order constructor should throw if Customer is null");
     }
 }

@@ -97,14 +97,14 @@ public class Chef extends Employee implements Serializable {
     }
 
     private void addInvolvedOrder(Order order) {
-        if (order == null) return;
+        if (order == null) throw new IllegalArgumentException("Order cannot be null");
         if (!involvedIn.contains(order)) {
             involvedIn.add(order);
         }
     }
 
     private void addResponsibleOrder(Order order) {
-        if (order == null) return;
+        if (order == null) throw new IllegalArgumentException("Order cannot be null");
         if (!responsibleFor.contains(order)) {
             responsibleFor.add(order);
         }

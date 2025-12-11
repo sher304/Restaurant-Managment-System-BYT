@@ -1,6 +1,7 @@
 package BYT.Tests;
 
 import BYT.Classes.Order.Order;
+import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Waiter;
 import BYT.Classes.Restaurant.*;
 import BYT.Classes.MenuItem.Food;
@@ -23,9 +24,13 @@ public class CustomerTest extends TestBase<Customer> {
         super(Customer.class);
     }
 
+    private Chef initial;
+
     @BeforeEach
     void setUp() {
         clearExtentInMemoryList();
+
+        initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
     }
 
     @Test
@@ -91,7 +96,7 @@ public class CustomerTest extends TestBase<Customer> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 9999L);
         Customer c = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c);
+        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c,initial);
 
         c.addOrder(order);
 
@@ -104,7 +109,7 @@ public class CustomerTest extends TestBase<Customer> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 8500L);
         Customer c = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c);
+        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c,initial);
 
         c.addOrder(order);
         c.removeOrder(order);
@@ -118,7 +123,7 @@ public class CustomerTest extends TestBase<Customer> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 6666L);
         Customer c = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c);
+        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c,initial);
 
         c.addOrder(order);
         c.addOrder(order);
@@ -144,7 +149,7 @@ public class CustomerTest extends TestBase<Customer> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 9876L);
         Customer c = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c);
+        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c,initial);
 
         order.setCustomer(c);
 
@@ -159,7 +164,7 @@ public class CustomerTest extends TestBase<Customer> {
         Customer c1 = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Customer c2 = new Customer("Tom", "Gray", "+48111111111", "b@b.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c1);
+        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c1,initial);
 
         order.setCustomer(c1);
         order.setCustomer(c2);

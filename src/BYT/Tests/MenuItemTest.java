@@ -68,4 +68,14 @@ public class MenuItemTest extends TestBase<MenuItem> {
             MenuItem normal = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", -6, testMenu);
         });
     }
+
+    @Test
+    public void deletingMenuDeletesItsMenuItems() throws Exception {
+        Menu futureMenu = new Menu(LocalDate.now().plusDays(1), LocalDate.now().plusDays(5));
+        MenuItem item = new MenuItem("Pizza", "Pepperoni pizza", 1000L, futureMenu);
+
+        Assertions.assertTrue(extent().contains(item));
+        futureMenu.delete();
+        Assertions.assertFalse(extent().contains(item));
+    }
 }

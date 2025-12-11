@@ -1,5 +1,6 @@
 package BYT.Tests;
 
+import BYT.Classes.Person.Customer;
 import BYT.Classes.Restaurant.*;
 import BYT.Classes.Order.Order;
 import BYT.Classes.Order.OrderMenuItem;
@@ -22,13 +23,18 @@ public class OrderTest extends TestBase<Order> {
     }
 
     private Order order;
+    private Waiter waiter;
+    private Customer customer;
+    private Menu testMenu;
 
     @BeforeEach
     void setup(){
         clearExtentInMemoryList();
+        Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 8989L);
+        Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
 
         Menu testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
+        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu),w,c);
     }
 
     // extent
@@ -83,4 +89,23 @@ public class OrderTest extends TestBase<Order> {
     }
 
     // associations moved to OrderMenuItemTest
+    // associations moved to OrderWaiterTest
+    // associations moved to OrderCustomerTest
+    // associations moved to OrderChefTest
+
+    // Null Waiter/Customer Tests
+
+    @Test
+    void constructorThrowsWhenWaiterIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                        new Order(1, "Note", new MenuItem("Dish", "Desc", 5, testMenu), null, customer),
+                "Order constructor should throw if Waiter is null");
+    }
+
+    @Test
+    void constructorThrowsWhenCustomerIsNull() {
+        assertThrows(IllegalArgumentException.class, () ->
+                        new Order(1, "Note", new MenuItem("Dish", "Desc", 5, testMenu), waiter, null),
+                "Order constructor should throw if Customer is null");
+    }
 }

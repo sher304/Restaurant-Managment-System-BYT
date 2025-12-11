@@ -21,13 +21,16 @@ public class Order implements Serializable {
         return involves;
     }
 
-    public void addChefInvolves(Chef chef){
-        involves.add(chef);
+    public void addChefInvolves(Chef chef){involves.add(chef);
     }
 
     public Chef getChef() {
         return chef;
     }
+
+    private Set<OrderMenuItem> orderMenuItems; // [1..*]
+    private Waiter waiter;
+    private Customer customer;
 
     public void setChef(Chef chef) throws IllegalArgumentException {
         Validator.validateNullObjects(chef);
@@ -39,14 +42,17 @@ public class Order implements Serializable {
         chef.addChefInvolvementFromOrder(this);
     }
 
-    private Set<OrderMenuItem> orderMenuItems; // [1..*]
+    public Order(int quantity, String orderNotes, MenuItem menuItem, Waiter waiter, Customer customer) {
+        Validator.validateNullObjects(waiter);
+        Validator.validateNullObjects(customer);
 
-    private Waiter waiter;
-    private Customer customer;
-
-    public Order(int quantity, String orderNotes, MenuItem menuItem){
         this.date = LocalDateTime.now();
         this.status = OrderStatus.CREATED;
+
+        this.waiter = waiter;
+        this.customer = customer;
+        waiter.addOrder(this);
+        customer.addOrder(this);
 
         orderMenuItems = new HashSet<>();
         createOrderMenuItem(quantity, orderNotes, menuItem);

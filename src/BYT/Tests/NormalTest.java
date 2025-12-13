@@ -1,6 +1,18 @@
 package BYT.Tests;
 
-/*public class NormalTest extends TestBase<Normal> {
+import BYT.Classes.Restaurant.Menu;
+import BYT.Classes.Restaurant.Normal;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class NormalTest extends TestBase<Normal> {
     private Menu testMenu;
 
     protected NormalTest() {
@@ -31,4 +43,4 @@ package BYT.Tests;
         Assertions.assertTrue(meatTypes.contains("Chicken"));
         Assertions.assertEquals(2, meatTypes.size());
     }
-}*/
+}

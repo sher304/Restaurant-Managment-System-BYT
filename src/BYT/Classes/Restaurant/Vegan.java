@@ -21,6 +21,13 @@ public class Vegan implements Serializable {
         extent.add(this);
     }
 
+    public void delete(){
+        extent.remove(this);
+        if(menuItem.getExtent().contains(menuItem))
+            menuItem.delete();
+        this.menuItem = null;
+    }
+
     public MenuItem getMenuItem() {
         return menuItem;
     }

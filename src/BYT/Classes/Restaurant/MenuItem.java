@@ -45,6 +45,10 @@ public abstract class MenuItem implements Serializable {
         extent.add(this);
     }
 
+    public List<MenuItem> getExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+
     private boolean isNormalVeganInheritanceCreated(){
         return normalPart != null || veganPart != null;
     }
@@ -104,6 +108,10 @@ public abstract class MenuItem implements Serializable {
         }
         extent.remove(this);
         this.menu = null;
+        if(normalPart != null) normalPart.delete();
+        if(veganPart != null) veganPart.delete();
+        this.normalPart = null;
+        this.veganPart = null;
     }
 
     public Set<OrderMenuItem> getOrderMenuItems() {

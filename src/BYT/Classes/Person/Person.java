@@ -11,13 +11,28 @@ public class Person implements Serializable {
     private String phoneNumber;
     private String email;
     private static final List<Person> extent = new ArrayList<>();
-
+    private Map<Class<? extends PersonRole>, PersonRole> roles = new HashMap<>();
     public Person(String firstName, String lastName, String phoneNumber, String email) {
         this.email = validateOptionalEmail(email);
         this.phoneNumber = validatePhoneNumber(phoneNumber);
         this.lastName = validateAttributes(lastName);
         this.firstName = validateAttributes(firstName);
         extent.add(this);
+    }
+
+    public void addRole(PersonRole role) {
+        if (role == null) throw new IllegalArgumentException("Role cannot be null");
+        if (roles.containsKey(role.getClass())) {
+            throw new IllegalStateException("Person already has the role: " + role.getClass().getSimpleName());
+        }
+        roles.put(role.getClass(), role);
+        if (role.getPerson() != this) {
+            role.setPerson(this);
+        }
+    }
+
+    public void removeRole(Class<? extends PersonRole> roleType) {
+        roles.remove(roleType);
     }
 
     public static Person findOrCreate(String firstName, String lastName, String phoneNumber, String email) {

@@ -5,13 +5,12 @@ import BYT.Helpers.Validator;
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Employee extends Person implements Serializable {
+public abstract class Employee extends PersonRole implements Serializable {
     // no extent - abstract class
     private long salary;
     private static long baseSalary = 6000;
 
-    public Employee(String firstName, String lastName, String phoneNumber, String email, long salary) {
-        super(firstName, lastName, phoneNumber, email);
+    public Employee(long salary) {
         this.salary = Validator.validateSalary(salary, baseSalary);
     }
 

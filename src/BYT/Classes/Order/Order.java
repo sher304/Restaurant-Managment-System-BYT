@@ -3,6 +3,7 @@ import BYT.Classes.Person.Waiter;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Restaurant.MenuItem;
 import BYT.Classes.Person.Chef;
+import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,28 +15,53 @@ public class Order implements Serializable {
     private LocalDateTime date;
     private OrderStatus status;
     private Chef chef;
+    private List<Chef> involves = new ArrayList<Chef>();
 
-    public Chef getChef() {
+    public List<Chef> getInvolvedChefs() {
+        return Collections.unmodifiableList(involves);
+    }
+
+    public void addInvolvedChef(Chef chef){
+        if(chef == null) throw new IllegalArgumentException("Chef cannot be null");
+        if(involves.contains(chef)) throw new IllegalArgumentException("Chef already exists (duplicate)");
+
+        involves.add(chef);
+        if(!chef.getInvolvedInOrders().contains(this))
+            chef.addChefInvolvementFromOrder(this);
+    }
+
+    public Chef getResponsibleChef() {
         return chef;
     }
 
-    public void setChef(Chef chef) {
-        if(chef==null && status==OrderStatus.CREATED){
-            this.chef = chef;
-        }else{
-            throw new IllegalArgumentException("Order status must be CREATED");
-        }
-
-    }
-
     private Set<OrderMenuItem> orderMenuItems; // [1..*]
-
     private Waiter waiter;
     private Customer customer;
 
-    public Order(int quantity, String orderNotes, MenuItem menuItem){
+    public void setChef(Chef chef) throws IllegalArgumentException {
+        Validator.validateNullObjects(chef);
+
+        if (this.status != OrderStatus.CREATED)
+            throw new IllegalArgumentException("Chef can be assigned only when order in CREATED state");
+
+        this.chef = chef;
+        chef.addChefInvolvementFromOrder(this);
+    }
+
+    public Order(int quantity, String orderNotes, MenuItem menuItem, Waiter waiter, Customer customer, Chef initialPreparationChef) {
+        Validator.validateNullObjects(waiter);
+        Validator.validateNullObjects(customer);
+        Validator.validateNullObjects(initialPreparationChef);
+
         this.date = LocalDateTime.now();
         this.status = OrderStatus.CREATED;
+
+        this.waiter = waiter;
+        this.customer = customer;
+        waiter.addOrder(this);
+        customer.addOrder(this);
+
+        addInvolvedChef(initialPreparationChef);
 
         orderMenuItems = new HashSet<>();
         createOrderMenuItem(quantity, orderNotes, menuItem);

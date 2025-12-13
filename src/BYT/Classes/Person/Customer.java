@@ -8,17 +8,15 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class Customer extends Person implements Serializable {
+public class Customer extends PersonRole implements Serializable {
     private static final List<Customer> extent = new ArrayList<>();
     private long loyaltyPoints;
     private final Map<String, Reservation> reservationMap = new HashMap<>();
 
     private Set<Order> orders = new HashSet<>();
 
-    public Customer(String firstName, String lastName, String phoneNumber, String email, long loyaltyPoints) {
-        super(firstName, lastName, phoneNumber, email);
+    public Customer(long loyaltyPoints) {
         this.loyaltyPoints = Validator.negativeNumberEntered(loyaltyPoints);
-
         extent.add(this);
     }
 
@@ -60,14 +58,18 @@ public class Customer extends Person implements Serializable {
 
     public static Customer findOrCreate(String firstName, String lastName, String phoneNumber, String email, long initialLoyaltyPoints) {
         for (Customer customer : extent) {
-            if (customer.getPhoneNumber().equals(phoneNumber)) {
+            if (customer.getPerson() != null && customer.getPerson().getPhoneNumber().equals(phoneNumber)) {
                 System.out.println("Customer has been found!");
                 return customer;
             }
         }
 
-//        System.out.println("Customer is not in the system!\nCreating a new Customer");
-        return new Customer(firstName, lastName, phoneNumber, email, initialLoyaltyPoints);
+        System.out.println("Customer not found. Creating new Person and Customer role...");
+        Person newPerson = new Person(firstName, lastName, phoneNumber, email);
+
+        Customer newCustomer = new Customer(initialLoyaltyPoints);
+        newPerson.addRole(newCustomer);
+        return newCustomer;
     }
 
     public Reservation findReservationByNumber(String reservationNumber) {
@@ -87,17 +89,12 @@ public class Customer extends Person implements Serializable {
         return numberBuilder.toString();
     }
 
-    public void createReservation(String reservationNumber, LocalDateTime startAt, LocalDateTime endsAt, int numberOfPeople, Table table) {
-        if(reservationMap.containsKey(reservationNumber)) throw new IllegalArgumentException("A reservation with this number already exists.");
-        Reservation reservation = new Reservation(startAt, endsAt, this, numberOfPeople, table); // takes care of Reservation extent + Table set
-        reservationMap.put(reservationNumber, reservation); // Customer map
-    }
-
     public Map<String, Reservation> getReservationMap() {
         return Collections.unmodifiableMap(reservationMap);
     }
 
     public void addOrMoveReservation(String reservationNumber, Reservation newReservation) {
+        Validator.validateNullObjects(newReservation);
         if(reservationMap.containsKey(reservationNumber)) throw new IllegalArgumentException("A reservation with this number already exists.");
         if(reservationMap.containsValue(newReservation)) throw new IllegalArgumentException("A reservation with this value already exists.");
         reservationMap.put(reservationNumber, newReservation);

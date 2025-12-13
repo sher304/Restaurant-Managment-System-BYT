@@ -8,7 +8,6 @@ import java.util.*;
 
 public class MenuItem implements Serializable {
     private static final List<MenuItem> extent = new ArrayList<>();
-
     private String name;
     private String description;
     private long price;
@@ -27,7 +26,7 @@ public class MenuItem implements Serializable {
         extent.add(this);
     }
 
-    void addIngredient(Ingredient ingredient) {
+    public void addIngredient(Ingredient ingredient) {
         Validator.validateNullObjects(ingredient);
         if (!ingredients.contains(ingredient)) {
             ingredients.add(ingredient);
@@ -35,7 +34,7 @@ public class MenuItem implements Serializable {
         }
     }
 
-    void removeIngredient(Ingredient ingredient) {
+    public void removeIngredient(Ingredient ingredient) {
         if (ingredients.contains(ingredient)) {
             ingredients.remove(ingredient);
             ingredient.removeMenuItem(this);
@@ -52,7 +51,7 @@ public class MenuItem implements Serializable {
     }
 
     // delete the MenuItem
-    void delete() {
+    public void delete() {
         for (Ingredient ingredient : ingredients) {
             removeIngredient(ingredient);
         }

@@ -110,6 +110,11 @@ public class ReservationTest extends TestBase<Reservation> {
     }
 
     @Test
+    void createReservationWithNonExistentTableNumber_throws(){
+        assertThrows(IllegalArgumentException.class, () -> Reservation.createReservation(NOW, NOW, testCustomer, 4, "A343254324"));
+    }
+
+    @Test
     void createReservation_throwsWhenTableExceedsCapacity() {
         String selectedTable = table1.getTableNumber();
         assertThrows(IllegalArgumentException.class,
@@ -145,5 +150,37 @@ public class ReservationTest extends TestBase<Reservation> {
         assertSame(table1.getReservations().iterator().next(), r, "Reservation must be still present in the reverse association in Table.");
         assertTrue(testCustomer2.getReservationMap().containsValue(r), "Reservation must be added to the reverse association in customer 2.");
         assertFalse(testCustomer.getReservationMap().containsValue(r), "Reservation must be removed from the reverse association in customer 1.");
+    }
+
+    @Test
+    void addDuplicateReservationValueWithDifferentNumberToCustomer_throws(){
+        Reservation r = new Reservation(NOW, NOW, testCustomer, 2, table1); // already associates the reservation with Customer
+        assertEquals(1, testCustomer.getReservationMap().size(), "There should be 1 reservation associated with Customer.");
+        assertThrows(IllegalArgumentException.class, () -> testCustomer.addOrMoveReservation(testCustomer.generateRandomReservationNumber(), r));
+    }
+
+    @Test
+    void addDuplicateReservationNumberToCustomer_throws(){
+        Reservation r = new Reservation(NOW, NOW, testCustomer, 2, table1); // already associates the reservation with Customer
+        assertEquals(1, testCustomer.getReservationMap().size(), "There should be 1 reservation associated with Customer.");
+        String duplicateNumber = testCustomer.getReservationMap().entrySet().iterator().next().getKey();
+        assertThrows(IllegalArgumentException.class, () -> testCustomer.addOrMoveReservation(duplicateNumber, r)); // number check should throw first
+    }
+
+    @Test
+    void addNullReservationToCustomer_throws(){
+        assertThrows(IllegalArgumentException.class, () -> testCustomer.addOrMoveReservation(testCustomer.generateRandomReservationNumber(), null));
+    }
+
+    @Test
+    void addNullReservationNumToCustomer_throws(){
+        Reservation r = new Reservation(NOW, NOW, testCustomer, 2, table1);
+        assertThrows(IllegalArgumentException.class, () -> testCustomer.addOrMoveReservation(null, r));
+    }
+
+    @Test
+    void setNullTable_throws(){
+        Reservation r = new Reservation(NOW, NOW, testCustomer, 2, table1);
+        assertThrows(IllegalArgumentException.class, () -> r.setTable(null));
     }
 }

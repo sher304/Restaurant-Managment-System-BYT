@@ -1,6 +1,8 @@
 package BYT.Tests;
 
+import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Waiter;
+import BYT.Classes.Person.Customer;
 import BYT.Classes.Order.Order;
 import BYT.Classes.Restaurant.Menu;
 import BYT.Classes.Restaurant.MenuItem;
@@ -11,18 +13,22 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WaiterTest extends TestBase<Waiter> {
-
 
     protected WaiterTest() {
         super(Waiter.class);
     }
 
+    private Chef initial;
+
     @BeforeEach
     void setup() {
         clearExtentInMemoryList();
+
+        initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
     }
 
     @Test
@@ -65,15 +71,14 @@ public class WaiterTest extends TestBase<Waiter> {
         assertEquals(0, extent().size(), "Extent should not contain object on validation failure");
     }
 
-    //ASSOCIATION TESTS: Waiter - Order
+    // ASSOCIATION TESTS: Waiter - Order
 
     @Test
     void addOrderCreatesBidirectionalAssociation() {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 7000L);
+        Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu));
-
-        w.addOrder(order);
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c, initial);
 
         assertTrue(w.getOrders().contains(order), "Waiter must contain the order");
         assertEquals(w, order.getWaiter(), "Order must reference the waiter");
@@ -82,10 +87,10 @@ public class WaiterTest extends TestBase<Waiter> {
     @Test
     void removeOrderBreaksBidirectionalAssociation() {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 6500L);
+        Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu));
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c, initial);
 
-        w.addOrder(order);
         w.removeOrder(order);
 
         assertFalse(w.getOrders().contains(order), "Waiter should no longer contain the order");
@@ -95,8 +100,9 @@ public class WaiterTest extends TestBase<Waiter> {
     @Test
     void addingSameOrderTwiceDoesNotDuplicate() {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 9999L);
+        Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu));
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c, initial);
 
         w.addOrder(order);
         w.addOrder(order);
@@ -119,34 +125,27 @@ public class WaiterTest extends TestBase<Waiter> {
     @Test
     void setWaiterOnOrderUpdatesWaiterCollection() {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 8800L);
+        Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu));
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w, c, initial);
 
-        order.setWaiter(w);
-
-        assertEquals(w, order.getWaiter(), "Order must reference waiter after setWaiter()");
-        assertTrue(w.getOrders().contains(order),
-                "Waiter must contain order after setWaiter()");
+        assertEquals(w, order.getWaiter(), "Order must reference waiter after creation");
+        assertTrue(w.getOrders().contains(order), "Waiter must contain order after creation");
     }
 
     @Test
     void reassignOrderToAnotherWaiterUpdatesBothSides() {
         Waiter w1 = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 55555L);
         Waiter w2 = new Waiter("Lucy", "Blue", "+48222222222", "y@y.com", 9600L);
+        Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
 
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu));
+        Order order = new Order(10, "note", new MenuItem("Soup", "Hot soup", 12, menu), w1, c, initial);
 
-        order.setWaiter(w1);
         order.setWaiter(w2);
 
-        assertFalse(w1.getOrders().contains(order),
-                "Order must be removed from old waiter");
-
-        assertTrue(w2.getOrders().contains(order),
-                "Order must be present in new waiter");
-
+        assertFalse(w1.getOrders().contains(order), "Order must be removed from old waiter");
+        assertTrue(w2.getOrders().contains(order), "Order must be present in new waiter");
         assertEquals(w2, order.getWaiter(), "Order must reference the new waiter");
     }
-
 }

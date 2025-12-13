@@ -1,5 +1,8 @@
 package BYT.Tests;
 
+import BYT.Classes.Person.Chef;
+import BYT.Classes.Person.Customer;
+import BYT.Classes.Person.Waiter;
 import BYT.Classes.Restaurant.*;
 import BYT.Classes.Order.Order;
 import BYT.Classes.Order.OrderMenuItem;
@@ -19,13 +22,17 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     private Order order;
     private Menu testMenu;
+    private Chef initial;
 
     @BeforeEach
     void setup(){
         clearExtentInMemoryList();
 
+        Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 9999L);
+        Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
+        initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
         testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
+        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu),w,c,initial);
     }
 
     @Test
@@ -102,6 +109,25 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 //        assertTrue(menuItem1.getOrderMenuItems().contains(omu1), "menuItem1 should be linked to omu1");
         assertTrue(menuItem1.getOrderMenuItems().contains(omu1), "menuItem1 should be linked to omu1");
 //        assertTrue(menuItem2.getOrderMenuItems().contains(omu2), "menuItem2 should be linked to omu2");
+    }
+
+    @Test
+    void changingQuantity_changesTotalPrice(){
+        MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        MenuItem menuItem2 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+
+        OrderMenuItem omu1 = order.createOrderMenuItem(12, "test1", menuItem1);
+        OrderMenuItem omu2 = order.createOrderMenuItem(31, "test2", menuItem2);
+        assertEquals(3, order.getOrderMenuItems().size(), "Order should have 3 junction classes (OrderMenuItem)");
+        assertEquals(7 * (31 + 12 + 1), order.getTotalPrice(), "Total price should be correct");
+
+        omu1.setQuantity(1);
+        omu2.setQuantity(1);
+        omu1.setOrderNotes("hello");
+        omu2.setOrderNotes("world");
+
+        assertEquals(3, order.getOrderMenuItems().size(), "Order should have 3 junction classes (OrderMenuItem)");
+        assertEquals(7 * (1 + 1 + 1), order.getTotalPrice(), "Total price should be correct after changes");
     }
 
     @Test

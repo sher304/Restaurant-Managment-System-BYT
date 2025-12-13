@@ -14,7 +14,7 @@ public class Ingredient implements Serializable {
         this.name = Validator.validateAttributes(name);
         extent.add(this);
     }
-    void addMenuItem(MenuItem item) {
+    public void addMenuItem(MenuItem item) {
         Validator.validateNullObjects(item);
         if (!menuItems.contains(item)) {
             menuItems.add(item);
@@ -22,7 +22,7 @@ public class Ingredient implements Serializable {
         }
     }
 
-    void removeMenuItem(MenuItem item) {
+    public void removeMenuItem(MenuItem item) {
         if (menuItems.contains(item)) {
             menuItems.remove(item);
             item.removeIngredient(this);
@@ -34,7 +34,7 @@ public class Ingredient implements Serializable {
     }
 
     public void delete() {
-        for (MenuItem item : menuItems) {
+        for (MenuItem item : new ArrayList<>(menuItems)) {
             item.removeIngredient(this);
         }
         extent.remove(this);

@@ -16,7 +16,7 @@ public class MenuMenuItemAssociationTest {
     public void creatingMenuItemAddsItToMenu() {
         Menu menu = createValidMenu();
 
-        MenuItem item = new MenuItem("Pizza", "Pepperoni pizza", 1000L, menu);
+        MenuItem item = new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
 
         Assertions.assertTrue(menu.getItems().contains(item));
         Assertions.assertEquals(menu, item.getMenu());
@@ -25,7 +25,7 @@ public class MenuMenuItemAssociationTest {
     @Test
     public void deletingMenuItemRemovesItFromMenu() {
         Menu menu = createValidMenu();
-        MenuItem item = new MenuItem("Pizza", "Pepperoni pizza", 1000L, menu);
+        MenuItem item = new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
 
         item.delete();
 
@@ -47,7 +47,7 @@ public class MenuMenuItemAssociationTest {
         Menu menu1 = createValidMenu();
         Menu menu2 = createValidMenu();
 
-        MenuItem item = new MenuItem("Pizza", "Pepperoni pizza", 1000L, menu1);
+        MenuItem item = new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu1, MenuItem.DietInheritanceTypes.NORMAL);
 
         Assertions.assertThrows(IllegalStateException.class, () ->
                 menu2.createMenuItem(item)

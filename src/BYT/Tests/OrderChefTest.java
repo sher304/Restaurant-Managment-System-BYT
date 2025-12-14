@@ -3,6 +3,7 @@ package BYT.Tests;
 import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Waiter;
 import BYT.Classes.Person.Customer;
+import BYT.Classes.Restaurant.Food;
 import BYT.Classes.Restaurant.Menu;
 import BYT.Classes.Restaurant.MenuItem;
 import BYT.Classes.Order.Order;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static BYT.Classes.Restaurant.MenuItem.DietInheritanceTypes.NORMAL;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderChefTest extends TestBase<Order> {
@@ -37,7 +39,7 @@ public class OrderChefTest extends TestBase<Order> {
         initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
 
         testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        order = new Order(1, "Initial note", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives", 7, testMenu), waiter, customer, initial);
+        order = new Order(1, "Initial note", new Food("Citrus-Brined Olives", "Marinated mixed olives", 7, 1000, testMenu, NORMAL), waiter, customer, initial);
     }
 
     @Test
@@ -68,7 +70,7 @@ public class OrderChefTest extends TestBase<Order> {
 
     @Test
     void makeChefResponsibleWithoutInvolvementThrows() {
-        Order newOrder = new Order(2, "Another note", new MenuItem("Soup", "Hot soup", 10, testMenu), waiter, customer, initial);
+        Order newOrder = new Order(2, "Another note", new Food("Soup", "Hot soup", 10, 1000, testMenu, NORMAL), waiter, customer, initial);
 
         assertThrows(IllegalArgumentException.class, () -> chef.makeChefResponsibleForOrder(newOrder),
                 "Chef must be involved in order before being responsible");

@@ -32,38 +32,38 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
         Customer c = new Customer("Alice", "Green", "+48112223333", "alice@gmail.com", 0);
         initial = new Chef("A", "B", "+48119998324", "a@a.com", 10000L);
         testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        order = new Order(1, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu),w,c,initial);
+        order = new Order(1, null, new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL),w,c,initial);
     }
 
     @Test
     void addItemsToOrderAfterPrepareThrows(){
         order.prepare();
-        assertThrows(IllegalStateException.class, () -> order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu)));
+        assertThrows(IllegalStateException.class, () -> order.createOrderMenuItem(2, null, new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL)));
     }
 
     @Test
     void addItemsToOrderAfterServedThrows(){
         order.prepare();
         order.serve();
-        assertThrows(IllegalStateException.class, () -> order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu)));
+        assertThrows(IllegalStateException.class, () -> order.createOrderMenuItem(2, null, new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL)));
     }
 
     @Test
     void addItemsToOrderAfterCancelledThrows(){
         order.cancelled();
-        assertThrows(IllegalStateException.class, () -> order.createOrderMenuItem(2, null, new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu)));
+        assertThrows(IllegalStateException.class, () -> order.createOrderMenuItem(2, null, new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL)));
     }
 
     @Test
     void removeItemsFromOrderAfterPrepareThrows(){
-        order.createOrderMenuItem(3, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
+        order.createOrderMenuItem(3, "test1", new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL));
         order.prepare();
         assertThrows(IllegalStateException.class, () -> order.deleteOrderMenuItem(order.getOrderMenuItems().iterator().next()));
     }
 
     @Test
     void removeItemsFromOrderAfterServedThrows(){
-        order.createOrderMenuItem(3, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
+        order.createOrderMenuItem(3, "test1", new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL));
         order.prepare();
         order.serve();
         assertThrows(IllegalStateException.class, () -> order.deleteOrderMenuItem(order.getOrderMenuItems().iterator().next()));
@@ -71,7 +71,7 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     @Test
     void removeItemsFromOrderAfterCancelledThrows(){
-        order.createOrderMenuItem(3, "test1", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
+        order.createOrderMenuItem(3, "test1", new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL));
         order.cancelled();
         assertThrows(IllegalStateException.class, () -> order.deleteOrderMenuItem(order.getOrderMenuItems().iterator().next()));
     }
@@ -89,8 +89,8 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
     void addingMenuItemsToOrder_createsAllAssociations() {
         assertEquals(1, order.getOrderMenuItems().size());
 
-        MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
-        MenuItem menuItem2 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        MenuItem menuItem1 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
+        MenuItem menuItem2 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
 
         OrderMenuItem omu1 = order.createOrderMenuItem(12, "test1", menuItem1);
         OrderMenuItem omu2 = order.createOrderMenuItem(31, "test2", menuItem2);
@@ -113,8 +113,8 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     @Test
     void changingQuantity_changesTotalPrice(){
-        MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
-        MenuItem menuItem2 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        MenuItem menuItem1 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
+        MenuItem menuItem2 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
 
         OrderMenuItem omu1 = order.createOrderMenuItem(12, "test1", menuItem1);
         OrderMenuItem omu2 = order.createOrderMenuItem(31, "test2", menuItem2);
@@ -132,8 +132,8 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     @Test
     void addingOrderMenuItemToAnotherMenuItemThrows(){
-        MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
-        MenuItem menuItem2 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        MenuItem menuItem1 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
+        MenuItem menuItem2 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
 
         OrderMenuItem omu1 = order.createOrderMenuItem(12, "test1", menuItem1);
 
@@ -142,7 +142,7 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     @Test
     void addingDuplicateOrderMenuItemToMenuItemThrows(){
-        MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        MenuItem menuItem1 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
 
         OrderMenuItem omu1 = order.createOrderMenuItem(12, "test1", menuItem1);
 
@@ -153,8 +153,8 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     @Test
     void deletingOrderMenuItemFromOrderSide_deletesCorrectly(){
-        MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
-        MenuItem menuItem2 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        MenuItem menuItem1 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
+        MenuItem menuItem2 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
 
         OrderMenuItem omu1 = order.createOrderMenuItem(12, "test1", menuItem1);
         OrderMenuItem omu2 = order.createOrderMenuItem(31, "test2", menuItem2);
@@ -173,8 +173,8 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     @Test
     void deletingOrderMenuItemFromMenuItemSide_deletesCorrectly(){
-        MenuItem menuItem1 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
-        MenuItem menuItem2 = new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        MenuItem menuItem1 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
+        MenuItem menuItem2 = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL);
 
         OrderMenuItem omu1 = order.createOrderMenuItem(12, "test1", menuItem1);
         OrderMenuItem omu2 = order.createOrderMenuItem(31, "test2", menuItem2);
@@ -203,7 +203,7 @@ public class OrderMenuItemTest extends TestBase<OrderMenuItem> {
 
     @Test
     void addEmptyStringOrderNotesThrows(){
-        assertThrows(IllegalArgumentException.class, () -> order.createOrderMenuItem(3, "", new MenuItem("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu)));
+        assertThrows(IllegalArgumentException.class, () -> order.createOrderMenuItem(3, "", new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, MenuItem.DietInheritanceTypes.NORMAL)));
     }
 
     @Test

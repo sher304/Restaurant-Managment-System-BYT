@@ -4,9 +4,7 @@ import BYT.Classes.Order.Order;
 import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Waiter;
 import BYT.Classes.Restaurant.*;
-import BYT.Classes.MenuItem.Food;
 import BYT.Classes.Person.Customer;
-import BYT.Classes.Person.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +23,8 @@ public class CustomerTest extends TestBase<Customer> {
     }
 
     private Chef initial;
+
+    private MenuItem menuItem;
 
     @BeforeEach
     void setUp() {
@@ -96,7 +96,7 @@ public class CustomerTest extends TestBase<Customer> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 9999L);
         Customer c = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c,initial);
+        Order order = new Order(1, "note", new Food("x", "y", 10, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL),w,c,initial);
 
         c.addOrder(order);
 
@@ -109,7 +109,7 @@ public class CustomerTest extends TestBase<Customer> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 8500L);
         Customer c = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c,initial);
+        Order order = new Order(1, "note", new Food("x", "y", 10, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL),w,c,initial);
 
         c.addOrder(order);
         c.removeOrder(order);
@@ -123,7 +123,7 @@ public class CustomerTest extends TestBase<Customer> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 6666L);
         Customer c = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c,initial);
+        Order order = new Order(1, "note", new Food("x", "y", 10, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL),w,c,initial);
 
         c.addOrder(order);
         c.addOrder(order);
@@ -149,7 +149,7 @@ public class CustomerTest extends TestBase<Customer> {
         Waiter w = new Waiter("Mark", "Red", "+48111111111", "x@x.com", 9876L);
         Customer c = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c,initial);
+        Order order = new Order(1, "note", new Food("x", "y", 10, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL),w,c,initial);
 
         order.setCustomer(c);
 
@@ -164,7 +164,7 @@ public class CustomerTest extends TestBase<Customer> {
         Customer c1 = new Customer("Ann", "Blue", "+48111111111", "a@a.com", 0);
         Customer c2 = new Customer("Tom", "Gray", "+48111111111", "b@b.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        Order order = new Order(1, "note", new MenuItem("x", "y", 10, menu),w,c1,initial);
+        Order order = new Order(1, "note", new Food("x", "y", 10, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL),w,c1,initial);
 
         order.setCustomer(c1);
         order.setCustomer(c2);

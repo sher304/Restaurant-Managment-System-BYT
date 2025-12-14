@@ -1,5 +1,6 @@
 package BYT.Tests;
 
+import BYT.Classes.Restaurant.Food;
 import BYT.Classes.Restaurant.Menu;
 import BYT.Classes.Restaurant.Normal;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +12,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static BYT.Classes.Restaurant.MenuItem.DietInheritanceTypes.NORMAL;
 
 public class NormalTest extends TestBase<Normal> {
     private Menu testMenu;
@@ -28,13 +31,15 @@ public class NormalTest extends TestBase<Normal> {
     @Test
     void testNormalPersistence_SavingAndLoading() throws IOException, ClassNotFoundException {
         List<Normal> normal = new ArrayList<>();
-        normal.add(new Normal("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu));
+        Food food = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, NORMAL);
+        normal.add(food.getNormalPart());
         testPersistence(normal);
     }
 
     @Test
     void testMeatTypeList() {
-        Normal normal = new Normal("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, testMenu);
+        Food food = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, NORMAL);
+        Normal normal = food.getNormalPart();
         normal.addMeatType("Beef");
         normal.addMeatType("Chicken");
 

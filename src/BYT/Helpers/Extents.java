@@ -1,7 +1,6 @@
 package BYT.Helpers;
 
 // contains AI-generated elements
-import BYT.Classes.MenuItem.*;
 import BYT.Classes.Order.*;
 import BYT.Classes.Person.*;
 import BYT.Classes.Restaurant.*;

@@ -1,9 +1,12 @@
 package BYT.Classes;
 
+import BYT.Classes.Restaurant.Food;
 import BYT.Classes.Restaurant.Menu;
 import BYT.Helpers.Extents;
 
 import java.time.LocalDate;
+
+import static BYT.Classes.Restaurant.MenuItem.DietInheritanceTypes.NORMAL;
 
 // main() for testing purposes (not a unit test, not part of the assignment)
 public class Main {
@@ -78,6 +81,11 @@ public class Main {
     public static void main(String[] args) {
         //test1();
         //test2();
+
+        Menu testMenu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
+        Food food = new Food("Citrus-Brined Olives", "Marinated mixed olives with orange zest and herbs", 7, 1000, testMenu, NORMAL);
+
+
     }
 
     // TODO:

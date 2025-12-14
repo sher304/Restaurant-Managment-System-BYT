@@ -6,24 +6,72 @@ import BYT.Helpers.Validator;
 import java.io.Serializable;
 import java.util.*;
 
-public class MenuItem implements Serializable {
-    private static final List<MenuItem> extent = new ArrayList<>();
+public abstract class MenuItem implements Serializable {
+    /*private static final List<MenuItem> extent = new ArrayList<>();
+
+    public static List<MenuItem> getMenuItemExtent(){
+        return Collections.unmodifiableList(extent);
+    }*/
+
     private String name;
     private String description;
     private long price;
     private Set<OrderMenuItem> orderMenuItems = new HashSet<>(); // [0..*]
     private Set<Ingredient> ingredients = new HashSet<>();
     private Menu menu;
-    // Normal, Vegan; Food, Drink = multi-aspect inheritance
+    // Food, Drink = normal Java inheritance
+    // Normal, Vegan = Composition, separate classes
+    private Normal normalPart;
+    private Vegan veganPart;
 
+    public enum DietInheritanceTypes {
+        NORMAL,
+        VEGAN
+    }
 
-    public MenuItem(String name, String description, long price, Menu menu) {
+    protected MenuItem(String name, String description, long price, Menu menu, DietInheritanceTypes dietInheritanceTypes) {
         this.name = Validator.validateAttributes(name);
         this.description = Validator.validateAttributes(description);
         this.price = Validator.validatePrice(price);
         this.menu = (Menu) Validator.validateNullObjects(menu);
+
+        switch(dietInheritanceTypes) {
+            case NORMAL:
+                setNormalPart(new Normal(this));
+                break;
+            case VEGAN:
+                setVeganPart(new Vegan(this));
+                break;
+            default:
+                throw new IllegalArgumentException("Diet type not implemented");
+        }
+
         this.menu.createMenuItem(this);
-        extent.add(this);
+        //extent.add(this);
+    }
+
+    private boolean isNormalVeganInheritanceCreated(){
+        return normalPart != null || veganPart != null;
+    }
+
+    public Normal getNormalPart() {
+        return normalPart;
+    }
+
+    private void setNormalPart(Normal normalPart) {
+        if(isNormalVeganInheritanceCreated()) throw new IllegalStateException("This inheritance is Disjoint and has already been created.");
+        Validator.validateNullObjects(normalPart);
+        this.normalPart = normalPart;
+    }
+
+    public Vegan getVeganPart() {
+        return veganPart;
+    }
+
+    private void setVeganPart(Vegan veganPart) {
+        if(isNormalVeganInheritanceCreated()) throw new IllegalStateException("This inheritance is Disjoint and has already been created.");
+        Validator.validateNullObjects(veganPart);
+        this.veganPart = veganPart;
     }
 
     public void addIngredient(Ingredient ingredient) {
@@ -50,6 +98,9 @@ public class MenuItem implements Serializable {
         }
     }
 
+    // Hook: each concrete subclass deletes itself
+    protected abstract void deleteSubclass();
+
     // delete the MenuItem
     public void delete() {
         for (Ingredient ingredient : ingredients) {
@@ -59,8 +110,12 @@ public class MenuItem implements Serializable {
         if (menu != null && menu.getItems().contains(this)) {
             menu.removeMenuItem(this);
         }
-        extent.remove(this);
+        this.deleteSubclass();
         this.menu = null;
+        if(normalPart != null && Normal.getExtent().contains(normalPart)) normalPart.delete();
+        if(veganPart != null && Vegan.getExtent().contains(veganPart)) veganPart.delete();
+        this.normalPart = null;
+        this.veganPart = null;
     }
 
     public Set<OrderMenuItem> getOrderMenuItems() {
@@ -124,7 +179,7 @@ public class MenuItem implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MenuItem menuItem = (MenuItem) o;
-        return price == menuItem.price && Objects.equals(name, menuItem.name) && Objects.equals(description, menuItem.description);
+        return price == menuItem.price && name.equals(menuItem.name) && description.equals(menuItem.description);
     }
 
     @Override

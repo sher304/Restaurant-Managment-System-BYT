@@ -1,19 +1,41 @@
-package BYT.Classes.MenuItem;
+package BYT.Classes.Restaurant;
 
-import BYT.Classes.Restaurant.Menu;
-import BYT.Classes.Restaurant.MenuItem;
+import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.util.*;
 
-public class Normal extends MenuItem implements Serializable {
+public final class Normal implements Serializable {
     private static final List<Normal> extent = new ArrayList<>();
+
+    public static List<Normal> getExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+
+    private MenuItem menuItem;
+
     private final List<String> meatTypes; // [0..*]
 
-    public Normal(String name, String description, long price, Menu menu) {
-        super(name, description, price, menu);
+    Normal(MenuItem menuItem) {
         meatTypes = new ArrayList<>();
+        this.setMenuItem(menuItem);
         extent.add(this);
+    }
+
+    public void delete(){
+        extent.remove(this);
+        menuItem.delete();
+        this.menuItem = null;
+    }
+
+    public MenuItem getMenuItem() {
+        return menuItem;
+    }
+
+    private void setMenuItem(MenuItem menuItem) {
+        Validator.validateNullObjects(menuItem);
+        this.menuItem = menuItem;
+        //menuItem.setNormalPart(this);
     }
 
     public List<String> getMeatTypes() {

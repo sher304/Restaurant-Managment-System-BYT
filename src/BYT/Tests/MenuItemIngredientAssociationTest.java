@@ -15,7 +15,7 @@ public class MenuItemIngredientAssociationTest {
     @Test
     public void addIngredientShouldAffectBothSides(){
         Menu menu=createValidMenu();
-        MenuItem item=new MenuItem("Pizza","Pepperoni pizza",1000L,menu);
+        MenuItem item=new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
         Ingredient ingredient=new Ingredient("Pepperoni");
         item.addIngredient(ingredient);
         Assertions.assertTrue(item.getIngredients().contains(ingredient));
@@ -25,7 +25,7 @@ public class MenuItemIngredientAssociationTest {
     @Test
     public void removeIngredientShouldEffectBothSides(){
         Menu menu=createValidMenu();
-        MenuItem item=new MenuItem("Pizza","Pepperoni pizza",1000L,menu);
+        MenuItem item=new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
         Ingredient ingredient=new Ingredient("Pepperoni");
         item.addIngredient(ingredient);
         item.removeIngredient(ingredient);
@@ -36,7 +36,7 @@ public class MenuItemIngredientAssociationTest {
     @Test
     public void removeMenuItemShouldRemoveIngredientToo(){
         Menu menu=createValidMenu();
-        MenuItem item=new MenuItem("Pizza","Pepperoni pizza",1000L,menu);
+        MenuItem item=new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
         Ingredient ingredient=new Ingredient("Pepperoni");
         item.addIngredient(ingredient);
         ingredient.removeMenuItem(item);
@@ -46,7 +46,7 @@ public class MenuItemIngredientAssociationTest {
     @Test
     public void addMenuItemFromIngredientSideShouldAffectBothSides() {
         Menu menu = createValidMenu();
-        MenuItem item = new MenuItem("Pizza", "Pepperoni pizza", 1000L, menu);
+        MenuItem item = new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
         Ingredient ingredient = new Ingredient("Pepperoni");
         ingredient.addMenuItem(item);
         Assertions.assertTrue(item.getIngredients().contains(ingredient));
@@ -55,7 +55,7 @@ public class MenuItemIngredientAssociationTest {
     @Test
     public void addingSameIngredientTwiceToMenuItemShouldNotDuplicate() {
         Menu menu = createValidMenu();
-        MenuItem item = new MenuItem("Pizza", "Pepperoni pizza", 1000L, menu);
+        MenuItem item = new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
         Ingredient ingredient = new Ingredient("Pepperoni");
         item.addIngredient(ingredient);
         item.addIngredient(ingredient);
@@ -67,7 +67,7 @@ public class MenuItemIngredientAssociationTest {
     @Test
     public void deleteIngredientsOnMenuItemShouldClearAssociations() {
         Menu menu = createValidMenu();
-        MenuItem item = new MenuItem("Pizza", "Pepperoni pizza", 1000L, menu);
+        MenuItem item = new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
         Ingredient cheese = new Ingredient("Cheese");
         Ingredient ham = new Ingredient("Ham");
         item.addIngredient(cheese);
@@ -80,8 +80,8 @@ public class MenuItemIngredientAssociationTest {
     @Test
     public void deletingIngredientShouldRemoveItFromAllMenuItems() {
         Menu menu = createValidMenu();
-        MenuItem pizza = new MenuItem("Pizza", "Pepperoni pizza", 1000L, menu);
-        MenuItem pasta = new MenuItem("Pasta", "Cheese pasta", 900L, menu);
+        MenuItem pizza = new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
+        MenuItem pasta = new Food("Pasta", "Cheese pasta", 900L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
         Ingredient cheese = new Ingredient("Cheese");
         pizza.addIngredient(cheese);
         pasta.addIngredient(cheese);
@@ -93,7 +93,7 @@ public class MenuItemIngredientAssociationTest {
     @Test
     public void addIngredientShouldThrowWhenNull() {
         Menu menu = createValidMenu();
-        MenuItem item = new MenuItem("Pizza", "Pepperoni pizza", 1000L, menu);
+        MenuItem item = new Food("Pizza", "Pepperoni pizza", 1000L, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> item.addIngredient(null));

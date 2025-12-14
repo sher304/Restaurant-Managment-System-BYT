@@ -1,22 +1,30 @@
-package BYT.Classes.MenuItem;
+package BYT.Classes.Restaurant;
 
-import BYT.Classes.Restaurant.Menu;
-import BYT.Classes.Restaurant.MenuItem;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Food extends MenuItem implements Serializable {
+public final class Food extends MenuItem implements Serializable {
     private static final List<Food> extent = new ArrayList<>();
+
+    public static List<Food> getFoodExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+
     private long foodWeight;
 
-    public Food(String name, String description, long price, long foodWeight, Menu menu) {
-        super(name, description, price, menu);
+    public Food(String name, String description, long price, long foodWeight, Menu menu, DietInheritanceTypes dietInheritanceTypes) {
+        super(name, description, price, menu, dietInheritanceTypes);
         this.foodWeight = Validator.validateNonZeroPhysicalAttribute(foodWeight);;
         extent.add(this);
+    }
+
+    protected void deleteSubclass(){
+        extent.remove(this);
     }
 
     public long getFoodWeight() {

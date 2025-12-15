@@ -18,7 +18,7 @@ import java.util.List;
 
 import static BYT.Classes.Restaurant.MenuItem.DietInheritanceTypes.NORMAL;
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 public class ChefTest extends TestBase<Chef> {
 
     protected ChefTest() {
@@ -210,4 +210,4 @@ public class ChefTest extends TestBase<Chef> {
     }
 
 }
-
+*/

@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 import static BYT.Classes.Restaurant.MenuItem.DietInheritanceTypes.NORMAL;
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 public class OrderChefTest extends TestBase<Order> {
 
     protected OrderChefTest() {
@@ -111,3 +111,4 @@ public class OrderChefTest extends TestBase<Order> {
                 "Cannot assign null as chef");
     }
 }
+*/

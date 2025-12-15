@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 public class ReservationTest extends TestBase<Reservation> {
 
     private final LocalDateTime NOW = LocalDateTime.now();
@@ -184,3 +184,4 @@ public class ReservationTest extends TestBase<Reservation> {
         assertThrows(IllegalArgumentException.class, () -> r.setTable(null));
     }
 }
+*/

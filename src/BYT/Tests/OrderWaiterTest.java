@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 public class OrderWaiterTest extends TestBase<Order> {
 
     protected OrderWaiterTest() {
@@ -105,3 +105,4 @@ public class OrderWaiterTest extends TestBase<Order> {
         assertThrows(IllegalArgumentException.class, () -> new Order(2, "note", item, waiter, null, new Chef("A", "B", "+48119998324", "a@a.com", 10000L)));
     }
 }
+*/

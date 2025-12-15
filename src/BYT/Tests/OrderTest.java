@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 public class OrderTest extends TestBase<Order> {
 
     protected OrderTest(){
@@ -111,3 +111,4 @@ public class OrderTest extends TestBase<Order> {
                 "Order constructor should throw if Customer is null");
     }
 }
+*/

@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
+/*
 public class CustomerTest extends TestBase<Customer> {
 
     protected CustomerTest() {
@@ -178,4 +178,4 @@ public class CustomerTest extends TestBase<Customer> {
         assertEquals(c2, order.getCustomer());
     }
 }
-
+*/

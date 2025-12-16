@@ -1,22 +1,30 @@
-package BYT.Classes.MenuItem;
+package BYT.Classes.Restaurant;
 
-import BYT.Classes.Restaurant.Menu;
-import BYT.Classes.Restaurant.MenuItem;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Drink extends MenuItem implements Serializable {
+public final class Drink extends MenuItem implements Serializable {
     private static final List<Drink> extent = new ArrayList<>();
+
+    public static List<Drink> getDrinkExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+
     private long drinkVolume;
 
-    public Drink(String name, String description, long price, long drinkVolume, Menu menu) {
-        super(name, description, price, menu);
+    public Drink(String name, String description, long price, long drinkVolume, Menu menu, DietInheritanceTypes dietInheritanceTypes) {
+        super(name, description, price, menu, dietInheritanceTypes);
         this.drinkVolume = Validator.validateNonZeroPhysicalAttribute(drinkVolume);
         extent.add(this);
+    }
+
+    protected void deleteSubclass(){
+        extent.remove(this);
     }
 
     public long getDrinkVolume() {

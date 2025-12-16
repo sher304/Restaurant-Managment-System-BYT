@@ -8,20 +8,22 @@ public class Waiter extends Employee implements Serializable {
 
     private Set<Order> orders = new HashSet<>();
 
-    public Waiter(String firstName, String lastName, String phoneNumber, String email, long salary) {
-        super(firstName, lastName, phoneNumber, email, salary);
+    public Waiter(Person person, long salary) {
+        super(person, salary);
         extent.add(this);
     }
 
     public static Waiter findOrCreate(String firstName, String lastName, String phoneNumber, String email, long salary) {
         for (Waiter waiter : extent) {
-            if (waiter.getPhoneNumber().equals(phoneNumber)) {
+            if (waiter.getPerson().getPhoneNumber().equals(phoneNumber)) {
                 System.out.println("waiter has been found!");
                 return waiter;
             }
         }
 
-        return new Waiter(firstName, lastName, phoneNumber, email, salary);
+        Person newPerson = new Person(firstName, lastName, phoneNumber, email);
+
+        return new Waiter(newPerson, salary);
     }
 
     public void addOrder(Order order) {

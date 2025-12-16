@@ -25,6 +25,10 @@ public class Person implements Serializable {
         if (roles.containsKey(role.getClass())) {
             throw new IllegalStateException("Person already has the role: " + role.getClass().getSimpleName());
         }
+        if(role instanceof Employee && (roles.containsKey(Chef.class) || roles.containsKey(Waiter.class)))
+            throw new IllegalStateException("Person already has one Employee-type role");
+        if(roles.size() >= 2)
+            throw new IllegalStateException("Person already has 2 roles");
         roles.put(role.getClass(), role);
         if (role.getPerson() != this) {
             role.setPerson(this);

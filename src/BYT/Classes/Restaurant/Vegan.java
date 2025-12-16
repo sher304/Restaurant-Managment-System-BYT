@@ -1,24 +1,45 @@
-package BYT.Classes.MenuItem;
+package BYT.Classes.Restaurant;
 
-import BYT.Classes.Restaurant.Menu;
-import BYT.Classes.Restaurant.MenuItem;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Vegan extends MenuItem implements Serializable {
+public final class Vegan implements Serializable {
     private static List<Vegan> extent = new ArrayList<>();
+
+    public static List<Vegan> getExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+
+    private MenuItem menuItem;
+
     private String certificationID;
     // "ABPL2814394243"
     // A certificationID can in theory be any combination arbitrary numbers and letters
 
-    public Vegan(String name, String description, long price, String certificationID, Menu menu) {
-        super(name, description, price, menu);
-        this.certificationID = Validator.validateAttributes(certificationID);
+    Vegan(MenuItem menuItem) {
+        this.setMenuItem(menuItem);
         extent.add(this);
+    }
+
+    public void delete(){
+        extent.remove(this);
+        menuItem.delete();
+        this.menuItem = null;
+    }
+
+    public MenuItem getMenuItem() {
+        return menuItem;
+    }
+
+    private void setMenuItem(MenuItem menuItem) {
+        Validator.validateNullObjects(menuItem);
+        this.menuItem = menuItem;
+        //menuItem.setVeganPart(this);
     }
 
     public String getCertificationID() {
@@ -40,7 +61,6 @@ public class Vegan extends MenuItem implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         Vegan vegan = (Vegan) o;
         return Objects.equals(certificationID, vegan.certificationID);
     }

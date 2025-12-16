@@ -3,14 +3,14 @@ package BYT.Classes.Person;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public abstract class Employee extends PersonRole implements Serializable {
     // no extent - abstract class
     private long salary;
     private static long baseSalary = 6000;
 
-    public Employee(long salary) {
+    public Employee(Person person, long salary) {
+        super(person);
         this.salary = Validator.validateSalary(salary, baseSalary);
     }
 

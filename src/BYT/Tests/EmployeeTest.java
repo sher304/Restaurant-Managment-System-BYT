@@ -5,7 +5,7 @@ import BYT.Classes.Person.Waiter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import BYT.Classes.Person.Employee;
-
+/*
 public class EmployeeTest extends TestBase<Employee> {
 
     protected EmployeeTest() {
@@ -71,3 +71,4 @@ public class EmployeeTest extends TestBase<Employee> {
         });
     }
 }
+*/

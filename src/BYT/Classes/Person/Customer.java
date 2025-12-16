@@ -15,7 +15,8 @@ public class Customer extends PersonRole implements Serializable {
 
     private Set<Order> orders = new HashSet<>();
 
-    public Customer(long loyaltyPoints) {
+    public Customer(Person person, long loyaltyPoints) {
+        super(person);
         this.loyaltyPoints = Validator.negativeNumberEntered(loyaltyPoints);
         extent.add(this);
     }
@@ -67,9 +68,7 @@ public class Customer extends PersonRole implements Serializable {
         System.out.println("Customer not found. Creating new Person and Customer role...");
         Person newPerson = new Person(firstName, lastName, phoneNumber, email);
 
-        Customer newCustomer = new Customer(initialLoyaltyPoints);
-        newPerson.addRole(newCustomer);
-        return newCustomer;
+        return new Customer(newPerson, initialLoyaltyPoints);
     }
 
     public Reservation findReservationByNumber(String reservationNumber) {

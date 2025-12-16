@@ -16,20 +16,22 @@ public class Chef extends Employee implements Serializable {
     private final List<Order> involvedIn = new ArrayList<>();
     private final List<Order> responsibleFor = new ArrayList<>();
 
-    public Chef(String firstName, String lastName, String phoneNumber, String email, long salary) {
-        super(firstName, lastName, phoneNumber, email, salary);
+    public Chef(Person person, long salary) {
+        super(person, salary);
         extent.add(this);
     }
 
 
     public static Chef findOrCreate(String firstName, String lastName, String phoneNumber, String email, long salary) {
         for (Chef chef : extent) {
-            if (chef.getPhoneNumber().equals(phoneNumber)) {
+            if (chef.getPerson().getPhoneNumber().equals(phoneNumber)) {
                 System.out.println("Chef has been found!");
                 return chef;
             }
         }
-        return new Chef(firstName, lastName, phoneNumber, email, salary);
+        Person newPerson = new Person(firstName, lastName, phoneNumber, email);
+
+        return new Chef(newPerson, salary);
     }
 
     //Supervisor (REFLEXIVE Association)

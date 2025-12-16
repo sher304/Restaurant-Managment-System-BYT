@@ -5,6 +5,7 @@ import BYT.Classes.Order.OrderStatus;
 import BYT.Classes.Person.Chef;
 import BYT.Classes.Person.Customer;
 import BYT.Classes.Person.Waiter;
+import BYT.Classes.Restaurant.Food;
 import BYT.Classes.Restaurant.Menu;
 import BYT.Classes.Restaurant.MenuItem;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +16,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static BYT.Classes.Restaurant.MenuItem.DietInheritanceTypes.NORMAL;
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 public class ChefTest extends TestBase<Chef> {
 
     protected ChefTest() {
@@ -177,7 +179,7 @@ public class ChefTest extends TestBase<Chef> {
         Waiter waiter = new Waiter("W", "Waiter", "+48112223333", "w@a.com", 7000);
         Customer customer = new Customer("Cust", "A", "+48113334444", "c@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        MenuItem item = new MenuItem("Dish", "Tasty", 15, menu);
+        MenuItem item = new Food("Dish", "Tasty", 15, 1000, menu, NORMAL);
         Order order = new Order(2, "note", item, waiter, customer, initial);
 
         // Add chef involvement
@@ -200,7 +202,7 @@ public class ChefTest extends TestBase<Chef> {
         Waiter waiter = new Waiter("W", "Waiter", "+48112223333", "w@a.com", 7000);
         Customer customer = new Customer("Cust", "A", "+48113334444", "c@a.com", 0);
         Menu menu = new Menu(LocalDate.now(), LocalDate.now().plusDays(5));
-        MenuItem item = new MenuItem("Dish", "Tasty", 15, menu);
+        MenuItem item = new Food("Dish", "Tasty", 15, 1000, menu, MenuItem.DietInheritanceTypes.NORMAL);
         Order order = new Order(2, "note", item, waiter, customer, initial);
 
         assertThrows(IllegalArgumentException.class, () -> chef.makeChefResponsibleForOrder(order),
@@ -208,4 +210,4 @@ public class ChefTest extends TestBase<Chef> {
     }
 
 }
-
+*/

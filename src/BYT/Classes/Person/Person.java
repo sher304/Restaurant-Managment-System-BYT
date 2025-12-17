@@ -39,6 +39,18 @@ public class Person implements Serializable {
         roles.remove(roleType);
     }
 
+    public void delete() {
+        for (PersonRole role : new ArrayList<>(roles.values())) {
+            role.delete();
+        }
+
+        roles.clear();
+    }
+
+    public boolean hasRole(Class<? extends PersonRole> personRole) {
+        return roles.containsKey(personRole.getClass());
+    }
+
     public static Person findOrCreate(String firstName, String lastName, String phoneNumber, String email) {
         for (Person person : extent) {
             if (person.phoneNumber.equals(phoneNumber)) {

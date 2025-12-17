@@ -23,4 +23,10 @@ abstract public class PersonRole implements Serializable {
         this.person = person;
         person.addRole(this);
     }
+    public void delete() {
+        if (person != null && person.hasRole(this.getClass())) {
+            person.removeRole(this.getClass());
+        }
+        this.person = null;
+    }
 }

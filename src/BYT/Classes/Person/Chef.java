@@ -75,6 +75,22 @@ public class Chef extends Employee implements Serializable {
         }
     }
 
+    @Override
+    public void delete() {
+        for (Chef subordinate : new ArrayList<>(supervisedChefs)) {
+            subordinate.setSupervisor(null);
+        }
+        supervisedChefs.clear();
+
+        if (this.supervisor != null) {
+            this.supervisor.removeSupervisedChef(this);
+            this.supervisor = null;
+        }
+
+        super.delete();
+        extent.remove(this);
+    }
+
     // Detect a loop by climbing the supervisor chain
     //generated
     private boolean createsLoop(Chef potentialSupervisor) {

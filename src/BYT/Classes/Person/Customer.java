@@ -130,6 +130,22 @@ public class Customer extends PersonRole implements Serializable {
     }
 
     @Override
+    public void delete() {
+        // Association
+        for (Order order : new ArrayList<>(orders)) {
+            order.setCustomer(null); // Or order.delete() if strictly required
+        }
+
+        // Qualified Association
+        for (Reservation res : new ArrayList<>(reservationMap.values())) {
+            res.deleteTable();
+        }
+
+        super.delete();
+        extent.remove(this);
+    }
+
+    @Override
     public String toString() {
         return "Customer{" +
                 "loyaltyPoints=" + loyaltyPoints +

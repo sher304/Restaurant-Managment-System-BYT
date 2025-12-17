@@ -49,6 +49,16 @@ public class Waiter extends Employee implements Serializable {
     }
 
     @Override
+    public void delete() {
+        for (Order order : new ArrayList<>(orders)) {
+            order.setWaiter(null);
+        }
+        orders.clear();
+        super.delete();
+        extent.remove(this);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

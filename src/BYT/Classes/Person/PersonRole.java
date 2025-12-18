@@ -23,10 +23,15 @@ abstract public class PersonRole implements Serializable {
         this.person = person;
         person.addRole(this);
     }
+
+    // Hook: each concrete subclass deletes itself
+    protected abstract void deleteSubclass();
+
     public void delete() {
         if (person != null && person.hasRole(this.getClass())) {
             person.removeRole(this.getClass());
         }
         this.person = null;
+        deleteSubclass();
     }
 }

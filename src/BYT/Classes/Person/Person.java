@@ -36,6 +36,10 @@ public class Person implements Serializable {
     }
 
     public void removeRole(Class<? extends PersonRole> roleType) {
+        // remove reverse connection and delete class
+        PersonRole role = roles.get(roleType);
+        if(role != null)
+            role.delete();
         roles.remove(roleType);
     }
 

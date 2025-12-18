@@ -1,10 +1,17 @@
 package BYT.Classes.Person;
 import BYT.Classes.Order.Order;
+import BYT.Classes.Restaurant.Normal;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class Waiter extends Employee implements Serializable {
     private static List<Waiter> extent = new ArrayList<>();
+    public static List<Waiter> getExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+    @Override
+    protected void deleteSubclass() { extent.remove(this); }
 
     private Set<Order> orders = new HashSet<>();
 

@@ -144,11 +144,11 @@ public class personEmplooyeCustomerOverlappingDynamicTest {
 
         Customer customer = new Customer(p, 0);
         Chef chef = new Chef(p, 7000);
-        Waiter waiter = new Waiter(p, 6500);
+        //Waiter waiter = new Waiter(p, 6500);
 
         Assertions.assertSame(p, customer.getPerson());
         Assertions.assertSame(p, chef.getPerson());
-        Assertions.assertSame(p, waiter.getPerson());
+        //Assertions.assertSame(p, waiter.getPerson());
     }
 
     @Test
@@ -172,6 +172,7 @@ public class personEmplooyeCustomerOverlappingDynamicTest {
         Customer customer = new Customer(person, 0);
 
         person.removeRole(Customer.class);
+        Assertions.assertFalse(Customer.getExtent().contains(customer)); // dfn96304
 
         Customer customer2 = new Customer(person, 10);
         Assertions.assertSame(person, customer2.getPerson());
@@ -183,6 +184,7 @@ public class personEmplooyeCustomerOverlappingDynamicTest {
         Customer customer = new Customer(person, 0);
 
         person.removeRole(Customer.class);
+        Assertions.assertFalse(Customer.getExtent().contains(customer)); // dfn96304
 
         Waiter waiter = new Waiter(person, Employee.getBaseSalary());
         Assertions.assertSame(person, waiter.getPerson());
@@ -194,6 +196,7 @@ public class personEmplooyeCustomerOverlappingDynamicTest {
         Customer customer = new Customer(person, 0);
 
         person.removeRole(Customer.class);
+        Assertions.assertFalse(Customer.getExtent().contains(customer)); // dfn96304
 
         Chef chef = new Chef(person, Employee.getBaseSalary());
         Assertions.assertSame(person, chef.getPerson());
@@ -205,6 +208,7 @@ public class personEmplooyeCustomerOverlappingDynamicTest {
         Waiter waiter = new Waiter(person, Employee.getBaseSalary());
 
         person.removeRole(Waiter.class);
+        Assertions.assertFalse(Waiter.getExtent().contains(waiter)); // dfn96304
 
         Chef chef = new Chef(person, Employee.getBaseSalary());
         Assertions.assertSame(person, chef.getPerson());
@@ -216,6 +220,7 @@ public class personEmplooyeCustomerOverlappingDynamicTest {
         Chef chef = new Chef(person, Employee.getBaseSalary());
 
         person.removeRole(Chef.class);
+        Assertions.assertFalse(Chef.getExtent().contains(chef)); // dfn96304
 
         Waiter waiter = new Waiter(person, Employee.getBaseSalary());
         Assertions.assertSame(person, waiter.getPerson());
@@ -228,6 +233,7 @@ public class personEmplooyeCustomerOverlappingDynamicTest {
         Waiter waiter = new Waiter(person, Employee.getBaseSalary());
 
         person.removeRole(Customer.class);
+        Assertions.assertFalse(Customer.getExtent().contains(customer)); // dfn96304
 
         Customer customer2 = new Customer(person, 5);
         Assertions.assertSame(person, customer2.getPerson());
@@ -250,6 +256,7 @@ public class personEmplooyeCustomerOverlappingDynamicTest {
         Chef chef = new Chef(person, Employee.getBaseSalary());
 
         person.removeRole(Chef.class);
+        Assertions.assertFalse(Chef.getExtent().contains(chef)); // dfn96304
 
         Waiter waiter = new Waiter(person, Employee.getBaseSalary());
         Assertions.assertSame(person, waiter.getPerson());

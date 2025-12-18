@@ -2,6 +2,7 @@ package BYT.Classes.Person;
 
 import BYT.Classes.Order.Order;
 import BYT.Classes.Order.OrderStatus;
+import BYT.Classes.Restaurant.Normal;
 import BYT.Helpers.Validator;
 
 import java.io.Serializable;
@@ -9,6 +10,11 @@ import java.util.*;
 
 public class Chef extends Employee implements Serializable {
     private static final List<Chef> extent = new ArrayList<>();
+    public static List<Chef> getExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+    @Override
+    protected void deleteSubclass() { extent.remove(this); }
 
     private Chef supervisor;
     private final List<Chef> supervisedChefs = new ArrayList<>();

@@ -1,5 +1,6 @@
 package BYT.Classes.Person;
 import BYT.Classes.Order.Order;
+import BYT.Classes.Restaurant.Normal;
 import BYT.Classes.Table.Reservation;
 import BYT.Classes.Table.Table;
 import BYT.Helpers.Validator;
@@ -10,6 +11,12 @@ import java.util.*;
 
 public class Customer extends PersonRole implements Serializable {
     private static final List<Customer> extent = new ArrayList<>();
+    public static List<Customer> getExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+    @Override
+    protected void deleteSubclass() { extent.remove(this); }
+
     private long loyaltyPoints;
     private final Map<String, Reservation> reservationMap = new HashMap<>();
 
@@ -127,6 +134,22 @@ public class Customer extends PersonRole implements Serializable {
             found = true;
         }
         return found;
+    }
+
+    @Override
+    public void delete() {
+        // Association
+        for (Order order : new ArrayList<>(orders)) {
+            order.setCustomer(null); // Or order.delete() if strictly required
+        }
+
+        // Qualified Association
+        for (Reservation res : new ArrayList<>(reservationMap.values())) {
+            res.deleteTable();
+        }
+
+        super.delete();
+        extent.remove(this);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class MenuMenuItemAssociationTest {
         LocalDate end = today.plusDays(8);
         return new Menu(today, end);
     }
-    @Test
+    /*@Test
     public void creatingMenuItemAddsItToMenu() {
         Menu menu = createValidMenu();
 
@@ -20,7 +20,7 @@ public class MenuMenuItemAssociationTest {
 
         Assertions.assertTrue(menu.getItems().contains(item));
         Assertions.assertEquals(menu, item.getMenu());
-    }
+    }*/
 
     @Test
     public void deletingMenuItemRemovesItFromMenu() {

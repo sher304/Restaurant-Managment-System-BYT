@@ -1,10 +1,17 @@
 package BYT.Classes.Person;
 import BYT.Classes.Order.Order;
+import BYT.Classes.Restaurant.Normal;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class Waiter extends Employee implements Serializable {
     private static List<Waiter> extent = new ArrayList<>();
+    public static List<Waiter> getExtent(){
+        return Collections.unmodifiableList(extent);
+    }
+    @Override
+    protected void deleteSubclass() { extent.remove(this); }
 
     private Set<Order> orders = new HashSet<>();
 
@@ -46,6 +53,16 @@ public class Waiter extends Employee implements Serializable {
 
     public Set<Order> getOrders() {
         return Collections.unmodifiableSet(orders);
+    }
+
+    @Override
+    public void delete() {
+        for (Order order : new ArrayList<>(orders)) {
+            order.setWaiter(null);
+        }
+        orders.clear();
+        super.delete();
+        extent.remove(this);
     }
 
     @Override
